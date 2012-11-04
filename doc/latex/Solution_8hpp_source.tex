@@ -1,0 +1,63 @@
+\hypertarget{Solution_8hpp_source}{\section{/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.1/src/\-Solution.hpp}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/*}
+00002 \textcolor{comment}{ #License and Copyright}
+00003 \textcolor{comment}{ }
+00004 \textcolor{comment}{ #Version : 1.1}
+00005 \textcolor{comment}{ }
+00006 \textcolor{comment}{ #This file is part of BiUFLv2012.}
+00007 \textcolor{comment}{ }
+00008 \textcolor{comment}{ #BiUFLv2012 is Copyright © 2012, University of Nantes}
+00009 \textcolor{comment}{ }
+00010 \textcolor{comment}{ #BiUFLv2012 is free software; you can redistribute it and/or modify it under
+       the terms of the GNU General Public License as published by the Free Software
+       Foundation; either version 2 of the License, or (at your option) any later version.}
+00011 \textcolor{comment}{ }
+00012 \textcolor{comment}{ #This program is distributed in the hope that it will be useful, but WITHOUT
+       ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+       A PARTICULAR PURPOSE. See the GNU General Public License for more details.}
+00013 \textcolor{comment}{ }
+00014 \textcolor{comment}{ #You should have received a copy of the GNU General Public License along with
+       this program; if not, you can also find the GPL on the GNU web site.}
+00015 \textcolor{comment}{ }
+00016 \textcolor{comment}{ #In addition, we kindly ask you to acknowledge BiUFLv2012 and its authors in
+       any program or publication in which you use BiUFLv2012. (You are not required to
+       do so; it is up to your common sense to decide whether you want to comply with
+       this request or not.) For general publications, we suggest referencing: 
+       BiUFLv2012, MSc ORO, University of Nantes.}
+00017 \textcolor{comment}{ }
+00018 \textcolor{comment}{ #Non-free versions of BiUFLv2012 are available under terms different from
+       those of the General Public License. (e.g. they do not require you to accompany any
+       object code using BiUFLv2012 with the corresponding source code.) For these
+       alternative terms you must purchase a license from Technology Transfer Office of the
+       University of Nantes. Users interested in such a license should contact us
+       (valorisation@univ-nantes.fr) for more information.}
+00019 \textcolor{comment}{ */}
+00020 
+00033 \textcolor{preprocessor}{#ifndef SOLUTION\_H}
+00034 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define SOLUTION\_H}
+00035 \textcolor{preprocessor}{}
+\hypertarget{Solution_8hpp_source_l00041}{}\hyperlink{classSolution}{00041} \textcolor{keyword}{class }\hyperlink{classSolution}{Solution}
+00042 \{
+00043 \textcolor{keyword}{public}:
+00047     \hyperlink{classSolution_ab55bd4b023d596ce11aaf737b9a6123b}{Solution}();
+00054     \hyperlink{classSolution_ab55bd4b023d596ce11aaf737b9a6123b}{Solution}(\textcolor{keywordtype}{double} obj1, \textcolor{keywordtype}{double} obj2);
+00058     \hyperlink{classSolution_a5d245f7409aacf6ace5e965b7879a580}{~Solution}();
+00059     
+00064     \textcolor{keywordtype}{void} \hyperlink{classSolution_a22c29ab88071615135e155fdf43126d8}{setObj1}(\textcolor{keywordtype}{double} obj);
+00069     \textcolor{keywordtype}{void} \hyperlink{classSolution_a3e9e69ac25341ad5249ee7dc49329b92}{setObj2}(\textcolor{keywordtype}{double} obj);
+00070     
+00075     \textcolor{keywordtype}{double} \hyperlink{classSolution_ad5a84b421bb7f9bd4692f5e2c9744a66}{getObj1}() \textcolor{keyword}{const};
+00080     \textcolor{keywordtype}{double} \hyperlink{classSolution_a8457d8ea6b5fd0ee13cc39b5625e8c3a}{getObj2}() \textcolor{keyword}{const};
+00081     
+00082 \textcolor{keyword}{private}:
+\hypertarget{Solution_8hpp_source_l00083}{}\hyperlink{classSolution_a26b523893d8547f502f97bf7f990ef51}{00083}     \textcolor{keywordtype}{double} \hyperlink{classSolution_a26b523893d8547f502f97bf7f990ef51}{obj1_};
+\hypertarget{Solution_8hpp_source_l00084}{}\hyperlink{classSolution_a03abe5a30c04a2ec508d9177da80e3d2}{00084}     \textcolor{keywordtype}{double} \hyperlink{classSolution_a03abe5a30c04a2ec508d9177da80e3d2}{obj2_};
+00086 \};
+00087 
+00097 \textcolor{keywordtype}{bool} \hyperlink{classSolution_a6e6e1e7f44e74350bfa000e5b6e002bf}{operator< }(\hyperlink{classSolution}{Solution} s1, \hyperlink{classSolution}{Solution} s2);
+00098 
+00099 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

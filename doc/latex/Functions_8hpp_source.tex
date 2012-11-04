@@ -1,0 +1,83 @@
+\hypertarget{Functions_8hpp_source}{\section{/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.1/src/\-Functions.hpp}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/*}
+00002 \textcolor{comment}{ #License and Copyright}
+00003 \textcolor{comment}{ }
+00004 \textcolor{comment}{ #Version : 1.1}
+00005 \textcolor{comment}{ }
+00006 \textcolor{comment}{ #This file is part of BiUFLv2012.}
+00007 \textcolor{comment}{ }
+00008 \textcolor{comment}{ #BiUFLv2012 is Copyright © 2012, University of Nantes}
+00009 \textcolor{comment}{ }
+00010 \textcolor{comment}{ #BiUFLv2012 is free software; you can redistribute it and/or modify it under
+       the terms of the GNU General Public License as published by the Free Software
+       Foundation; either version 2 of the License, or (at your option) any later version.}
+00011 \textcolor{comment}{ }
+00012 \textcolor{comment}{ #This program is distributed in the hope that it will be useful, but WITHOUT
+       ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+       A PARTICULAR PURPOSE. See the GNU General Public License for more details.}
+00013 \textcolor{comment}{ }
+00014 \textcolor{comment}{ #You should have received a copy of the GNU General Public License along with
+       this program; if not, you can also find the GPL on the GNU web site.}
+00015 \textcolor{comment}{ }
+00016 \textcolor{comment}{ #In addition, we kindly ask you to acknowledge BiUFLv2012 and its authors in
+       any program or publication in which you use BiUFLv2012. (You are not required to
+       do so; it is up to your common sense to decide whether you want to comply with
+       this request or not.) For general publications, we suggest referencing: 
+       BiUFLv2012, MSc ORO, University of Nantes.}
+00017 \textcolor{comment}{ }
+00018 \textcolor{comment}{ #Non-free versions of BiUFLv2012 are available under terms different from
+       those of the General Public License. (e.g. they do not require you to accompany any
+       object code using BiUFLv2012 with the corresponding source code.) For these
+       alternative terms you must purchase a license from Technology Transfer Office of the
+       University of Nantes. Users interested in such a license should contact us
+       (valorisation@univ-nantes.fr) for more information.}
+00019 \textcolor{comment}{ */}
+00020 
+00033 \textcolor{preprocessor}{#ifndef FUNCTIONS\_H}
+00034 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define FUNCTIONS\_H}
+00035 \textcolor{preprocessor}{}
+00036 \textcolor{preprocessor}{#include <vector>}
+00037 \textcolor{preprocessor}{#include <map>}
+00038 \textcolor{preprocessor}{#include <list>}
+00039 \textcolor{preprocessor}{#include <iostream>}
+00040 \textcolor{preprocessor}{#include <cmath>}
+00041 
+00042 \textcolor{preprocessor}{#include "\hyperlink{Data_8hpp}{Data.hpp}"}
+00043 \textcolor{preprocessor}{#include "\hyperlink{Solution_8hpp}{Solution.hpp}"}
+00044 \textcolor{preprocessor}{#include "\hyperlink{Box_8hpp}{Box.hpp}"}
+00045 \textcolor{preprocessor}{#include "\hyperlink{ToFile_8hpp}{ToFile.hpp}"}
+00046 \textcolor{preprocessor}{#include "\hyperlink{LabelSetting_8hpp}{LabelSetting.hpp}"}
+00047 
+00052 \textcolor{keyword}{using namespace }std;
+00053 
+00054 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} \hyperlink{group__global_gaa1e2a21621a42fc9b5bfe20792f549cf}{modeExport};
+00055 
+00070 \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} \hyperlink{group__paving_gad7ff18ff688b5a8a49f24a645f0ac81b}{createBox}(vector<Box*> &vectorBox, \hyperlink{classData}{Data} &data);
+00071 
+00081 \textcolor{keywordtype}{void} \hyperlink{group__paving_ga817e709f0dfe009173e620d7c7351cb0}{addChildren}(\hyperlink{classBox}{Box} *boxMother, vector<Box*> &vBox);
+00082 
+00092 \textcolor{keywordtype}{void} \hyperlink{group__paving_gaec5b916ee7df8d19aa1b7a8f890afd0c}{filter}(vector<Box*> &vectorBox, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} &nbToCompute, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} &
+      nbWithNeighbor);
+00093 
+00105 \textcolor{keywordtype}{void} \hyperlink{group__paving_ga9993202ec3ae8b54b44225efaed1a094}{boxFiltering}(vector<Box*> &vectorBox, \hyperlink{classData}{Data} &data, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} &nbToCompute, \textcolor{keywordtype}{
+      long} \textcolor{keywordtype}{int} &nbWithNeighbor);
+00106 
+00119 \textcolor{keywordtype}{void} \hyperlink{group__paving_gae586beeb3e3b560dbe75b5aa3b4e6745}{recomposition}(vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, \hyperlink{classData}{Data} 
+      &data, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} &nbToCompute, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} &nbWithNeighbor);
+00120 
+00131 \textcolor{keywordtype}{void} \hyperlink{group__paving_gafdfff519e5ecb3b23fe9e588b3f0c639}{weightedSumOneStep}(vector<Box*> &vectorBox, \hyperlink{classData}{Data} &data);
+00132 
+00147 \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} \hyperlink{group__generating_ga6a6fb7581f6d456fd632d435e72babef}{runLabelSetting}(vector<Box*> &vectorBox, \hyperlink{classData}{Data} &data);
+00148 
+00157 \textcolor{keywordtype}{void} \hyperlink{group__generating_ga004bba79a35c68875ca45c4b14fd7583}{filterListSolution}(list<Solution> &lsol);
+00158 
+00172 \textcolor{keywordtype}{double} \hyperlink{group__others_gad3779b4abef4e115bc1fc6e67bdd3669}{computeCorrelation}(\hyperlink{classData}{Data} &data);
+00173 
+00183 \textcolor{keywordtype}{float} \hyperlink{group__others_ga06e4b113ea522684f94ae160c5097dd3}{time_ms_Diff}(timeval tvStart, timeval tvEnd);
+00193 \textcolor{keywordtype}{float} \hyperlink{group__others_ga1203168170e0c71b755ee4f7a99fd671}{time_s_Diff}(timeval tvStart, timeval tvEnd);
+00194 
+00195 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

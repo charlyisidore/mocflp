@@ -1,0 +1,231 @@
+\hypertarget{classNode}{\section{\-Node \-Class \-Reference}
+\label{classNode}\index{\-Node@{\-Node}}
+}
+
+
+\-Class to represent a {\ttfamily \hyperlink{classNode}{\-Node}}.  
+
+
+
+
+{\ttfamily \#include \char`\"{}\-Node.\-hpp\char`\"{}}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classNode_ad7a34779cad45d997bfd6d3d8043c75f}{\-Node} ()
+\begin{DoxyCompactList}\small\item\em \-Default \-Constructor of the class {\ttfamily \hyperlink{classNode}{\-Node}}. \end{DoxyCompactList}\item 
+\hyperlink{classNode_af221820e3eb858d5db176a80f7f2b295}{\-Node} (int size)
+\begin{DoxyCompactList}\small\item\em \-Default \-Constructor of the class {\ttfamily \hyperlink{classNode}{\-Node}}. \end{DoxyCompactList}\item 
+\hyperlink{classNode_aa0840c3cb5c7159be6d992adecd2097c}{$\sim$\-Node} ()
+\begin{DoxyCompactList}\small\item\em \-Destructor of the class {\ttfamily \hyperlink{classNode}{\-Node}}. \end{DoxyCompactList}\item 
+void \hyperlink{classNode_a14102461757715d9046deb90d90ca953}{set\-Size} (unsigned int s)
+\begin{DoxyCompactList}\small\item\em \-Setter for the size of this {\ttfamily \hyperlink{classNode}{\-Node}}. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{classNode_a9100c7f4f504a06a23f9d9f3c57d88c4}{get\-Size} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the size. \end{DoxyCompactList}\item 
+double \hyperlink{classNode_a40f66cc9eee0122579a7037c2f46738a}{get\-Cost\-To\-Enter\-Z1} (int i) const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the cost to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+double \hyperlink{classNode_afb0ab41d4cc79d499916da3f594e15d2}{get\-Cost\-To\-Enter\-Z2} (int i) const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the cost to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t. objective 2. \end{DoxyCompactList}\item 
+void \hyperlink{classNode_a27080467d8fc27274ebe1dc72bdc6fdc}{clear\-Labels} ()
+\begin{DoxyCompactList}\small\item\em \-A method to delete all the labels of this {\ttfamily \hyperlink{classNode}{\-Node}}. \end{DoxyCompactList}\item 
+void \hyperlink{classNode_a99306b6ebed472f44add46894b5c0329}{set\-Values} (int index, double z1, double z2)
+\begin{DoxyCompactList}\small\item\em \-Setter of the values of the solution ones want to set. \end{DoxyCompactList}\item 
+void \hyperlink{classNode_a68513b404648b1cf7d53b568a590ab81}{print} ()
+\begin{DoxyCompactList}\small\item\em \-A method to print informations about this {\ttfamily \hyperlink{classNode}{\-Node}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+list$<$ \hyperlink{classSolution}{\-Solution} $>$ \hyperlink{classNode_aaed9b5a5f87464cf60d1026b065cbb60}{labels\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \hyperlink{classNode_a9df2977b4bba73b9bd419f156e1668c8}{size\-\_\-}
+\item 
+double $\ast$ \hyperlink{classNode_a0d70213bcef4604f06d2bb5694ba725d}{cost\-To\-Enter\-Z1\-\_\-}
+\item 
+double $\ast$ \hyperlink{classNode_ae12a8704dddd4e3557927ea8d5c04b8a}{cost\-To\-Enter\-Z2\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Class to represent a {\ttfamily \hyperlink{classNode}{\-Node}}. 
+
+\-This class represents a {\ttfamily \hyperlink{classNode}{\-Node}} with all its attributes and methods. 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{classNode_ad7a34779cad45d997bfd6d3d8043c75f}{\index{\-Node@{\-Node}!\-Node@{\-Node}}
+\index{\-Node@{\-Node}!Node@{\-Node}}
+\subsubsection[{\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Node\-::\-Node} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classNode_ad7a34779cad45d997bfd6d3d8043c75f}
+
+
+\-Default \-Constructor of the class {\ttfamily \hyperlink{classNode}{\-Node}}. 
+
+\hypertarget{classNode_af221820e3eb858d5db176a80f7f2b295}{\index{\-Node@{\-Node}!\-Node@{\-Node}}
+\index{\-Node@{\-Node}!Node@{\-Node}}
+\subsubsection[{\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Node\-::\-Node} (
+\begin{DoxyParamCaption}
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{classNode_af221820e3eb858d5db176a80f7f2b295}
+
+
+\-Default \-Constructor of the class {\ttfamily \hyperlink{classNode}{\-Node}}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em size} & \-: \-An int which represents the size of this node. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classNode_aa0840c3cb5c7159be6d992adecd2097c}{\index{\-Node@{\-Node}!$\sim$\-Node@{$\sim$\-Node}}
+\index{$\sim$\-Node@{$\sim$\-Node}!Node@{\-Node}}
+\subsubsection[{$\sim$\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Node\-::$\sim$\-Node} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classNode_aa0840c3cb5c7159be6d992adecd2097c}
+
+
+\-Destructor of the class {\ttfamily \hyperlink{classNode}{\-Node}}. 
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{classNode_a27080467d8fc27274ebe1dc72bdc6fdc}{\index{\-Node@{\-Node}!clear\-Labels@{clear\-Labels}}
+\index{clear\-Labels@{clear\-Labels}!Node@{\-Node}}
+\subsubsection[{clear\-Labels}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Node\-::clear\-Labels} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classNode_a27080467d8fc27274ebe1dc72bdc6fdc}
+
+
+\-A method to delete all the labels of this {\ttfamily \hyperlink{classNode}{\-Node}}. 
+
+\hypertarget{classNode_a40f66cc9eee0122579a7037c2f46738a}{\index{\-Node@{\-Node}!get\-Cost\-To\-Enter\-Z1@{get\-Cost\-To\-Enter\-Z1}}
+\index{get\-Cost\-To\-Enter\-Z1@{get\-Cost\-To\-Enter\-Z1}!Node@{\-Node}}
+\subsubsection[{get\-Cost\-To\-Enter\-Z1}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Node\-::get\-Cost\-To\-Enter\-Z1} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+) const}}\label{classNode_a40f66cc9eee0122579a7037c2f46738a}
+
+
+\-Getter for the cost to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t. objective 1. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em i} & \-: \-The index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A double as the cost to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t. objective 1 at the index i. 
+\end{DoxyReturn}
+\hypertarget{classNode_afb0ab41d4cc79d499916da3f594e15d2}{\index{\-Node@{\-Node}!get\-Cost\-To\-Enter\-Z2@{get\-Cost\-To\-Enter\-Z2}}
+\index{get\-Cost\-To\-Enter\-Z2@{get\-Cost\-To\-Enter\-Z2}!Node@{\-Node}}
+\subsubsection[{get\-Cost\-To\-Enter\-Z2}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Node\-::get\-Cost\-To\-Enter\-Z2} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+) const}}\label{classNode_afb0ab41d4cc79d499916da3f594e15d2}
+
+
+\-Getter for the cost to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t. objective 2. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em i} & \-: \-The index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A double as the cost to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t. objective 2 at the index i. 
+\end{DoxyReturn}
+\hypertarget{classNode_a9100c7f4f504a06a23f9d9f3c57d88c4}{\index{\-Node@{\-Node}!get\-Size@{get\-Size}}
+\index{get\-Size@{get\-Size}!Node@{\-Node}}
+\subsubsection[{get\-Size}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf \-Node\-::get\-Size} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classNode_a9100c7f4f504a06a23f9d9f3c57d88c4}
+
+
+\-Getter for the size. 
+
+\begin{DoxyReturn}{\-Returns}
+\-An unsigned int as the size of this {\ttfamily \hyperlink{classNode}{\-Node}}. 
+\end{DoxyReturn}
+\hypertarget{classNode_a68513b404648b1cf7d53b568a590ab81}{\index{\-Node@{\-Node}!print@{print}}
+\index{print@{print}!Node@{\-Node}}
+\subsubsection[{print}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Node\-::print} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classNode_a68513b404648b1cf7d53b568a590ab81}
+
+
+\-A method to print informations about this {\ttfamily \hyperlink{classNode}{\-Node}}. 
+
+\hypertarget{classNode_a14102461757715d9046deb90d90ca953}{\index{\-Node@{\-Node}!set\-Size@{set\-Size}}
+\index{set\-Size@{set\-Size}!Node@{\-Node}}
+\subsubsection[{set\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Node\-::set\-Size} (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{s}
+\end{DoxyParamCaption}
+)}}\label{classNode_a14102461757715d9046deb90d90ca953}
+
+
+\-Setter for the size of this {\ttfamily \hyperlink{classNode}{\-Node}}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em s} & \-: \-A unsigned int which represents size of this {\ttfamily \hyperlink{classNode}{\-Node}}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classNode_a99306b6ebed472f44add46894b5c0329}{\index{\-Node@{\-Node}!set\-Values@{set\-Values}}
+\index{set\-Values@{set\-Values}!Node@{\-Node}}
+\subsubsection[{set\-Values}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Node\-::set\-Values} (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{double}]{z1, }
+\item[{double}]{z2}
+\end{DoxyParamCaption}
+)}}\label{classNode_a99306b6ebed472f44add46894b5c0329}
+
+
+\-Setter of the values of the solution ones want to set. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em index} & \-: \-The index. \\
+\hline
+\mbox{\tt in}  & {\em z1} & \-: \-The value of the solution w.\-r.\-t. objective 1 ones wants to set. \\
+\hline
+\mbox{\tt in}  & {\em z2} & \-: \-The value of the solution w.\-r.\-t. objective 2 ones wants to set. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{classNode_a0d70213bcef4604f06d2bb5694ba725d}{\index{\-Node@{\-Node}!cost\-To\-Enter\-Z1\-\_\-@{cost\-To\-Enter\-Z1\-\_\-}}
+\index{cost\-To\-Enter\-Z1\-\_\-@{cost\-To\-Enter\-Z1\-\_\-}!Node@{\-Node}}
+\subsubsection[{cost\-To\-Enter\-Z1\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ {\bf \-Node\-::cost\-To\-Enter\-Z1\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classNode_a0d70213bcef4604f06d2bb5694ba725d}
+\-A pointer of double which represents all the values to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t objective 1 \hypertarget{classNode_ae12a8704dddd4e3557927ea8d5c04b8a}{\index{\-Node@{\-Node}!cost\-To\-Enter\-Z2\-\_\-@{cost\-To\-Enter\-Z2\-\_\-}}
+\index{cost\-To\-Enter\-Z2\-\_\-@{cost\-To\-Enter\-Z2\-\_\-}!Node@{\-Node}}
+\subsubsection[{cost\-To\-Enter\-Z2\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ {\bf \-Node\-::cost\-To\-Enter\-Z2\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classNode_ae12a8704dddd4e3557927ea8d5c04b8a}
+\-A pointer of double which represents all the values to enter to this {\ttfamily \hyperlink{classNode}{\-Node}} w.\-r.\-t objective 2 \hypertarget{classNode_aaed9b5a5f87464cf60d1026b065cbb60}{\index{\-Node@{\-Node}!labels\-\_\-@{labels\-\_\-}}
+\index{labels\-\_\-@{labels\-\_\-}!Node@{\-Node}}
+\subsubsection[{labels\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf \-Solution}$>$ {\bf \-Node\-::labels\-\_\-}}}\label{classNode_aaed9b5a5f87464cf60d1026b065cbb60}
+\-A list of {\ttfamily \hyperlink{classSolution}{\-Solution}} which represents all the {\ttfamily \-Solutions} (or labels) in this {\ttfamily \hyperlink{classNode}{\-Node}} \hypertarget{classNode_a9df2977b4bba73b9bd419f156e1668c8}{\index{\-Node@{\-Node}!size\-\_\-@{size\-\_\-}}
+\index{size\-\_\-@{size\-\_\-}!Node@{\-Node}}
+\subsubsection[{size\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf \-Node\-::size\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classNode_a9df2977b4bba73b9bd419f156e1668c8}
+\-A unsigned int which represents the size of this {\ttfamily \hyperlink{classNode}{\-Node}} 
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{Node_8hpp}{\-Node.\-hpp}\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{Node_8cpp}{\-Node.\-cpp}\end{DoxyCompactItemize}

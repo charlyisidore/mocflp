@@ -1,0 +1,80 @@
+/*
+ #License and Copyright
+ 
+ #Version : 1.1
+ 
+ #This file is part of BiUFLv2012.
+ 
+ #BiUFLv2012 is Copyright © 2012, University of Nantes
+ 
+ #BiUFLv2012 is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ 
+ #This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ 
+ #You should have received a copy of the GNU General Public License along with this program; if not, you can also find the GPL on the GNU web site.
+ 
+ #In addition, we kindly ask you to acknowledge BiUFLv2012 and its authors in any program or publication in which you use BiUFLv2012. (You are not required to do so; it is up to your common sense to decide whether you want to comply with this request or not.) For general publications, we suggest referencing:  BiUFLv2012, MSc ORO, University of Nantes.
+ 
+ #Non-free versions of BiUFLv2012 are available under terms different from those of the General Public License. (e.g. they do not require you to accompany any object code using BiUFLv2012 with the corresponding source code.) For these alternative terms you must purchase a license from Technology Transfer Office of the University of Nantes. Users interested in such a license should contact us (valorisation@univ-nantes.fr) for more information.
+ */
+
+
+**********************************************************************
+***                         INSTANCES	                           ***
+**********************************************************************
+
+Here you will find a collection of instances to test with the program. 
+This collection is divided into two parts : F-instances and H-instances.
+
+The format of the instance is the same and looks like this :
+
+#BEGIN OF FILE
+> n : nbr of customers
+> m : nbr of facilities
+>
+> matrix of assignation [ m x n ] over the first objective
+> matrix of assignation [ m x n ] over the second objective
+>
+> cost of opening a facility over the first objective
+>
+> cost of opening a facility over the second objective
+#END OF FILE
+
+**********************************************************************
+***           	       H-Instances Collection	                   ***
+**********************************************************************
+
+We want to thank Professor Ch. Mumford (Carfiff University, UK) to 
+provide this set of data set for these experiments.
+Please visit her website to have more informations : 
+http://users.cs.cf.ac.uk/C.L.Mumford/Research%20Topics/FLP/papers/data/
+
+This data is a collection of instances with 10 facilities and various 
+number of customers. Due to a common parser, we deleted all the 
+capacity values from the original set of instances. The symbolic of 
+the name is : H[number_of_facilities]-[number_of_customers].txt
+
+e.g: H10-2000.txt refers to an instance with 10 facilities 
+and 2000 customers.
+
+The instance H5-10.txt is a didactic instance with 5 facilities 
+and 10 customers.
+
+**********************************************************************
+***           	       F-Instances Collection	                   ***
+**********************************************************************
+
+Thanks to Professor Elena Fernandez (Universitat Politècnica de 
+Catalunya, Barcelona, ES) to provide us these set of instances. Please
+visit her website to have more informations : 
+http://www-eio.upc.es/~elena/sscplp/
+
+This data is a collection of instances with 30 facilities and 90
+customers coming from the sus-mentionned website. In comparaison to 
+the original set, we agregate the instance by pair to have a 
+bi-objective problem. The symbolic of the name is : 
+F[first_instance_90_30]-[second_instance_90_30].txt
+
+e.g: F50-51.txt refers to an instance with 90 customers and 30 
+facilities and with data set coming from instances p50.txt and 
+p51.txt of the website.

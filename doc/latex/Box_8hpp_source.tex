@@ -1,0 +1,110 @@
+\hypertarget{Box_8hpp_source}{\section{/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.1/src/\-Box.hpp}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/*}
+00002 \textcolor{comment}{ #License and Copyright}
+00003 \textcolor{comment}{ }
+00004 \textcolor{comment}{ #Version : 1.1}
+00005 \textcolor{comment}{ }
+00006 \textcolor{comment}{ #This file is part of BiUFLv2012.}
+00007 \textcolor{comment}{ }
+00008 \textcolor{comment}{ #BiUFLv2012 is Copyright © 2012, University of Nantes}
+00009 \textcolor{comment}{ }
+00010 \textcolor{comment}{ #BiUFLv2012 is free software; you can redistribute it and/or modify it under
+       the terms of the GNU General Public License as published by the Free Software
+       Foundation; either version 2 of the License, or (at your option) any later version.}
+00011 \textcolor{comment}{ }
+00012 \textcolor{comment}{ #This program is distributed in the hope that it will be useful, but WITHOUT
+       ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+       A PARTICULAR PURPOSE. See the GNU General Public License for more details.}
+00013 \textcolor{comment}{ }
+00014 \textcolor{comment}{ #You should have received a copy of the GNU General Public License along with
+       this program; if not, you can also find the GPL on the GNU web site.}
+00015 \textcolor{comment}{ }
+00016 \textcolor{comment}{ #In addition, we kindly ask you to acknowledge BiUFLv2012 and its authors in
+       any program or publication in which you use BiUFLv2012. (You are not required to
+       do so; it is up to your common sense to decide whether you want to comply with
+       this request or not.) For general publications, we suggest referencing: 
+       BiUFLv2012, MSc ORO, University of Nantes.}
+00017 \textcolor{comment}{ }
+00018 \textcolor{comment}{ #Non-free versions of BiUFLv2012 are available under terms different from
+       those of the General Public License. (e.g. they do not require you to accompany any
+       object code using BiUFLv2012 with the corresponding source code.) For these
+       alternative terms you must purchase a license from Technology Transfer Office of the
+       University of Nantes. Users interested in such a license should contact us
+       (valorisation@univ-nantes.fr) for more information.}
+00019 \textcolor{comment}{ */}
+00020  
+00032 \textcolor{preprocessor}{#ifndef BOX\_H}
+00033 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define BOX\_H}
+00034 \textcolor{preprocessor}{}
+00035 \textcolor{preprocessor}{#include <iostream>}
+00036 \textcolor{preprocessor}{#include <cfloat>}
+00037 
+00038 \textcolor{preprocessor}{#include "\hyperlink{Data_8hpp}{Data.hpp}"}
+00039 
+00044 \textcolor{keyword}{using namespace }std;
+00045 
+\hypertarget{Box_8hpp_source_l00051}{}\hyperlink{classBox}{00051} \textcolor{keyword}{class }\hyperlink{classBox}{Box}
+00052 \{
+00053 \textcolor{keyword}{public}:
+00060     \hyperlink{classBox}{Box}(\hyperlink{classData}{Data} &data);
+00066     \hyperlink{classBox}{Box}(\hyperlink{classBox}{Box}* copy);
+00074     \hyperlink{classBox}{Box}(\hyperlink{classData}{Data} &data, \textcolor{keywordtype}{bool}* toOpen);
+00078     ~\hyperlink{classBox}{Box}();
+00079     
+00084     \textcolor{keywordtype}{double} getMinZ1() \textcolor{keyword}{const};
+00089     \textcolor{keywordtype}{double} getMinZ2() \textcolor{keyword}{const};
+00094     \textcolor{keywordtype}{double} getMaxZ1() \textcolor{keyword}{const};
+00099     \textcolor{keywordtype}{double} getMaxZ2() \textcolor{keyword}{const};
+00104     \textcolor{keywordtype}{double} getOriginZ1() \textcolor{keyword}{const};
+00109     \textcolor{keywordtype}{double} getOriginZ2() \textcolor{keyword}{const};
+00114     \textcolor{keywordtype}{string} getId() \textcolor{keyword}{const};
+00115     
+00121     \textcolor{keywordtype}{bool} isAssigned(\textcolor{keywordtype}{int} cust) \textcolor{keyword}{const};
+00127     \textcolor{keywordtype}{bool} isOpened(\textcolor{keywordtype}{int} fac) \textcolor{keyword}{const};
+00128     
+00133     \textcolor{keywordtype}{int} getnbCustomerNotAffected() \textcolor{keyword}{const};
+00138     \textcolor{keywordtype}{int} getNbFacilityOpen() \textcolor{keyword}{const};
+00143     \textcolor{keywordtype}{bool} getHasNeighbor() \textcolor{keyword}{const};
+00148     \textcolor{keywordtype}{bool} getHasMoreStepWS() \textcolor{keyword}{const};
+00153     \hyperlink{classData}{Data} &getData() \textcolor{keyword}{const};
+00154     
+00159     \textcolor{keywordtype}{void} setId(\textcolor{keywordtype}{string} s);
+00164     \textcolor{keywordtype}{void} setMinZ1(\textcolor{keywordtype}{double} v);
+00169     \textcolor{keywordtype}{void} setMinZ2(\textcolor{keywordtype}{double} v);
+00174     \textcolor{keywordtype}{void} setMaxZ1(\textcolor{keywordtype}{double} v);
+00179     \textcolor{keywordtype}{void} setMaxZ2(\textcolor{keywordtype}{double} v);
+00180 
+00185     \textcolor{keywordtype}{void} setHasNeighbor(\textcolor{keywordtype}{bool} b);
+00190     \textcolor{keywordtype}{void} setHasMoreStepWS(\textcolor{keywordtype}{bool} b);
+00191     
+00195     \textcolor{keywordtype}{void} computeBox();
+00200     \textcolor{keywordtype}{void} openFacility(\textcolor{keywordtype}{int} fac);
+00204     \textcolor{keywordtype}{void} print();       
+00205     
+00206 \textcolor{keyword}{private}:
+\hypertarget{Box_8hpp_source_l00207}{}\hyperlink{classBox_a69b7a7bb25fe90a42147cd05007854da}{00207}     \textcolor{keywordtype}{string} \hyperlink{classBox_a69b7a7bb25fe90a42147cd05007854da}{id_};
+\hypertarget{Box_8hpp_source_l00209}{}\hyperlink{classBox_add736972063b9a9c0239194eaf31efae}{00209}     \hyperlink{classData}{Data}& \hyperlink{classBox_add736972063b9a9c0239194eaf31efae}{data_};
+\hypertarget{Box_8hpp_source_l00211}{}\hyperlink{classBox_abbfd7bd74fe08139f7e6853e129a8a61}{00211}     \textcolor{keywordtype}{bool} *\hyperlink{classBox_abbfd7bd74fe08139f7e6853e129a8a61}{isAssigned_};
+\hypertarget{Box_8hpp_source_l00212}{}\hyperlink{classBox_a2193b73a3e12612041dedf93ec410f59}{00212}     \textcolor{keywordtype}{bool} *\hyperlink{classBox_a2193b73a3e12612041dedf93ec410f59}{facility_};
+\hypertarget{Box_8hpp_source_l00213}{}\hyperlink{classBox_a177908b9eaab60f32c86800a2f725ecd}{00213}     \textcolor{keywordtype}{bool} \hyperlink{classBox_a177908b9eaab60f32c86800a2f725ecd}{hasMoreStepWS_};
+\hypertarget{Box_8hpp_source_l00214}{}\hyperlink{classBox_a6018908ca53a87f0265fbeefd8884a4b}{00214}     \textcolor{keywordtype}{bool} \hyperlink{classBox_a6018908ca53a87f0265fbeefd8884a4b}{hasNeighbor_};
+\hypertarget{Box_8hpp_source_l00216}{}\hyperlink{classBox_a9b4fe28d0a913cee7c6126b5283f6073}{00216}     \textcolor{keywordtype}{int} \hyperlink{classBox_a9b4fe28d0a913cee7c6126b5283f6073}{nbCustomerNotAffected_}; 
+\hypertarget{Box_8hpp_source_l00218}{}\hyperlink{classBox_ac2054bd31949983a7d02a5229b9aa505}{00218}     \textcolor{keywordtype}{double} \hyperlink{classBox_ac2054bd31949983a7d02a5229b9aa505}{minZ1_};
+\hypertarget{Box_8hpp_source_l00219}{}\hyperlink{classBox_a79cb036404755c024cb2ec38c2d6f51e}{00219}     \textcolor{keywordtype}{double} \hyperlink{classBox_a79cb036404755c024cb2ec38c2d6f51e}{minZ2_};
+\hypertarget{Box_8hpp_source_l00220}{}\hyperlink{classBox_a677f915123e884e3ccf7c751bfbd7cfa}{00220}     \textcolor{keywordtype}{double} \hyperlink{classBox_a677f915123e884e3ccf7c751bfbd7cfa}{maxZ1_};
+\hypertarget{Box_8hpp_source_l00221}{}\hyperlink{classBox_a5222f7d544c4361107c8ff730d341be1}{00221}     \textcolor{keywordtype}{double} \hyperlink{classBox_a5222f7d544c4361107c8ff730d341be1}{maxZ2_};
+\hypertarget{Box_8hpp_source_l00222}{}\hyperlink{classBox_ad9dd1c25f765a4b055e61b98fca017a7}{00222}     \textcolor{keywordtype}{double} \hyperlink{classBox_ad9dd1c25f765a4b055e61b98fca017a7}{originZ1_};
+\hypertarget{Box_8hpp_source_l00223}{}\hyperlink{classBox_a92db5d83336e00813c4131d52e12a1b9}{00223}     \textcolor{keywordtype}{double} \hyperlink{classBox_a92db5d83336e00813c4131d52e12a1b9}{originZ2_};
+00225 \};
+00226 
+00236 \textcolor{keywordtype}{bool} \hyperlink{Box_8cpp_ada27264850e8a9b61d4833a1a9bc5ca7}{isDominatedBetweenTwoBoxes}(\hyperlink{classBox}{Box} *box1, \hyperlink{classBox}{Box} *box2);
+00246 \textcolor{keywordtype}{bool} \hyperlink{Box_8cpp_a75b3d174ae55517797459916d5bc07ef}{isDominatedBetweenOrigins}(\hyperlink{classBox}{Box} *box1, \hyperlink{classBox}{Box} *box2);
+00254 \textcolor{keywordtype}{void} \hyperlink{Box_8cpp_af9d038887f617a766f86d8a4f0e8d55e}{filterDominatedBoxes}(vector<Box*> &vectBox);
+00263 \textcolor{keywordtype}{bool} \hyperlink{Box_8cpp_a57b4536cd76dabffd7326328a2be4b4b}{isDominatedByItsOrigin}(vector<Box*> &vectBox, \hyperlink{classBox}{Box} *box);
+00272 \textcolor{keywordtype}{bool} \hyperlink{Box_8cpp_ac8a6e3cd3d38d463bb650ceb4ae88497}{isDominatedByItsBox}   (vector<Box*> &vectBox, \hyperlink{classBox}{Box} *box);
+00273 
+00274 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

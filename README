@@ -1,0 +1,141 @@
+/*
+ #License and Copyright
+ 
+ #Version : 1.1
+ 
+ #This file is part of BiUFLv2012.
+ 
+ #BiUFLv2012 is Copyright © 2012, University of Nantes
+ 
+ #BiUFLv2012 is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ 
+ #This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ 
+ #You should have received a copy of the GNU General Public License along with this program; if not, you can also find the GPL on the GNU web site.
+ 
+ #In addition, we kindly ask you to acknowledge BiUFLv2012 and its authors in any program or publication in which you use BiUFLv2012. (You are not required to do so; it is up to your common sense to decide whether you want to comply with this request or not.) For general publications, we suggest referencing:  BiUFLv2012, MSc ORO, University of Nantes.
+ 
+ #Non-free versions of BiUFLv2012 are available under terms different from those of the General Public License. (e.g. they do not require you to accompany any object code using BiUFLv2012 with the corresponding source code.) For these alternative terms you must purchase a license from Technology Transfer Office of the University of Nantes. Users interested in such a license should contact us (valorisation@univ-nantes.fr) for more information.
+ */
+
+These instructions are for UNIX-like systems (Linux, Mac OS X) only.
+
+**********************************************************************
+***                         REQUIREMENTS                           ***
+**********************************************************************
+
+You need to execute this software :
+	
+1. 	A compiler GCC
+
+	works on version 4.6.3 and older since the software uses 
+	Standard Template Library (STL)
+	
+2. 	gnuplot
+
+	works on version 4.4
+
+**********************************************************************
+***                         DOWNLOAD                               ***
+**********************************************************************
+
+You can obtain the source code for the BiUFLP software by this way :
+	
+1. 	Obtain the source directly from the subversion repository.
+	For this you needs the program 'svn' installed on
+   	your machine.
+
+	Assuming that you want to download the code into a subdirectory
+	"BiUFLP", you type
+
+	svn checkout https://subversion.assembla.com/svn/biuflv2012/
+
+**********************************************************************
+***                			COMPILATION                  		   ***
+**********************************************************************
+
+In the directory where you downloaded the source
+
+1. 	Compile the code and generate the executable by typing
+
+	make
+
+	After this, you will find the executable in the "bin" subdirectory.
+
+2. 	To delete the executable, compilation files and plots file
+
+	make clear
+
+3. 	To delete plots file
+
+	make clean
+	
+**********************************************************************
+***                			DIRECTORY	                  		   ***
+**********************************************************************
+
+/src		
+			The sources of the code.
+
+/dat		
+			Instances for the program. Please read the README file 
+			inside to know a bit more about the origin of theses 
+			instances.
+
+/plot		
+			A shell script and gnuplot files to plot the results.
+
+/doc		
+			A doxygen documentation in HTML and LaTeX.
+			HTML : please open /doc/html/index.html in a browser
+			LaTeX : please open /doc/latex/refman.pdf
+
+/conferences
+			A folder which contains two presentations concerning
+			this project.
+
+>> AFTER COMPILATION
+
+/bin		
+			The directory where you will find the binary of the 
+			program (BiUFLP).
+
+/obj		
+			The objects files due to the compilation.
+
+/res		
+			The subdirectory where you will find the result files 
+			(after enabling the export option).
+
+**********************************************************************
+***                			EXECUTION	                  		   ***
+**********************************************************************
+
+In the directory where you downloaded the source
+
+1. 	To execute the software
+
+	./bin/BiUFLPv2012
+
+2. 	To print the help
+
+	./bin/BiUFLPv2012 --help
+
+3. 	To execute the software with an instance file
+
+	./bin/BiUFLPv2012 <path of the instance>
+	
+	e.g. : ./bin/BiUFLP dat/TEST5-10.txt
+	
+4. 	To execute the software with an instance file and options
+
+	./bin/BiUFLPv2012 <path of the instance> [- options]
+	
+	OPTIONS AVAILABLE
+	-f : execute the filtering method
+	-r : execute the reconstruction method
+	-verbose : print detailled informations about the execution
+	-export : export result files and plot files in the directories
+	 /res, /plot respectively.
+	
+	e.g. : ./bin/BiUFLP dat/TEST5-10.txt -f -r -export

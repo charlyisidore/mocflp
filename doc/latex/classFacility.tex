@@ -1,0 +1,206 @@
+\hypertarget{classFacility}{\section{\-Facility \-Class \-Reference}
+\label{classFacility}\index{\-Facility@{\-Facility}}
+}
+
+
+\-Class to represent a {\ttfamily \hyperlink{classFacility}{\-Facility}}.  
+
+
+
+
+{\ttfamily \#include \char`\"{}\-Facility.\-hpp\char`\"{}}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFacility_a5c48d7d27d44b9ff4fae168c8c04e746}{\-Facility} (unsigned short \&x, unsigned short \&y)
+\begin{DoxyCompactList}\small\item\em \-Constructor of the class {\ttfamily \hyperlink{classFacility}{\-Facility}}. \end{DoxyCompactList}\item 
+unsigned short \hyperlink{classFacility_adbac1c34dd0f42ab53f2c217eeb96802}{get\-Coord\-X} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the x coordinate. \end{DoxyCompactList}\item 
+unsigned short \hyperlink{classFacility_a5c2d01633f91de636e490f554f5cdc88}{get\-Coord\-Y} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the y coordinate. \end{DoxyCompactList}\item 
+double \hyperlink{classFacility_ac7b6a40b6ff123f30d702328b949eae0}{get\-Location\-Obj1\-Cost} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the location cost w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+double \hyperlink{classFacility_afc8058ff54719571b23aeeb42e8de338}{get\-Location\-Obj2\-Cost} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the location cost w.\-r.\-t. objective 2. \end{DoxyCompactList}\item 
+void \hyperlink{classFacility_a2c3858ee3c24ae4365c2a863ee526bd7}{set\-Location\-Obj1\-Cost} (double \&val)
+\begin{DoxyCompactList}\small\item\em \-Setter for the location cost w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+void \hyperlink{classFacility_aed009311f964602ca82724e5e09058ff}{set\-Location\-Obj2\-Cost} (double \&val)
+\begin{DoxyCompactList}\small\item\em \-Setter for the location cost w.\-r.\-t. objective 2. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned short \hyperlink{classFacility_a46e539865a0161f0a2c5e7644ea5d75d}{coord\-X\-\_\-}
+\item 
+unsigned short \hyperlink{classFacility_a2a72bbcf1fe5dc2faee8a02a918fc29f}{coord\-Y\-\_\-}
+\item 
+double \hyperlink{classFacility_a0239174cc91d2bab7829a4e460cad3be}{location\-Obj1\-Cost\-\_\-}
+\item 
+double \hyperlink{classFacility_a09096b7ea289d3e4a6782c188b1a0e4d}{location\-Obj2\-Cost\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{\-Related \-Functions}
+(\-Note that these are not member functions.) \begin{DoxyCompactItemize}
+\item 
+std\-::ostream \& \hyperlink{classFacility_a0a2f02efa3d9bd071e9fa6e9197e7b71}{operator$<$$<$} (std\-::ostream \&out, const \hyperlink{classFacility}{\-Facility} $\ast$fac)
+\begin{DoxyCompactList}\small\item\em \-Operator overloading. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Class to represent a {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+
+\-This class represents a {\ttfamily \hyperlink{classFacility}{\-Facility}} with all its attributes. \-The pair (x,y) representes respectively the first and second coordinates in a bi-\/dimensional geographical space. 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{classFacility_a5c48d7d27d44b9ff4fae168c8c04e746}{\index{\-Facility@{\-Facility}!\-Facility@{\-Facility}}
+\index{\-Facility@{\-Facility}!Facility@{\-Facility}}
+\subsubsection[{\-Facility}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Facility\-::\-Facility} (
+\begin{DoxyParamCaption}
+\item[{unsigned short \&}]{x, }
+\item[{unsigned short \&}]{y}
+\end{DoxyParamCaption}
+)}}\label{classFacility_a5c48d7d27d44b9ff4fae168c8c04e746}
+
+
+\-Constructor of the class {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em x} & \-: \-An unsigned integer which represents the x coordinate of the {\ttfamily \hyperlink{classFacility}{\-Facility}}. \\
+\hline
+\mbox{\tt in}  & {\em y} & \-: \-An unsigned integer which represents the y coordinate of the {\ttfamily \hyperlink{classFacility}{\-Facility}}. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{classFacility_adbac1c34dd0f42ab53f2c217eeb96802}{\index{\-Facility@{\-Facility}!get\-Coord\-X@{get\-Coord\-X}}
+\index{get\-Coord\-X@{get\-Coord\-X}!Facility@{\-Facility}}
+\subsubsection[{get\-Coord\-X}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf \-Facility\-::get\-Coord\-X} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classFacility_adbac1c34dd0f42ab53f2c217eeb96802}
+
+
+\-Getter for the x coordinate. 
+
+\begin{DoxyReturn}{\-Returns}
+\-An unsigned short as the x coordinate of this {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+\end{DoxyReturn}
+\hypertarget{classFacility_a5c2d01633f91de636e490f554f5cdc88}{\index{\-Facility@{\-Facility}!get\-Coord\-Y@{get\-Coord\-Y}}
+\index{get\-Coord\-Y@{get\-Coord\-Y}!Facility@{\-Facility}}
+\subsubsection[{get\-Coord\-Y}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf \-Facility\-::get\-Coord\-Y} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classFacility_a5c2d01633f91de636e490f554f5cdc88}
+
+
+\-Getter for the y coordinate. 
+
+\begin{DoxyReturn}{\-Returns}
+\-An unsigned short as the y coordinate of this {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+\end{DoxyReturn}
+\hypertarget{classFacility_ac7b6a40b6ff123f30d702328b949eae0}{\index{\-Facility@{\-Facility}!get\-Location\-Obj1\-Cost@{get\-Location\-Obj1\-Cost}}
+\index{get\-Location\-Obj1\-Cost@{get\-Location\-Obj1\-Cost}!Facility@{\-Facility}}
+\subsubsection[{get\-Location\-Obj1\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Facility\-::get\-Location\-Obj1\-Cost} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classFacility_ac7b6a40b6ff123f30d702328b949eae0}
+
+
+\-Getter for the location cost w.\-r.\-t. objective 1. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the location cost w.\-r.\-t. objective 1 of this {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+\end{DoxyReturn}
+\hypertarget{classFacility_afc8058ff54719571b23aeeb42e8de338}{\index{\-Facility@{\-Facility}!get\-Location\-Obj2\-Cost@{get\-Location\-Obj2\-Cost}}
+\index{get\-Location\-Obj2\-Cost@{get\-Location\-Obj2\-Cost}!Facility@{\-Facility}}
+\subsubsection[{get\-Location\-Obj2\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Facility\-::get\-Location\-Obj2\-Cost} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classFacility_afc8058ff54719571b23aeeb42e8de338}
+
+
+\-Getter for the location cost w.\-r.\-t. objective 2. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the location cost w.\-r.\-t. objective 2 of this {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+\end{DoxyReturn}
+\hypertarget{classFacility_a2c3858ee3c24ae4365c2a863ee526bd7}{\index{\-Facility@{\-Facility}!set\-Location\-Obj1\-Cost@{set\-Location\-Obj1\-Cost}}
+\index{set\-Location\-Obj1\-Cost@{set\-Location\-Obj1\-Cost}!Facility@{\-Facility}}
+\subsubsection[{set\-Location\-Obj1\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Facility\-::set\-Location\-Obj1\-Cost} (
+\begin{DoxyParamCaption}
+\item[{double \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classFacility_a2c3858ee3c24ae4365c2a863ee526bd7}
+
+
+\-Setter for the location cost w.\-r.\-t. objective 1. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em val} & \-: \-A double which represents the value of the location cost of this {\ttfamily \hyperlink{classFacility}{\-Facility}} w.\-r.\-t. objective 1. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classFacility_aed009311f964602ca82724e5e09058ff}{\index{\-Facility@{\-Facility}!set\-Location\-Obj2\-Cost@{set\-Location\-Obj2\-Cost}}
+\index{set\-Location\-Obj2\-Cost@{set\-Location\-Obj2\-Cost}!Facility@{\-Facility}}
+\subsubsection[{set\-Location\-Obj2\-Cost}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Facility\-::set\-Location\-Obj2\-Cost} (
+\begin{DoxyParamCaption}
+\item[{double \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classFacility_aed009311f964602ca82724e5e09058ff}
+
+
+\-Setter for the location cost w.\-r.\-t. objective 2. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em val} & \-: \-A double which represents the value of the location cost of this {\ttfamily \hyperlink{classFacility}{\-Facility}} w.\-r.\-t. objective 2. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Friends \-And \-Related \-Function \-Documentation}
+\hypertarget{classFacility_a0a2f02efa3d9bd071e9fa6e9197e7b71}{\index{\-Facility@{\-Facility}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Facility@{\-Facility}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream \& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{out, }
+\item[{const {\bf \-Facility} $\ast$}]{fac}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{classFacility_a0a2f02efa3d9bd071e9fa6e9197e7b71}
+
+
+\-Operator overloading. 
+
+\-Overloading of the standard output stream in order to print a {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt out}  & {\em out} & \-: \-The standard output stream. \\
+\hline
+\mbox{\tt in}  & {\em fac} & \-: \-A {\ttfamily \hyperlink{classFacility}{\-Facility}} to print in the standard output stream. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{classFacility_a46e539865a0161f0a2c5e7644ea5d75d}{\index{\-Facility@{\-Facility}!coord\-X\-\_\-@{coord\-X\-\_\-}}
+\index{coord\-X\-\_\-@{coord\-X\-\_\-}!Facility@{\-Facility}}
+\subsubsection[{coord\-X\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf \-Facility\-::coord\-X\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classFacility_a46e539865a0161f0a2c5e7644ea5d75d}
+\-Unsigned short which represents the value of the x coordinate of this {\ttfamily \hyperlink{classFacility}{\-Facility}} \hypertarget{classFacility_a2a72bbcf1fe5dc2faee8a02a918fc29f}{\index{\-Facility@{\-Facility}!coord\-Y\-\_\-@{coord\-Y\-\_\-}}
+\index{coord\-Y\-\_\-@{coord\-Y\-\_\-}!Facility@{\-Facility}}
+\subsubsection[{coord\-Y\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short {\bf \-Facility\-::coord\-Y\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classFacility_a2a72bbcf1fe5dc2faee8a02a918fc29f}
+\-Unsigned short which represents the value of the y coordinate of this {\ttfamily \hyperlink{classFacility}{\-Facility}} \hypertarget{classFacility_a0239174cc91d2bab7829a4e460cad3be}{\index{\-Facility@{\-Facility}!location\-Obj1\-Cost\-\_\-@{location\-Obj1\-Cost\-\_\-}}
+\index{location\-Obj1\-Cost\-\_\-@{location\-Obj1\-Cost\-\_\-}!Facility@{\-Facility}}
+\subsubsection[{location\-Obj1\-Cost\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Facility\-::location\-Obj1\-Cost\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classFacility_a0239174cc91d2bab7829a4e460cad3be}
+\-Double which represents the value of the location cost of this {\ttfamily \hyperlink{classFacility}{\-Facility}} w.\-r.\-t. objective 1 \hypertarget{classFacility_a09096b7ea289d3e4a6782c188b1a0e4d}{\index{\-Facility@{\-Facility}!location\-Obj2\-Cost\-\_\-@{location\-Obj2\-Cost\-\_\-}}
+\index{location\-Obj2\-Cost\-\_\-@{location\-Obj2\-Cost\-\_\-}!Facility@{\-Facility}}
+\subsubsection[{location\-Obj2\-Cost\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Facility\-::location\-Obj2\-Cost\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classFacility_a09096b7ea289d3e4a6782c188b1a0e4d}
+\-Double which represents the value of the location cost of this {\ttfamily \hyperlink{classFacility}{\-Facility}} w.\-r.\-t. objective 2 
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{Facility_8hpp}{\-Facility.\-hpp}\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{Facility_8cpp}{\-Facility.\-cpp}\end{DoxyCompactItemize}

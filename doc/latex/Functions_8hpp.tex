@@ -1,0 +1,64 @@
+\hypertarget{Functions_8hpp}{\section{/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.1/src/\-Functions.hpp \-File \-Reference}
+\label{Functions_8hpp}\index{/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\-Functions.\-hpp@{/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\-Functions.\-hpp}}
+}
+
+
+\-A set of functions usefull for our software.  
+
+
+{\ttfamily \#include $<$vector$>$}\*
+{\ttfamily \#include $<$map$>$}\*
+{\ttfamily \#include $<$list$>$}\*
+{\ttfamily \#include $<$iostream$>$}\*
+{\ttfamily \#include $<$cmath$>$}\*
+{\ttfamily \#include \char`\"{}\-Data.\-hpp\char`\"{}}\*
+{\ttfamily \#include \char`\"{}\-Solution.\-hpp\char`\"{}}\*
+{\ttfamily \#include \char`\"{}\-Box.\-hpp\char`\"{}}\*
+{\ttfamily \#include \char`\"{}\-To\-File.\-hpp\char`\"{}}\*
+{\ttfamily \#include \char`\"{}\-Label\-Setting.\-hpp\char`\"{}}\*
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+long int \hyperlink{group__paving_gad7ff18ff688b5a8a49f24a645f0ac81b}{create\-Box} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-This method computes all the initial {\ttfamily \-Boxes} of our algorithm. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_ga817e709f0dfe009173e620d7c7351cb0}{add\-Children} (\hyperlink{classBox}{\-Box} $\ast$box\-Mother, vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&v\-Box)
+\begin{DoxyCompactList}\small\item\em \-This method adds children of a {\ttfamily \hyperlink{classBox}{\-Box}} into a vector of {\ttfamily \-Boxes}. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_gaec5b916ee7df8d19aa1b7a8f890afd0c}{filter} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, long int \&nb\-To\-Compute, long int \&nb\-With\-Neighbor)
+\begin{DoxyCompactList}\small\item\em \-This method filters all the {\ttfamily \-Boxes} of a vector of {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_ga9993202ec3ae8b54b44225efaed1a094}{box\-Filtering} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data, long int \&nb\-To\-Compute, long int \&nb\-With\-Neighbor)
+\begin{DoxyCompactList}\small\item\em \-This method splits a {\ttfamily \hyperlink{classBox}{\-Box}} into two {\ttfamily \-Boxes}. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_gae586beeb3e3b560dbe75b5aa3b4e6745}{recomposition} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box\-Final, \hyperlink{classData}{\-Data} \&data, long int \&nb\-To\-Compute, long int \&nb\-With\-Neighbor)
+\begin{DoxyCompactList}\small\item\em \-This method recomposes a group of {\ttfamily \-Boxes} into an unique one. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_gafdfff519e5ecb3b23fe9e588b3f0c639}{weighted\-Sum\-One\-Step} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-Compute the weighted sum method to split a {\ttfamily \hyperlink{classBox}{\-Box}} in two {\ttfamily \-Boxes}. \end{DoxyCompactList}\item 
+long int \hyperlink{group__generating_ga6a6fb7581f6d456fd632d435e72babef}{run\-Label\-Setting} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-This method runs the \-Label \-Setting algorithm. \end{DoxyCompactList}\item 
+void \hyperlink{group__generating_ga004bba79a35c68875ca45c4b14fd7583}{filter\-List\-Solution} (list$<$ \hyperlink{classSolution}{\-Solution} $>$ \&lsol)
+\begin{DoxyCompactList}\small\item\em \-Delete the solutions dominated. \end{DoxyCompactList}\item 
+double \hyperlink{group__others_gad3779b4abef4e115bc1fc6e67bdd3669}{compute\-Correlation} (\hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-This method computes the correlation. \end{DoxyCompactList}\item 
+float \hyperlink{group__others_ga06e4b113ea522684f94ae160c5097dd3}{time\-\_\-ms\-\_\-\-Diff} (timeval tv\-Start, timeval tv\-End)
+\begin{DoxyCompactList}\small\item\em \-This method computes the difference in milli-\/seconds (ms) between two times. \end{DoxyCompactList}\item 
+float \hyperlink{group__others_ga1203168170e0c71b755ee4f7a99fd671}{time\-\_\-s\-\_\-\-Diff} (timeval tv\-Start, timeval tv\-End)
+\begin{DoxyCompactList}\small\item\em \-This method computes the difference in seconds (ms) between two times. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{group__global_gaa1e2a21621a42fc9b5bfe20792f549cf}{mode\-Export}
+\begin{DoxyCompactList}\small\item\em \-Variable representing the \-Export mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-A set of functions usefull for our software. \begin{DoxyAuthor}{\-Author}
+\-Salim \-B\-O\-U\-R\-O\-U\-G\-A\-A \& \-Alban \-D\-E\-R\-R\-I\-E\-N \& \-Axel \-G\-R\-I\-M\-A\-U\-L\-T \& \-Xavier \-G\-A\-N\-D\-I\-B\-L\-E\-U\-X \& \-Anthony \-P\-R\-Z\-Y\-B\-Y\-L\-S\-K\-I 
+\end{DoxyAuthor}
+\begin{DoxyDate}{\-Date}
+28 \-August 2012 
+\end{DoxyDate}
+\begin{DoxyVersion}{\-Version}
+1.\-1 
+\end{DoxyVersion}
+\begin{DoxyCopyright}{\-Copyright}
+\-G\-N\-U \-General \-Public \-License
+\end{DoxyCopyright}
+\-This file groups all the functions for solving our problem which are not methods of \-Class. 

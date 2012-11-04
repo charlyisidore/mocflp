@@ -1,0 +1,697 @@
+\hypertarget{classBox}{\section{\-Box \-Class \-Reference}
+\label{classBox}\index{\-Box@{\-Box}}
+}
+
+
+\-Class to represent a {\ttfamily \hyperlink{classBox}{\-Box}}.  
+
+
+
+
+{\ttfamily \#include \char`\"{}\-Box.\-hpp\char`\"{}}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classBox_af84a8d0c852cacd9a56d95dd28800719}{\-Box} (\hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-Default \-Constructor of the class {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+\hyperlink{classBox_aa77a6681fe6a14a839b9338300338618}{\-Box} (\hyperlink{classBox}{\-Box} $\ast$copy)
+\begin{DoxyCompactList}\small\item\em \-Constructor of copy of the class {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+\hyperlink{classBox_ae1095dfaabe0ea4da09ca0e732b4bba3}{\-Box} (\hyperlink{classData}{\-Data} \&data, bool $\ast$to\-Open)
+\begin{DoxyCompactList}\small\item\em \-Constructor of the class {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+\hyperlink{classBox_a6a5e09398e85d602a046b429062fb9c2}{$\sim$\-Box} ()
+\begin{DoxyCompactList}\small\item\em \-Destructor of the class {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+double \hyperlink{classBox_a95abb72b5848a121c1a44c4ba391cfa4}{get\-Min\-Z1} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the minimum value w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+double \hyperlink{classBox_ac7e00f6d46cec745f8fb31d85acf478d}{get\-Min\-Z2} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the minimum value w.\-r.\-t. objective 2. \end{DoxyCompactList}\item 
+double \hyperlink{classBox_a0f85e1a40344acb792817d6ea2f1308e}{get\-Max\-Z1} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the maximum value w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+double \hyperlink{classBox_a03a7b786519de4fc925fd97799542a64}{get\-Max\-Z2} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the maximum value w.\-r.\-t. objective 2. \end{DoxyCompactList}\item 
+double \hyperlink{classBox_a0edaa4a59c314a6ca2a9df735d62a6a5}{get\-Origin\-Z1} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the value of the origin w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+double \hyperlink{classBox_a5cd8a30ba9bf4a46a41e77fdfc160b25}{get\-Origin\-Z2} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the value of the origin w.\-r.\-t. objective 2. \end{DoxyCompactList}\item 
+string \hyperlink{classBox_a6ad1deec58284de4d81ab6fa127403f2}{get\-Id} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the id. \end{DoxyCompactList}\item 
+bool \hyperlink{classBox_a694b80c4886c575f6486593783c5b78d}{is\-Assigned} (int cust) const 
+\begin{DoxyCompactList}\small\item\em method to know if a {\ttfamily \hyperlink{classCustomer}{\-Customer}} is assigned or not. \end{DoxyCompactList}\item 
+bool \hyperlink{classBox_a4a22004a5cffa8f0e635304fdcb97c84}{is\-Opened} (int fac) const 
+\begin{DoxyCompactList}\small\item\em method to know if a {\ttfamily \hyperlink{classFacility}{\-Facility}} is opened or not. \end{DoxyCompactList}\item 
+int \hyperlink{classBox_a06d670aa91a2ce2379952226aa2f1ace}{getnb\-Customer\-Not\-Affected} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the number of {\ttfamily \-Customers} nonaffected. \end{DoxyCompactList}\item 
+int \hyperlink{classBox_ad440d49ac6af6f507d3fe2b04706a03f}{get\-Nb\-Facility\-Open} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the number of {\ttfamily \-Facilities} opened. \end{DoxyCompactList}\item 
+bool \hyperlink{classBox_a54fc33d2322333a3b29e3d0678c91211}{get\-Has\-Neighbor} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the neighborhood. \end{DoxyCompactList}\item 
+bool \hyperlink{classBox_a42f209ba50a33b65ff39cb70b98441ac}{get\-Has\-More\-Step\-W\-S} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the number of \-Weighted \-Sum. \end{DoxyCompactList}\item 
+\hyperlink{classData}{\-Data} \& \hyperlink{classBox_a3282ed9a0751fc5c0cdb71c73b63c368}{get\-Data} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the data. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a73fb06291c001bea5f90358e7d53c2ec}{set\-Id} (string s)
+\begin{DoxyCompactList}\small\item\em \-Setter for the id of this {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a0a5aeb1b1a64068ab016abf9146bae7e}{set\-Min\-Z1} (double v)
+\begin{DoxyCompactList}\small\item\em \-Setter for the minimum value w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a5ac9cf265d3b0931437c42e755a6b017}{set\-Min\-Z2} (double v)
+\begin{DoxyCompactList}\small\item\em \-Setter for the minimum value w.\-r.\-t. objective 2. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a79ac09e6f2c8e05bdb5e8d9e27c89f1a}{set\-Max\-Z1} (double v)
+\begin{DoxyCompactList}\small\item\em \-Setter for the maximum value w.\-r.\-t. objective 1. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a1d9913b6b5ff4a73a58e7f6c4783239c}{set\-Max\-Z2} (double v)
+\begin{DoxyCompactList}\small\item\em \-Setter for the maximum value w.\-r.\-t. objective 2. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a7ff6267ac9ef0374a4124990e098dec7}{set\-Has\-Neighbor} (bool b)
+\begin{DoxyCompactList}\small\item\em \-Setter for the neighborhood. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a17421cfc8975b2167736cf6bfd70d0e2}{set\-Has\-More\-Step\-W\-S} (bool b)
+\begin{DoxyCompactList}\small\item\em \-Setter for the remaining weighted sum method. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a5ea285f88a7d98adcc564a9b8f36ca6e}{compute\-Box} ()
+\begin{DoxyCompactList}\small\item\em \-A method to expand a box, which means attempting to allocate all {\ttfamily \-Customers} to {\ttfamily \-Facilities}. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_af9e9149bc27c244e5b9d64df691ba2b1}{open\-Facility} (int fac)
+\begin{DoxyCompactList}\small\item\em \-A method that opens a {\ttfamily \hyperlink{classFacility}{\-Facility}} in this {\ttfamily \hyperlink{classBox}{\-Box}}, by adding all the location cost of the two objectives. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_a7f9cef3d9324289ae0fb4ec1aa50db9d}{print} ()
+\begin{DoxyCompactList}\small\item\em \-A method to print informations about this {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{classBox_a69b7a7bb25fe90a42147cd05007854da}{id\-\_\-}
+\item 
+\hyperlink{classData}{\-Data} \& \hyperlink{classBox_add736972063b9a9c0239194eaf31efae}{data\-\_\-}
+\item 
+bool $\ast$ \hyperlink{classBox_abbfd7bd74fe08139f7e6853e129a8a61}{is\-Assigned\-\_\-}
+\item 
+bool $\ast$ \hyperlink{classBox_a2193b73a3e12612041dedf93ec410f59}{facility\-\_\-}
+\item 
+bool \hyperlink{classBox_a177908b9eaab60f32c86800a2f725ecd}{has\-More\-Step\-W\-S\-\_\-}
+\item 
+bool \hyperlink{classBox_a6018908ca53a87f0265fbeefd8884a4b}{has\-Neighbor\-\_\-}
+\item 
+int \hyperlink{classBox_a9b4fe28d0a913cee7c6126b5283f6073}{nb\-Customer\-Not\-Affected\-\_\-}
+\item 
+double \hyperlink{classBox_ac2054bd31949983a7d02a5229b9aa505}{min\-Z1\-\_\-}
+\item 
+double \hyperlink{classBox_a79cb036404755c024cb2ec38c2d6f51e}{min\-Z2\-\_\-}
+\item 
+double \hyperlink{classBox_a677f915123e884e3ccf7c751bfbd7cfa}{max\-Z1\-\_\-}
+\item 
+double \hyperlink{classBox_a5222f7d544c4361107c8ff730d341be1}{max\-Z2\-\_\-}
+\item 
+double \hyperlink{classBox_ad9dd1c25f765a4b055e61b98fca017a7}{origin\-Z1\-\_\-}
+\item 
+double \hyperlink{classBox_a92db5d83336e00813c4131d52e12a1b9}{origin\-Z2\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{\-Related \-Functions}
+(\-Note that these are not member functions.) \begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classBox_ada27264850e8a9b61d4833a1a9bc5ca7}{is\-Dominated\-Between\-Two\-Boxes} (\hyperlink{classBox}{\-Box} $\ast$box1, \hyperlink{classBox}{\-Box} $\ast$box2)
+\begin{DoxyCompactList}\small\item\em \-Method of comparison between two boxes. \end{DoxyCompactList}\item 
+bool \hyperlink{classBox_a75b3d174ae55517797459916d5bc07ef}{is\-Dominated\-Between\-Origins} (\hyperlink{classBox}{\-Box} $\ast$box1, \hyperlink{classBox}{\-Box} $\ast$box2)
+\begin{DoxyCompactList}\small\item\em \-Method of comparison between two boxes. \end{DoxyCompactList}\item 
+void \hyperlink{classBox_af9d038887f617a766f86d8a4f0e8d55e}{filter\-Dominated\-Boxes} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vect\-Box)
+\begin{DoxyCompactList}\small\item\em \-Method to filter a vector of {\ttfamily \-Boxes}. \end{DoxyCompactList}\item 
+bool \hyperlink{classBox_a57b4536cd76dabffd7326328a2be4b4b}{is\-Dominated\-By\-Its\-Origin} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vect\-Box, \hyperlink{classBox}{\-Box} $\ast$box)
+\begin{DoxyCompactList}\small\item\em \-Method of comparison between a {\ttfamily \hyperlink{classBox}{\-Box}} and a vector of {\ttfamily \-Boxes}. \end{DoxyCompactList}\item 
+bool \hyperlink{classBox_ac8a6e3cd3d38d463bb650ceb4ae88497}{is\-Dominated\-By\-Its\-Box} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vect\-Box, \hyperlink{classBox}{\-Box} $\ast$box)
+\begin{DoxyCompactList}\small\item\em \-Method of comparison between a {\ttfamily \hyperlink{classBox}{\-Box}} and a vector of {\ttfamily \-Boxes}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Class to represent a {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+\-This class represents a {\ttfamily \hyperlink{classBox}{\-Box}} with all its attributes and methods. 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{classBox_af84a8d0c852cacd9a56d95dd28800719}{\index{\-Box@{\-Box}!\-Box@{\-Box}}
+\index{\-Box@{\-Box}!Box@{\-Box}}
+\subsubsection[{\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Box\-::\-Box} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Data} \&}]{data}
+\end{DoxyParamCaption}
+)}}\label{classBox_af84a8d0c852cacd9a56d95dd28800719}
+
+
+\-Default \-Constructor of the class {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+\-The default construtor gives a {\ttfamily \hyperlink{classBox}{\-Box}} which anyone {\ttfamily \hyperlink{classFacility}{\-Facility}} opened. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em data} & \-: \-A {\ttfamily \hyperlink{classData}{\-Data}} object which contains all the values of the instance. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_aa77a6681fe6a14a839b9338300338618}{\index{\-Box@{\-Box}!\-Box@{\-Box}}
+\index{\-Box@{\-Box}!Box@{\-Box}}
+\subsubsection[{\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Box\-::\-Box} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Box} $\ast$}]{copy}
+\end{DoxyParamCaption}
+)}}\label{classBox_aa77a6681fe6a14a839b9338300338618}
+
+
+\-Constructor of copy of the class {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em copy} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} to copy. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_ae1095dfaabe0ea4da09ca0e732b4bba3}{\index{\-Box@{\-Box}!\-Box@{\-Box}}
+\index{\-Box@{\-Box}!Box@{\-Box}}
+\subsubsection[{\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Box\-::\-Box} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Data} \&}]{data, }
+\item[{bool $\ast$}]{to\-Open}
+\end{DoxyParamCaption}
+)}}\label{classBox_ae1095dfaabe0ea4da09ca0e732b4bba3}
+
+
+\-Constructor of the class {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+\-This construtor gives a {\ttfamily \hyperlink{classBox}{\-Box}} which a set of {\ttfamily \-Facilities} opened. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em data} & \-: \-A {\ttfamily \hyperlink{classData}{\-Data}} object which contains all the values of the instance. \\
+\hline
+\mbox{\tt in}  & {\em to\-Open} & \-: \-A pointer of boolean representing the vector of {\ttfamily \hyperlink{classFacility}{\-Facility}} to open in order to construct an object {\ttfamily \hyperlink{classBox}{\-Box}}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a6a5e09398e85d602a046b429062fb9c2}{\index{\-Box@{\-Box}!$\sim$\-Box@{$\sim$\-Box}}
+\index{$\sim$\-Box@{$\sim$\-Box}!Box@{\-Box}}
+\subsubsection[{$\sim$\-Box}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Box\-::$\sim$\-Box} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBox_a6a5e09398e85d602a046b429062fb9c2}
+
+
+\-Destructor of the class {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{classBox_a5ea285f88a7d98adcc564a9b8f36ca6e}{\index{\-Box@{\-Box}!compute\-Box@{compute\-Box}}
+\index{compute\-Box@{compute\-Box}!Box@{\-Box}}
+\subsubsection[{compute\-Box}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::compute\-Box} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBox_a5ea285f88a7d98adcc564a9b8f36ca6e}
+
+
+\-A method to expand a box, which means attempting to allocate all {\ttfamily \-Customers} to {\ttfamily \-Facilities}. 
+
+\hypertarget{classBox_a3282ed9a0751fc5c0cdb71c73b63c368}{\index{\-Box@{\-Box}!get\-Data@{get\-Data}}
+\index{get\-Data@{get\-Data}!Box@{\-Box}}
+\subsubsection[{get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Data} \& {\bf \-Box\-::get\-Data} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a3282ed9a0751fc5c0cdb71c73b63c368}
+
+
+\-Getter for the data. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A reference {\ttfamily \hyperlink{classData}{\-Data}} of the {\ttfamily \hyperlink{classData}{\-Data}} of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a42f209ba50a33b65ff39cb70b98441ac}{\index{\-Box@{\-Box}!get\-Has\-More\-Step\-W\-S@{get\-Has\-More\-Step\-W\-S}}
+\index{get\-Has\-More\-Step\-W\-S@{get\-Has\-More\-Step\-W\-S}!Box@{\-Box}}
+\subsubsection[{get\-Has\-More\-Step\-W\-S}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Box\-::get\-Has\-More\-Step\-W\-S} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a42f209ba50a33b65ff39cb70b98441ac}
+
+
+\-Getter for the number of \-Weighted \-Sum. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A boolean if this {\ttfamily \hyperlink{classBox}{\-Box}} gets a remaining iteration of weigthed sum method. 
+\end{DoxyReturn}
+\hypertarget{classBox_a54fc33d2322333a3b29e3d0678c91211}{\index{\-Box@{\-Box}!get\-Has\-Neighbor@{get\-Has\-Neighbor}}
+\index{get\-Has\-Neighbor@{get\-Has\-Neighbor}!Box@{\-Box}}
+\subsubsection[{get\-Has\-Neighbor}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Box\-::get\-Has\-Neighbor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a54fc33d2322333a3b29e3d0678c91211}
+
+
+\-Getter for the neighborhood. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A boolean which value is \-T\-R\-U\-E if this {\ttfamily \hyperlink{classBox}{\-Box}} overlaps or is overlapped with an other {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a6ad1deec58284de4d81ab6fa127403f2}{\index{\-Box@{\-Box}!get\-Id@{get\-Id}}
+\index{get\-Id@{get\-Id}!Box@{\-Box}}
+\subsubsection[{get\-Id}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Box\-::get\-Id} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a6ad1deec58284de4d81ab6fa127403f2}
+
+
+\-Getter for the id. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A string as the sequence of 1 and 0 representing the combination of {\ttfamily \hyperlink{classFacility}{\-Facility}} of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a0f85e1a40344acb792817d6ea2f1308e}{\index{\-Box@{\-Box}!get\-Max\-Z1@{get\-Max\-Z1}}
+\index{get\-Max\-Z1@{get\-Max\-Z1}!Box@{\-Box}}
+\subsubsection[{get\-Max\-Z1}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::get\-Max\-Z1} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a0f85e1a40344acb792817d6ea2f1308e}
+
+
+\-Getter for the maximum value w.\-r.\-t. objective 1. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the maximum value w.\-r.\-t. objective 1 of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a03a7b786519de4fc925fd97799542a64}{\index{\-Box@{\-Box}!get\-Max\-Z2@{get\-Max\-Z2}}
+\index{get\-Max\-Z2@{get\-Max\-Z2}!Box@{\-Box}}
+\subsubsection[{get\-Max\-Z2}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::get\-Max\-Z2} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a03a7b786519de4fc925fd97799542a64}
+
+
+\-Getter for the maximum value w.\-r.\-t. objective 2. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the maximum value w.\-r.\-t. objective 2 of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a95abb72b5848a121c1a44c4ba391cfa4}{\index{\-Box@{\-Box}!get\-Min\-Z1@{get\-Min\-Z1}}
+\index{get\-Min\-Z1@{get\-Min\-Z1}!Box@{\-Box}}
+\subsubsection[{get\-Min\-Z1}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::get\-Min\-Z1} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a95abb72b5848a121c1a44c4ba391cfa4}
+
+
+\-Getter for the minimum value w.\-r.\-t. objective 1. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the minimum value w.\-r.\-t. objective 1 of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_ac7e00f6d46cec745f8fb31d85acf478d}{\index{\-Box@{\-Box}!get\-Min\-Z2@{get\-Min\-Z2}}
+\index{get\-Min\-Z2@{get\-Min\-Z2}!Box@{\-Box}}
+\subsubsection[{get\-Min\-Z2}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::get\-Min\-Z2} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_ac7e00f6d46cec745f8fb31d85acf478d}
+
+
+\-Getter for the minimum value w.\-r.\-t. objective 2. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the minimum value w.\-r.\-t. objective 2 of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a06d670aa91a2ce2379952226aa2f1ace}{\index{\-Box@{\-Box}!getnb\-Customer\-Not\-Affected@{getnb\-Customer\-Not\-Affected}}
+\index{getnb\-Customer\-Not\-Affected@{getnb\-Customer\-Not\-Affected}!Box@{\-Box}}
+\subsubsection[{getnb\-Customer\-Not\-Affected}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Box\-::getnb\-Customer\-Not\-Affected} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a06d670aa91a2ce2379952226aa2f1ace}
+
+
+\-Getter for the number of {\ttfamily \-Customers} nonaffected. 
+
+\begin{DoxyReturn}{\-Returns}
+\-An int as the number of {\ttfamily \-Customers} which are not affected to a {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_ad440d49ac6af6f507d3fe2b04706a03f}{\index{\-Box@{\-Box}!get\-Nb\-Facility\-Open@{get\-Nb\-Facility\-Open}}
+\index{get\-Nb\-Facility\-Open@{get\-Nb\-Facility\-Open}!Box@{\-Box}}
+\subsubsection[{get\-Nb\-Facility\-Open}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Box\-::get\-Nb\-Facility\-Open} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_ad440d49ac6af6f507d3fe2b04706a03f}
+
+
+\-Getter for the number of {\ttfamily \-Facilities} opened. 
+
+\begin{DoxyReturn}{\-Returns}
+\-An int as the number of {\ttfamily \-Facilities} which are opened (set to 1). 
+\end{DoxyReturn}
+\hypertarget{classBox_a0edaa4a59c314a6ca2a9df735d62a6a5}{\index{\-Box@{\-Box}!get\-Origin\-Z1@{get\-Origin\-Z1}}
+\index{get\-Origin\-Z1@{get\-Origin\-Z1}!Box@{\-Box}}
+\subsubsection[{get\-Origin\-Z1}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::get\-Origin\-Z1} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a0edaa4a59c314a6ca2a9df735d62a6a5}
+
+
+\-Getter for the value of the origin w.\-r.\-t. objective 1. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the value of the point of origin w.\-r.\-t. objective 1 of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a5cd8a30ba9bf4a46a41e77fdfc160b25}{\index{\-Box@{\-Box}!get\-Origin\-Z2@{get\-Origin\-Z2}}
+\index{get\-Origin\-Z2@{get\-Origin\-Z2}!Box@{\-Box}}
+\subsubsection[{get\-Origin\-Z2}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::get\-Origin\-Z2} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a5cd8a30ba9bf4a46a41e77fdfc160b25}
+
+
+\-Getter for the value of the origin w.\-r.\-t. objective 2. 
+
+\begin{DoxyReturn}{\-Returns}
+\-A double as the value of the point of origin w.\-r.\-t. objective 2 of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a694b80c4886c575f6486593783c5b78d}{\index{\-Box@{\-Box}!is\-Assigned@{is\-Assigned}}
+\index{is\-Assigned@{is\-Assigned}!Box@{\-Box}}
+\subsubsection[{is\-Assigned}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Box\-::is\-Assigned} (
+\begin{DoxyParamCaption}
+\item[{int}]{cust}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a694b80c4886c575f6486593783c5b78d}
+
+
+method to know if a {\ttfamily \hyperlink{classCustomer}{\-Customer}} is assigned or not. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em cust} & \-: \-A {\ttfamily \hyperlink{classCustomer}{\-Customer}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A boolean which value is \-T\-R\-U\-E if the {\ttfamily \hyperlink{classCustomer}{\-Customer}} is assigned to any {\ttfamily \hyperlink{classFacility}{\-Facility}}. 
+\end{DoxyReturn}
+\hypertarget{classBox_a4a22004a5cffa8f0e635304fdcb97c84}{\index{\-Box@{\-Box}!is\-Opened@{is\-Opened}}
+\index{is\-Opened@{is\-Opened}!Box@{\-Box}}
+\subsubsection[{is\-Opened}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Box\-::is\-Opened} (
+\begin{DoxyParamCaption}
+\item[{int}]{fac}
+\end{DoxyParamCaption}
+) const}}\label{classBox_a4a22004a5cffa8f0e635304fdcb97c84}
+
+
+method to know if a {\ttfamily \hyperlink{classFacility}{\-Facility}} is opened or not. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em cust} & \-: \-A {\ttfamily \hyperlink{classFacility}{\-Facility}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A boolean which value is \-T\-R\-U\-E if the {\ttfamily \hyperlink{classFacility}{\-Facility}} is opened. 
+\end{DoxyReturn}
+\hypertarget{classBox_af9e9149bc27c244e5b9d64df691ba2b1}{\index{\-Box@{\-Box}!open\-Facility@{open\-Facility}}
+\index{open\-Facility@{open\-Facility}!Box@{\-Box}}
+\subsubsection[{open\-Facility}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::open\-Facility} (
+\begin{DoxyParamCaption}
+\item[{int}]{fac}
+\end{DoxyParamCaption}
+)}}\label{classBox_af9e9149bc27c244e5b9d64df691ba2b1}
+
+
+\-A method that opens a {\ttfamily \hyperlink{classFacility}{\-Facility}} in this {\ttfamily \hyperlink{classBox}{\-Box}}, by adding all the location cost of the two objectives. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em fac} & \-: \-A {\ttfamily \hyperlink{classFacility}{\-Facility}} to open. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a7f9cef3d9324289ae0fb4ec1aa50db9d}{\index{\-Box@{\-Box}!print@{print}}
+\index{print@{print}!Box@{\-Box}}
+\subsubsection[{print}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::print} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBox_a7f9cef3d9324289ae0fb4ec1aa50db9d}
+
+
+\-A method to print informations about this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+\hypertarget{classBox_a17421cfc8975b2167736cf6bfd70d0e2}{\index{\-Box@{\-Box}!set\-Has\-More\-Step\-W\-S@{set\-Has\-More\-Step\-W\-S}}
+\index{set\-Has\-More\-Step\-W\-S@{set\-Has\-More\-Step\-W\-S}!Box@{\-Box}}
+\subsubsection[{set\-Has\-More\-Step\-W\-S}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::set\-Has\-More\-Step\-W\-S} (
+\begin{DoxyParamCaption}
+\item[{bool}]{b}
+\end{DoxyParamCaption}
+)}}\label{classBox_a17421cfc8975b2167736cf6bfd70d0e2}
+
+
+\-Setter for the remaining weighted sum method. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em b} & \-: \-A boolean which value is \-T\-R\-U\-E if this {\ttfamily \hyperlink{classBox}{\-Box}} has a remaining iteration of weighted sum method. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a7ff6267ac9ef0374a4124990e098dec7}{\index{\-Box@{\-Box}!set\-Has\-Neighbor@{set\-Has\-Neighbor}}
+\index{set\-Has\-Neighbor@{set\-Has\-Neighbor}!Box@{\-Box}}
+\subsubsection[{set\-Has\-Neighbor}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::set\-Has\-Neighbor} (
+\begin{DoxyParamCaption}
+\item[{bool}]{b}
+\end{DoxyParamCaption}
+)}}\label{classBox_a7ff6267ac9ef0374a4124990e098dec7}
+
+
+\-Setter for the neighborhood. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em b} & \-: \-A boolean which value is \-T\-R\-U\-E if this {\ttfamily \hyperlink{classBox}{\-Box}} has at least one neighborhood (a {\ttfamily \hyperlink{classBox}{\-Box}} which overlaps or is overlapped). \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a73fb06291c001bea5f90358e7d53c2ec}{\index{\-Box@{\-Box}!set\-Id@{set\-Id}}
+\index{set\-Id@{set\-Id}!Box@{\-Box}}
+\subsubsection[{set\-Id}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::set\-Id} (
+\begin{DoxyParamCaption}
+\item[{string}]{s}
+\end{DoxyParamCaption}
+)}}\label{classBox_a73fb06291c001bea5f90358e7d53c2ec}
+
+
+\-Setter for the id of this {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em s} & \-: \-A string which represents the id (combination of {\ttfamily \hyperlink{classFacility}{\-Facility}}) of this {\ttfamily \hyperlink{classBox}{\-Box}}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a79ac09e6f2c8e05bdb5e8d9e27c89f1a}{\index{\-Box@{\-Box}!set\-Max\-Z1@{set\-Max\-Z1}}
+\index{set\-Max\-Z1@{set\-Max\-Z1}!Box@{\-Box}}
+\subsubsection[{set\-Max\-Z1}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::set\-Max\-Z1} (
+\begin{DoxyParamCaption}
+\item[{double}]{v}
+\end{DoxyParamCaption}
+)}}\label{classBox_a79ac09e6f2c8e05bdb5e8d9e27c89f1a}
+
+
+\-Setter for the maximum value w.\-r.\-t. objective 1. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em v} & \-: \-A double which represents the maximum value w.\-r.\-t. objective 1 of this {\ttfamily \hyperlink{classBox}{\-Box}}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a1d9913b6b5ff4a73a58e7f6c4783239c}{\index{\-Box@{\-Box}!set\-Max\-Z2@{set\-Max\-Z2}}
+\index{set\-Max\-Z2@{set\-Max\-Z2}!Box@{\-Box}}
+\subsubsection[{set\-Max\-Z2}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::set\-Max\-Z2} (
+\begin{DoxyParamCaption}
+\item[{double}]{v}
+\end{DoxyParamCaption}
+)}}\label{classBox_a1d9913b6b5ff4a73a58e7f6c4783239c}
+
+
+\-Setter for the maximum value w.\-r.\-t. objective 2. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em v} & \-: \-A double which represents the maximum value w.\-r.\-t. objective 2 of this {\ttfamily \hyperlink{classBox}{\-Box}}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a0a5aeb1b1a64068ab016abf9146bae7e}{\index{\-Box@{\-Box}!set\-Min\-Z1@{set\-Min\-Z1}}
+\index{set\-Min\-Z1@{set\-Min\-Z1}!Box@{\-Box}}
+\subsubsection[{set\-Min\-Z1}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::set\-Min\-Z1} (
+\begin{DoxyParamCaption}
+\item[{double}]{v}
+\end{DoxyParamCaption}
+)}}\label{classBox_a0a5aeb1b1a64068ab016abf9146bae7e}
+
+
+\-Setter for the minimum value w.\-r.\-t. objective 1. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em v} & \-: \-A double which represents the minimum value w.\-r.\-t. objective 1 of this {\ttfamily \hyperlink{classBox}{\-Box}}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a5ac9cf265d3b0931437c42e755a6b017}{\index{\-Box@{\-Box}!set\-Min\-Z2@{set\-Min\-Z2}}
+\index{set\-Min\-Z2@{set\-Min\-Z2}!Box@{\-Box}}
+\subsubsection[{set\-Min\-Z2}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Box\-::set\-Min\-Z2} (
+\begin{DoxyParamCaption}
+\item[{double}]{v}
+\end{DoxyParamCaption}
+)}}\label{classBox_a5ac9cf265d3b0931437c42e755a6b017}
+
+
+\-Setter for the minimum value w.\-r.\-t. objective 2. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em v} & \-: \-A double which represents the minimum value w.\-r.\-t. objective 2 of this {\ttfamily \hyperlink{classBox}{\-Box}}. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Friends \-And \-Related \-Function \-Documentation}
+\hypertarget{classBox_af9d038887f617a766f86d8a4f0e8d55e}{\index{\-Box@{\-Box}!filter\-Dominated\-Boxes@{filter\-Dominated\-Boxes}}
+\index{filter\-Dominated\-Boxes@{filter\-Dominated\-Boxes}!Box@{\-Box}}
+\subsubsection[{filter\-Dominated\-Boxes}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf filter\-Dominated\-Boxes} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vect\-Box}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{classBox_af9d038887f617a766f86d8a4f0e8d55e}
+
+
+\-Method to filter a vector of {\ttfamily \-Boxes}. 
+
+\-A method to filter and delete {\ttfamily \hyperlink{classBox}{\-Box}} in a vector of {\ttfamily \-Boxes} by comparing each other. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em vect\-Box} & \-: \-A vector of {\ttfamily \-Boxes}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classBox_a75b3d174ae55517797459916d5bc07ef}{\index{\-Box@{\-Box}!is\-Dominated\-Between\-Origins@{is\-Dominated\-Between\-Origins}}
+\index{is\-Dominated\-Between\-Origins@{is\-Dominated\-Between\-Origins}!Box@{\-Box}}
+\subsubsection[{is\-Dominated\-Between\-Origins}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf is\-Dominated\-Between\-Origins} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Box} $\ast$}]{box1, }
+\item[{{\bf \-Box} $\ast$}]{box2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{classBox_a75b3d174ae55517797459916d5bc07ef}
+
+
+\-Method of comparison between two boxes. 
+
+\-A method to compare two {\ttfamily \-Boxes} using the bounds min\-Z1\-\_\-, min\-Z2\-\_\-, max\-Z1\-\_\-, max\-Z2\-\_\-, origin\-Z1\-\_\- and origin\-Z2\-\_\-. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em box1} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} to compare. \\
+\hline
+\mbox{\tt in}  & {\em box2} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} to compare. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A boolean which value is \-T\-R\-U\-E if the origin of the box1 is dominated by the box2. 
+\end{DoxyReturn}
+\hypertarget{classBox_ada27264850e8a9b61d4833a1a9bc5ca7}{\index{\-Box@{\-Box}!is\-Dominated\-Between\-Two\-Boxes@{is\-Dominated\-Between\-Two\-Boxes}}
+\index{is\-Dominated\-Between\-Two\-Boxes@{is\-Dominated\-Between\-Two\-Boxes}!Box@{\-Box}}
+\subsubsection[{is\-Dominated\-Between\-Two\-Boxes}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf is\-Dominated\-Between\-Two\-Boxes} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Box} $\ast$}]{box1, }
+\item[{{\bf \-Box} $\ast$}]{box2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{classBox_ada27264850e8a9b61d4833a1a9bc5ca7}
+
+
+\-Method of comparison between two boxes. 
+
+\-A method to compare two {\ttfamily \-Boxes} using the bounds min\-Z1\-\_\-, min\-Z2\-\_\-, max\-Z1\-\_\-, max\-Z2\-\_\- of each {\ttfamily \-Boxes}. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em box1} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} to compare. \\
+\hline
+\mbox{\tt in}  & {\em box2} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} to compare. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A boolean which value is \-T\-R\-U\-E if the box1 is dominated by the box2. 
+\end{DoxyReturn}
+\hypertarget{classBox_ac8a6e3cd3d38d463bb650ceb4ae88497}{\index{\-Box@{\-Box}!is\-Dominated\-By\-Its\-Box@{is\-Dominated\-By\-Its\-Box}}
+\index{is\-Dominated\-By\-Its\-Box@{is\-Dominated\-By\-Its\-Box}!Box@{\-Box}}
+\subsubsection[{is\-Dominated\-By\-Its\-Box}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf is\-Dominated\-By\-Its\-Box} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vect\-Box, }
+\item[{{\bf \-Box} $\ast$}]{box}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{classBox_ac8a6e3cd3d38d463bb650ceb4ae88497}
+
+
+\-Method of comparison between a {\ttfamily \hyperlink{classBox}{\-Box}} and a vector of {\ttfamily \-Boxes}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em vect\-Box} & \-: \-A vector of {\ttfamily \-Boxes} to compare. \\
+\hline
+\mbox{\tt in}  & {\em box} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} to compare. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A boolean which value is \-T\-R\-U\-E if one of the {\ttfamily \hyperlink{classBox}{\-Box}} of the vector vect\-Box is dominated by the {\ttfamily \hyperlink{classBox}{\-Box}} box. 
+\end{DoxyReturn}
+\hypertarget{classBox_a57b4536cd76dabffd7326328a2be4b4b}{\index{\-Box@{\-Box}!is\-Dominated\-By\-Its\-Origin@{is\-Dominated\-By\-Its\-Origin}}
+\index{is\-Dominated\-By\-Its\-Origin@{is\-Dominated\-By\-Its\-Origin}!Box@{\-Box}}
+\subsubsection[{is\-Dominated\-By\-Its\-Origin}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf is\-Dominated\-By\-Its\-Origin} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vect\-Box, }
+\item[{{\bf \-Box} $\ast$}]{box}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}related\mbox{]}}}}\label{classBox_a57b4536cd76dabffd7326328a2be4b4b}
+
+
+\-Method of comparison between a {\ttfamily \hyperlink{classBox}{\-Box}} and a vector of {\ttfamily \-Boxes}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em vect\-Box} & \-: \-A vector of {\ttfamily \-Boxes} to compare. \\
+\hline
+\mbox{\tt in}  & {\em box} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} to compare. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A boolean which value is \-T\-R\-U\-E if {\ttfamily \hyperlink{classBox}{\-Box}} box is dominated by one of the {\ttfamily \hyperlink{classBox}{\-Box}} of the vector vect\-Box. 
+\end{DoxyReturn}
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{classBox_add736972063b9a9c0239194eaf31efae}{\index{\-Box@{\-Box}!data\-\_\-@{data\-\_\-}}
+\index{data\-\_\-@{data\-\_\-}!Box@{\-Box}}
+\subsubsection[{data\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Data}\& {\bf \-Box\-::data\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_add736972063b9a9c0239194eaf31efae}
+\-A reference to the {\ttfamily \hyperlink{classData}{\-Data}} of this {\ttfamily \hyperlink{classBox}{\-Box}} \hypertarget{classBox_a2193b73a3e12612041dedf93ec410f59}{\index{\-Box@{\-Box}!facility\-\_\-@{facility\-\_\-}}
+\index{facility\-\_\-@{facility\-\_\-}!Box@{\-Box}}
+\subsubsection[{facility\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool$\ast$ {\bf \-Box\-::facility\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a2193b73a3e12612041dedf93ec410f59}
+\-A boolean which represents the vector of {\ttfamily \hyperlink{classFacility}{\-Facility}} opened or not \hypertarget{classBox_a177908b9eaab60f32c86800a2f725ecd}{\index{\-Box@{\-Box}!has\-More\-Step\-W\-S\-\_\-@{has\-More\-Step\-W\-S\-\_\-}}
+\index{has\-More\-Step\-W\-S\-\_\-@{has\-More\-Step\-W\-S\-\_\-}!Box@{\-Box}}
+\subsubsection[{has\-More\-Step\-W\-S\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Box\-::has\-More\-Step\-W\-S\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a177908b9eaab60f32c86800a2f725ecd}
+\-A boolean which represents if this {\ttfamily \hyperlink{classBox}{\-Box}} has a remaining iteration of weighted sum method \hypertarget{classBox_a6018908ca53a87f0265fbeefd8884a4b}{\index{\-Box@{\-Box}!has\-Neighbor\-\_\-@{has\-Neighbor\-\_\-}}
+\index{has\-Neighbor\-\_\-@{has\-Neighbor\-\_\-}!Box@{\-Box}}
+\subsubsection[{has\-Neighbor\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-Box\-::has\-Neighbor\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a6018908ca53a87f0265fbeefd8884a4b}
+\-A boolean which represents if this {\ttfamily \hyperlink{classBox}{\-Box}} has a neighboor or not \hypertarget{classBox_a69b7a7bb25fe90a42147cd05007854da}{\index{\-Box@{\-Box}!id\-\_\-@{id\-\_\-}}
+\index{id\-\_\-@{id\-\_\-}!Box@{\-Box}}
+\subsubsection[{id\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-Box\-::id\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a69b7a7bb25fe90a42147cd05007854da}
+\-A string which represents the id of this {\ttfamily \hyperlink{classBox}{\-Box}} \hypertarget{classBox_abbfd7bd74fe08139f7e6853e129a8a61}{\index{\-Box@{\-Box}!is\-Assigned\-\_\-@{is\-Assigned\-\_\-}}
+\index{is\-Assigned\-\_\-@{is\-Assigned\-\_\-}!Box@{\-Box}}
+\subsubsection[{is\-Assigned\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool$\ast$ {\bf \-Box\-::is\-Assigned\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_abbfd7bd74fe08139f7e6853e129a8a61}
+\-A boolean which represents the vector of {\ttfamily \hyperlink{classCustomer}{\-Customer}} assigned or not \hypertarget{classBox_a677f915123e884e3ccf7c751bfbd7cfa}{\index{\-Box@{\-Box}!max\-Z1\-\_\-@{max\-Z1\-\_\-}}
+\index{max\-Z1\-\_\-@{max\-Z1\-\_\-}!Box@{\-Box}}
+\subsubsection[{max\-Z1\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::max\-Z1\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a677f915123e884e3ccf7c751bfbd7cfa}
+\-A double which represents the maximum value w.\-r.\-t. objective 1 \hypertarget{classBox_a5222f7d544c4361107c8ff730d341be1}{\index{\-Box@{\-Box}!max\-Z2\-\_\-@{max\-Z2\-\_\-}}
+\index{max\-Z2\-\_\-@{max\-Z2\-\_\-}!Box@{\-Box}}
+\subsubsection[{max\-Z2\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::max\-Z2\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a5222f7d544c4361107c8ff730d341be1}
+\-A double which represents the maximum value w.\-r.\-t. objective 2 \hypertarget{classBox_ac2054bd31949983a7d02a5229b9aa505}{\index{\-Box@{\-Box}!min\-Z1\-\_\-@{min\-Z1\-\_\-}}
+\index{min\-Z1\-\_\-@{min\-Z1\-\_\-}!Box@{\-Box}}
+\subsubsection[{min\-Z1\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::min\-Z1\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_ac2054bd31949983a7d02a5229b9aa505}
+\-A double which represents the minimum value w.\-r.\-t. objective 1 \hypertarget{classBox_a79cb036404755c024cb2ec38c2d6f51e}{\index{\-Box@{\-Box}!min\-Z2\-\_\-@{min\-Z2\-\_\-}}
+\index{min\-Z2\-\_\-@{min\-Z2\-\_\-}!Box@{\-Box}}
+\subsubsection[{min\-Z2\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::min\-Z2\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a79cb036404755c024cb2ec38c2d6f51e}
+\-A double which represents the minimum value w.\-r.\-t. objective 2 \hypertarget{classBox_a9b4fe28d0a913cee7c6126b5283f6073}{\index{\-Box@{\-Box}!nb\-Customer\-Not\-Affected\-\_\-@{nb\-Customer\-Not\-Affected\-\_\-}}
+\index{nb\-Customer\-Not\-Affected\-\_\-@{nb\-Customer\-Not\-Affected\-\_\-}!Box@{\-Box}}
+\subsubsection[{nb\-Customer\-Not\-Affected\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf \-Box\-::nb\-Customer\-Not\-Affected\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a9b4fe28d0a913cee7c6126b5283f6073}
+\-An integer which represents the number of {\ttfamily \hyperlink{classCustomer}{\-Customer}} not affected of this {\ttfamily \hyperlink{classBox}{\-Box}} \hypertarget{classBox_ad9dd1c25f765a4b055e61b98fca017a7}{\index{\-Box@{\-Box}!origin\-Z1\-\_\-@{origin\-Z1\-\_\-}}
+\index{origin\-Z1\-\_\-@{origin\-Z1\-\_\-}!Box@{\-Box}}
+\subsubsection[{origin\-Z1\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::origin\-Z1\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_ad9dd1c25f765a4b055e61b98fca017a7}
+\-A double which represents the value of the origin of this {\ttfamily \hyperlink{classBox}{\-Box}} w.\-r.\-t. objective 1 \hypertarget{classBox_a92db5d83336e00813c4131d52e12a1b9}{\index{\-Box@{\-Box}!origin\-Z2\-\_\-@{origin\-Z2\-\_\-}}
+\index{origin\-Z2\-\_\-@{origin\-Z2\-\_\-}!Box@{\-Box}}
+\subsubsection[{origin\-Z2\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Box\-::origin\-Z2\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classBox_a92db5d83336e00813c4131d52e12a1b9}
+\-A double which represents the value of the origin of this {\ttfamily \hyperlink{classBox}{\-Box}} w.\-r.\-t. objective 2 
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{Box_8hpp}{\-Box.\-hpp}\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{Box_8cpp}{\-Box.\-cpp}\end{DoxyCompactItemize}

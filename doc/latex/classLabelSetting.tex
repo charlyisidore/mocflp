@@ -1,0 +1,157 @@
+\hypertarget{classLabelSetting}{\section{\-Label\-Setting \-Class \-Reference}
+\label{classLabelSetting}\index{\-Label\-Setting@{\-Label\-Setting}}
+}
+
+
+\-Class to represent a {\ttfamily \hyperlink{classLabelSetting}{\-Label\-Setting}}.  
+
+
+
+
+{\ttfamily \#include \char`\"{}\-Label\-Setting.\-hpp\char`\"{}}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classLabelSetting_a4900d9e322d5d2710f8bf24becea9dfe}{\-Label\-Setting} (\hyperlink{classBox}{\-Box} \&box)
+\begin{DoxyCompactList}\small\item\em \-Default \-Constructor of the class {\ttfamily \hyperlink{classLabelSetting}{\-Label\-Setting}}. \end{DoxyCompactList}\item 
+\hyperlink{classLabelSetting_a202b427acdae1745bcdc4042e2185591}{$\sim$\-Label\-Setting} ()
+\begin{DoxyCompactList}\small\item\em \-Destructor of the class {\ttfamily \hyperlink{classLabelSetting}{\-Label\-Setting}}. \end{DoxyCompactList}\item 
+void \hyperlink{classLabelSetting_a0a9571711abe5bc871a1777f33f5a1ed}{compute} ()
+\begin{DoxyCompactList}\small\item\em \-A method to compute all solutions into a {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+void \hyperlink{classLabelSetting_a557fc83b4f07b721571f116684f1b247}{compute\-Node} (int index\-Node)
+\begin{DoxyCompactList}\small\item\em \-A method to compute all the labels of the algorithm at level index\-Node. \end{DoxyCompactList}\item 
+void \hyperlink{classLabelSetting_ade4672d8c3d57ff3bbdac1c69d20db88}{print} ()
+\begin{DoxyCompactList}\small\item\em \-A method to print informations about the label setting algorithm. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{classLabelSetting_a98c5c2de0bd3b5fa650dbd2e47cfbff5}{get\-Rank} () const 
+\begin{DoxyCompactList}\small\item\em \-Getter for the rank (number of level). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Public \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classNode}{\-Node} $\ast$ \hyperlink{classLabelSetting_a41fe51e0cb4e5497bfd01194f03f90aa}{nodes\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{\-Private \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \hyperlink{classLabelSetting_a69d4e0ff00df89700f653088a399bfce}{nb\-Rank\-\_\-}
+\item 
+double \hyperlink{classLabelSetting_a23a2c84d5807bdbcff3e79789b1f25db}{bound\-Z1\-\_\-}
+\item 
+double \hyperlink{classLabelSetting_a7ac9a4f88bd4c88778900193e109ce5a}{bound\-Z2\-\_\-}
+\item 
+\hyperlink{classData}{\-Data} \& \hyperlink{classLabelSetting_af517a2381429109440d3c0f8e9f0fa7f}{data\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Class to represent a {\ttfamily \hyperlink{classLabelSetting}{\-Label\-Setting}}. 
+
+\-This class represents a {\ttfamily \hyperlink{classLabelSetting}{\-Label\-Setting}} with all its attributes and methods. 
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{classLabelSetting_a4900d9e322d5d2710f8bf24becea9dfe}{\index{\-Label\-Setting@{\-Label\-Setting}!\-Label\-Setting@{\-Label\-Setting}}
+\index{\-Label\-Setting@{\-Label\-Setting}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{\-Label\-Setting}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Label\-Setting\-::\-Label\-Setting} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Box} \&}]{box}
+\end{DoxyParamCaption}
+)}}\label{classLabelSetting_a4900d9e322d5d2710f8bf24becea9dfe}
+
+
+\-Default \-Constructor of the class {\ttfamily \hyperlink{classLabelSetting}{\-Label\-Setting}}. 
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em box} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} object in which one ones runs the label setting algorithm. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classLabelSetting_a202b427acdae1745bcdc4042e2185591}{\index{\-Label\-Setting@{\-Label\-Setting}!$\sim$\-Label\-Setting@{$\sim$\-Label\-Setting}}
+\index{$\sim$\-Label\-Setting@{$\sim$\-Label\-Setting}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{$\sim$\-Label\-Setting}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Label\-Setting\-::$\sim$\-Label\-Setting} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classLabelSetting_a202b427acdae1745bcdc4042e2185591}
+
+
+\-Destructor of the class {\ttfamily \hyperlink{classLabelSetting}{\-Label\-Setting}}. 
+
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{classLabelSetting_a0a9571711abe5bc871a1777f33f5a1ed}{\index{\-Label\-Setting@{\-Label\-Setting}!compute@{compute}}
+\index{compute@{compute}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{compute}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Label\-Setting\-::compute} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classLabelSetting_a0a9571711abe5bc871a1777f33f5a1ed}
+
+
+\-A method to compute all solutions into a {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+\hypertarget{classLabelSetting_a557fc83b4f07b721571f116684f1b247}{\index{\-Label\-Setting@{\-Label\-Setting}!compute\-Node@{compute\-Node}}
+\index{compute\-Node@{compute\-Node}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{compute\-Node}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Label\-Setting\-::compute\-Node} (
+\begin{DoxyParamCaption}
+\item[{int}]{index\-Node}
+\end{DoxyParamCaption}
+)}}\label{classLabelSetting_a557fc83b4f07b721571f116684f1b247}
+
+
+\-A method to compute all the labels of the algorithm at level index\-Node. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index\-Node} & \-: \-The level in which one ones executes the algorithm. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classLabelSetting_a98c5c2de0bd3b5fa650dbd2e47cfbff5}{\index{\-Label\-Setting@{\-Label\-Setting}!get\-Rank@{get\-Rank}}
+\index{get\-Rank@{get\-Rank}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{get\-Rank}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf \-Label\-Setting\-::get\-Rank} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classLabelSetting_a98c5c2de0bd3b5fa650dbd2e47cfbff5}
+
+
+\-Getter for the rank (number of level). 
+
+\begin{DoxyReturn}{\-Returns}
+\-A unsigned int which value is the rank (number of level) of the algorithm. 
+\end{DoxyReturn}
+\hypertarget{classLabelSetting_ade4672d8c3d57ff3bbdac1c69d20db88}{\index{\-Label\-Setting@{\-Label\-Setting}!print@{print}}
+\index{print@{print}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{print}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Label\-Setting\-::print} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classLabelSetting_ade4672d8c3d57ff3bbdac1c69d20db88}
+
+
+\-A method to print informations about the label setting algorithm. 
+
+
+
+\subsection{\-Member \-Data \-Documentation}
+\hypertarget{classLabelSetting_a23a2c84d5807bdbcff3e79789b1f25db}{\index{\-Label\-Setting@{\-Label\-Setting}!bound\-Z1\-\_\-@{bound\-Z1\-\_\-}}
+\index{bound\-Z1\-\_\-@{bound\-Z1\-\_\-}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{bound\-Z1\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Label\-Setting\-::bound\-Z1\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classLabelSetting_a23a2c84d5807bdbcff3e79789b1f25db}
+\-A unsigned int which represents the maximum value w.\-r.\-t. objective 1 of this {\ttfamily \hyperlink{classBox}{\-Box}} \hypertarget{classLabelSetting_a7ac9a4f88bd4c88778900193e109ce5a}{\index{\-Label\-Setting@{\-Label\-Setting}!bound\-Z2\-\_\-@{bound\-Z2\-\_\-}}
+\index{bound\-Z2\-\_\-@{bound\-Z2\-\_\-}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{bound\-Z2\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf \-Label\-Setting\-::bound\-Z2\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classLabelSetting_a7ac9a4f88bd4c88778900193e109ce5a}
+\-A unsigned int which represents the maximum value w.\-r.\-t. objective 2 of this {\ttfamily \hyperlink{classBox}{\-Box}} \hypertarget{classLabelSetting_af517a2381429109440d3c0f8e9f0fa7f}{\index{\-Label\-Setting@{\-Label\-Setting}!data\-\_\-@{data\-\_\-}}
+\index{data\-\_\-@{data\-\_\-}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{data\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Data}\& {\bf \-Label\-Setting\-::data\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classLabelSetting_af517a2381429109440d3c0f8e9f0fa7f}
+\-A reference to the {\ttfamily \hyperlink{classData}{\-Data}} of this {\ttfamily \hyperlink{classBox}{\-Box}} \hypertarget{classLabelSetting_a69d4e0ff00df89700f653088a399bfce}{\index{\-Label\-Setting@{\-Label\-Setting}!nb\-Rank\-\_\-@{nb\-Rank\-\_\-}}
+\index{nb\-Rank\-\_\-@{nb\-Rank\-\_\-}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{nb\-Rank\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int {\bf \-Label\-Setting\-::nb\-Rank\-\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}\label{classLabelSetting_a69d4e0ff00df89700f653088a399bfce}
+\-A unsigned int which represents the number of level of this algorithm in this {\ttfamily \hyperlink{classBox}{\-Box}} \hypertarget{classLabelSetting_a41fe51e0cb4e5497bfd01194f03f90aa}{\index{\-Label\-Setting@{\-Label\-Setting}!nodes\-\_\-@{nodes\-\_\-}}
+\index{nodes\-\_\-@{nodes\-\_\-}!LabelSetting@{\-Label\-Setting}}
+\subsubsection[{nodes\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-Node}$\ast$ {\bf \-Label\-Setting\-::nodes\-\_\-}}}\label{classLabelSetting_a41fe51e0cb4e5497bfd01194f03f90aa}
+\-A pointer of {\ttfamily \hyperlink{classNode}{\-Node}} which represents all the solutions in each level 
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{LabelSetting_8hpp}{\-Label\-Setting.\-hpp}\item 
+/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.\-1/src/\hyperlink{LabelSetting_8cpp}{\-Label\-Setting.\-cpp}\end{DoxyCompactItemize}

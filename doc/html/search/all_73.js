@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['savecorrelation',['saveCorrelation',['../classToFile.html#a4f1ef2f804a0c7c14adcc916019bc6c4',1,'ToFile']]],
+  ['savefilteringboxes',['saveFilteringBoxes',['../classToFile.html#a2b6e091140c639f7c2586760342d67ef',1,'ToFile']]],
+  ['saveinitialboxes',['saveInitialBoxes',['../classToFile.html#a481fa3922718bb87c88fd9e1736eaa03',1,'ToFile']]],
+  ['savereconstructionboxes',['saveReconstructionBoxes',['../classToFile.html#a55244f0e657ab78ccc3fd53fbddd50c1',1,'ToFile']]],
+  ['saveyn',['saveYN',['../classToFile.html#a7bfc56e25120f9ff677778636599c0be',1,'ToFile']]],
+  ['setallocationobj1cost',['setAllocationObj1Cost',['../classData.html#a604a5141bbc46e2d246a6adbc815216e',1,'Data']]],
+  ['setallocationobj2cost',['setAllocationObj2Cost',['../classData.html#a9c86a4f1223b800bc226678e16b3dd18',1,'Data']]],
+  ['setfilename',['setFileName',['../classData.html#abbdfb8cc85f057bf7e084cc88012c326',1,'Data']]],
+  ['sethasmorestepws',['setHasMoreStepWS',['../classBox.html#a17421cfc8975b2167736cf6bfd70d0e2',1,'Box']]],
+  ['sethasneighbor',['setHasNeighbor',['../classBox.html#a7ff6267ac9ef0374a4124990e098dec7',1,'Box']]],
+  ['setid',['setId',['../classBox.html#a73fb06291c001bea5f90358e7d53c2ec',1,'Box']]],
+  ['setlocationobj1cost',['setLocationObj1Cost',['../classFacility.html#a2c3858ee3c24ae4365c2a863ee526bd7',1,'Facility']]],
+  ['setlocationobj2cost',['setLocationObj2Cost',['../classFacility.html#aed009311f964602ca82724e5e09058ff',1,'Facility']]],
+  ['setmaxz1',['setMaxZ1',['../classBox.html#a79ac09e6f2c8e05bdb5e8d9e27c89f1a',1,'Box']]],
+  ['setmaxz2',['setMaxZ2',['../classBox.html#a1d9913b6b5ff4a73a58e7f6c4783239c',1,'Box']]],
+  ['setminz1',['setMinZ1',['../classBox.html#a0a5aeb1b1a64068ab016abf9146bae7e',1,'Box']]],
+  ['setminz2',['setMinZ2',['../classBox.html#a5ac9cf265d3b0931437c42e755a6b017',1,'Box']]],
+  ['setobj1',['setObj1',['../classSolution.html#a22c29ab88071615135e155fdf43126d8',1,'Solution']]],
+  ['setobj2',['setObj2',['../classSolution.html#a3e9e69ac25341ad5249ee7dc49329b92',1,'Solution']]],
+  ['setsize',['setSize',['../classNode.html#a14102461757715d9046deb90d90ca953',1,'Node']]],
+  ['setvalues',['setValues',['../classNode.html#a99306b6ebed472f44add46894b5c0329',1,'Node']]],
+  ['size_5f',['size_',['../classNode.html#a9df2977b4bba73b9bd419f156e1668c8',1,'Node']]],
+  ['solution',['Solution',['../classSolution.html',1,'Solution'],['../classSolution.html#ab55bd4b023d596ce11aaf737b9a6123b',1,'Solution::Solution()'],['../classSolution.html#a8e9e32a495a55d236add3b591c23e583',1,'Solution::Solution(double obj1, double obj2)']]],
+  ['solution_2ecpp',['Solution.cpp',['../Solution_8cpp.html',1,'']]],
+  ['solution_2ehpp',['Solution.hpp',['../Solution_8hpp.html',1,'']]]
+];

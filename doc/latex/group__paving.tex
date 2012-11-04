@@ -1,0 +1,157 @@
+\hypertarget{group__paving}{\section{\-Methods of \-Paving}
+\label{group__paving}\index{\-Methods of Paving@{\-Methods of Paving}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+long int \hyperlink{group__paving_gad7ff18ff688b5a8a49f24a645f0ac81b}{create\-Box} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-This method computes all the initial {\ttfamily \-Boxes} of our algorithm. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_ga817e709f0dfe009173e620d7c7351cb0}{add\-Children} (\hyperlink{classBox}{\-Box} $\ast$box\-Mother, vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&v\-Box)
+\begin{DoxyCompactList}\small\item\em \-This method adds children of a {\ttfamily \hyperlink{classBox}{\-Box}} into a vector of {\ttfamily \-Boxes}. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_gaec5b916ee7df8d19aa1b7a8f890afd0c}{filter} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, long int \&nb\-To\-Compute, long int \&nb\-With\-Neighbor)
+\begin{DoxyCompactList}\small\item\em \-This method filters all the {\ttfamily \-Boxes} of a vector of {\ttfamily \hyperlink{classBox}{\-Box}}. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_ga9993202ec3ae8b54b44225efaed1a094}{box\-Filtering} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data, long int \&nb\-To\-Compute, long int \&nb\-With\-Neighbor)
+\begin{DoxyCompactList}\small\item\em \-This method splits a {\ttfamily \hyperlink{classBox}{\-Box}} into two {\ttfamily \-Boxes}. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_gae586beeb3e3b560dbe75b5aa3b4e6745}{recomposition} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box\-Final, \hyperlink{classData}{\-Data} \&data, long int \&nb\-To\-Compute, long int \&nb\-With\-Neighbor)
+\begin{DoxyCompactList}\small\item\em \-This method recomposes a group of {\ttfamily \-Boxes} into an unique one. \end{DoxyCompactList}\item 
+void \hyperlink{group__paving_gafdfff519e5ecb3b23fe9e588b3f0c639}{weighted\-Sum\-One\-Step} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-Compute the weighted sum method to split a {\ttfamily \hyperlink{classBox}{\-Box}} in two {\ttfamily \-Boxes}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__paving_ga817e709f0dfe009173e620d7c7351cb0}{\index{\-Methods of Paving@{\-Methods of Paving}!add\-Children@{add\-Children}}
+\index{add\-Children@{add\-Children}!Methods of Paving@{\-Methods of Paving}}
+\subsubsection[{add\-Children}]{\setlength{\rightskip}{0pt plus 5cm}{\bf add\-Children} (
+\begin{DoxyParamCaption}
+\item[{{\bf \-Box} $\ast$}]{box\-Mother, }
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{v\-Box}
+\end{DoxyParamCaption}
+)}}\label{group__paving_ga817e709f0dfe009173e620d7c7351cb0}
+
+
+\-This method adds children of a {\ttfamily \hyperlink{classBox}{\-Box}} into a vector of {\ttfamily \-Boxes}. 
+
+\-This method computes all the children {\ttfamily \-Boxes} of a {\ttfamily \hyperlink{classBox}{\-Box}} into a vector of {\ttfamily \-Boxes}. \-A children is defined by a combination of {\ttfamily \hyperlink{classFacility}{\-Facility}} in which indices have not yet been opened. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em box\-Mother} & \-: \-A {\ttfamily \hyperlink{classBox}{\-Box}} for which ones wants to add children {\ttfamily \-Boxes}. \\
+\hline
+\mbox{\tt in,out}  & {\em v\-Box} & \-: \-A vector of {\ttfamily \hyperlink{classBox}{\-Box}} in whichone ones add all the children {\ttfamily \-Boxes} at the end (enqueue at the end of the vector). \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__paving_ga9993202ec3ae8b54b44225efaed1a094}{\index{\-Methods of Paving@{\-Methods of Paving}!box\-Filtering@{box\-Filtering}}
+\index{box\-Filtering@{box\-Filtering}!Methods of Paving@{\-Methods of Paving}}
+\subsubsection[{box\-Filtering}]{\setlength{\rightskip}{0pt plus 5cm}{\bf box\-Filtering} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vector\-Box, }
+\item[{{\bf \-Data} \&}]{data, }
+\item[{long int \&}]{nb\-To\-Compute, }
+\item[{long int \&}]{nb\-With\-Neighbor}
+\end{DoxyParamCaption}
+)}}\label{group__paving_ga9993202ec3ae8b54b44225efaed1a094}
+
+
+\-This method splits a {\ttfamily \hyperlink{classBox}{\-Box}} into two {\ttfamily \-Boxes}. 
+
+\-Using a weighted sum method to find a supported point, ones splits a  into two {\ttfamily \-Boxes}. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in,out}  & {\em vector\-Box} & \-: \-A vector of {\ttfamily \hyperlink{classBox}{\-Box}} in which one ones adds all the new {\ttfamily \-Boxes} computed. \\
+\hline
+\mbox{\tt in}  & {\em data} & \-: \-A {\ttfamily \hyperlink{classData}{\-Data}} object which contains all the values of the instance. \\
+\hline
+\mbox{\tt in,out}  & {\em nb\-To\-Compute} & \-: \-A long int that takes the number of {\ttfamily \-Boxes} with a available decomposition. \\
+\hline
+\mbox{\tt in,out}  & {\em nb\-With\-Neighbor} & \-: \-A long int that takes the number of {\ttfamily \-Boxes} overlapped by another one. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__paving_gad7ff18ff688b5a8a49f24a645f0ac81b}{\index{\-Methods of Paving@{\-Methods of Paving}!create\-Box@{create\-Box}}
+\index{create\-Box@{create\-Box}!Methods of Paving@{\-Methods of Paving}}
+\subsubsection[{create\-Box}]{\setlength{\rightskip}{0pt plus 5cm}long int {\bf create\-Box} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vector\-Box, }
+\item[{{\bf \-Data} \&}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__paving_gad7ff18ff688b5a8a49f24a645f0ac81b}
+
+
+\-This method computes all the initial {\ttfamily \-Boxes} of our algorithm. 
+
+\-This method computes all the {\ttfamily \-Boxes} in whichones the \-Label \-Setting algorithm will runs. \-This method uses a smart \-Branch\&\-Bound (\-Breadth \-First \-Search, splitting on {\ttfamily \hyperlink{classFacility}{\-Facility}} setup variables) to compute all the feasible and important {\ttfamily \-Boxes}. \-Useless {\ttfamily \-Boxes} are avoided by the \-Branch\&\-Bound. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in,out}  & {\em vector\-Box} & \-: \-A vector of {\ttfamily \hyperlink{classBox}{\-Box}}, empty a the beginning, and containing all the {\ttfamily \-Boxes} at the end of this method. \\
+\hline
+\mbox{\tt in}  & {\em data} & \-: \-A {\ttfamily \hyperlink{classData}{\-Data}} object which contains all the values of the instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A long int which represents the number of {\ttfamily \-Boxes} computed by the method. 
+\end{DoxyReturn}
+\hypertarget{group__paving_gaec5b916ee7df8d19aa1b7a8f890afd0c}{\index{\-Methods of Paving@{\-Methods of Paving}!filter@{filter}}
+\index{filter@{filter}!Methods of Paving@{\-Methods of Paving}}
+\subsubsection[{filter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf filter} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vector\-Box, }
+\item[{long int \&}]{nb\-To\-Compute, }
+\item[{long int \&}]{nb\-With\-Neighbor}
+\end{DoxyParamCaption}
+)}}\label{group__paving_gaec5b916ee7df8d19aa1b7a8f890afd0c}
+
+
+\-This method filters all the {\ttfamily \-Boxes} of a vector of {\ttfamily \hyperlink{classBox}{\-Box}}. 
+
+\-This method filters {\ttfamily \-Boxes} by eliminating all {\ttfamily \hyperlink{classBox}{\-Box}} that are dominated by an other one. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in,out}  & {\em nb\-To\-Compute} & \-: \-A long int that takes the number of {\ttfamily \-Boxes} with a available decomposition. \\
+\hline
+\mbox{\tt in,out}  & {\em nb\-With\-Neighbor} & \-: \-A long int that takes the number of {\ttfamily \-Boxes} overlapped by another one. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__paving_gae586beeb3e3b560dbe75b5aa3b4e6745}{\index{\-Methods of Paving@{\-Methods of Paving}!recomposition@{recomposition}}
+\index{recomposition@{recomposition}!Methods of Paving@{\-Methods of Paving}}
+\subsubsection[{recomposition}]{\setlength{\rightskip}{0pt plus 5cm}{\bf recomposition} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vector\-Box, }
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vector\-Box\-Final, }
+\item[{{\bf \-Data} \&}]{data, }
+\item[{long int \&}]{nb\-To\-Compute, }
+\item[{long int \&}]{nb\-With\-Neighbor}
+\end{DoxyParamCaption}
+)}}\label{group__paving_gae586beeb3e3b560dbe75b5aa3b4e6745}
+
+
+\-This method recomposes a group of {\ttfamily \-Boxes} into an unique one. 
+
+\-This method selects all the {\ttfamily \-Boxes} with the same combination of {\ttfamily \hyperlink{classFacility}{\-Facility}}. \-Ones creates an unique {\ttfamily \hyperlink{classBox}{\-Box}} with this combination of {\ttfamily \hyperlink{classFacility}{\-Facility}} and update the bounds of this one w.\-r.\-t. the bounds of all {\ttfamily \-Boxes} selected. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in,out}  & {\em vector\-Box} & \-: \-A vector of {\ttfamily \hyperlink{classBox}{\-Box}} in which one ones adds all the new {\ttfamily \-Boxes} computed. \\
+\hline
+\mbox{\tt in,out}  & {\em vector\-Box\-Final} & \-: \-A vector of {\ttfamily \hyperlink{classBox}{\-Box}} containing all the recompose {\ttfamily \-Boxes} \\
+\hline
+\mbox{\tt in}  & {\em data} & \-: \-A {\ttfamily \hyperlink{classData}{\-Data}} object which contains all the values of the instance. \\
+\hline
+\mbox{\tt in,out}  & {\em nb\-To\-Compute} & \-: \-A long int that takes the number of {\ttfamily \-Boxes} with a available decomposition. \\
+\hline
+\mbox{\tt in,out}  & {\em nb\-With\-Neighbor} & \-: \-A long int that takes the number of {\ttfamily \-Boxes} overlapped by another one. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__paving_gafdfff519e5ecb3b23fe9e588b3f0c639}{\index{\-Methods of Paving@{\-Methods of Paving}!weighted\-Sum\-One\-Step@{weighted\-Sum\-One\-Step}}
+\index{weighted\-Sum\-One\-Step@{weighted\-Sum\-One\-Step}!Methods of Paving@{\-Methods of Paving}}
+\subsubsection[{weighted\-Sum\-One\-Step}]{\setlength{\rightskip}{0pt plus 5cm}{\bf weighted\-Sum\-One\-Step} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vector\-Box, }
+\item[{{\bf \-Data} \&}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__paving_gafdfff519e5ecb3b23fe9e588b3f0c639}
+
+
+\-Compute the weighted sum method to split a {\ttfamily \hyperlink{classBox}{\-Box}} in two {\ttfamily \-Boxes}. 
+
+\-This method adds to the vector\-Box the results of dividing each {\ttfamily \hyperlink{classBox}{\-Box}} in two others. \-It uses the weighted sum method which splits {\ttfamily \hyperlink{classBox}{\-Box}} by the first supported point founded. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em vector\-Box} & \-: \-A vector of {\ttfamily \hyperlink{classBox}{\-Box}} which contains all the {\ttfamily \-Boxes} in which one ones computes the weighted sum method. \\
+\hline
+\mbox{\tt in}  & {\em data} & \-: \-A {\ttfamily \hyperlink{classData}{\-Data}} object which contains all the values of the instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A long int which value is the number of solutions of the algorithm proposed. 
+\end{DoxyReturn}

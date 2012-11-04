@@ -1,0 +1,76 @@
+\hypertarget{Node_8hpp_source}{\section{/home/axel/\-Axel/\-Computing/svn/biuflp2012/trunk/wolseyaward/1.1/src/\-Node.hpp}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/*}
+00002 \textcolor{comment}{ #License and Copyright}
+00003 \textcolor{comment}{ }
+00004 \textcolor{comment}{ #Version : 1.1}
+00005 \textcolor{comment}{ }
+00006 \textcolor{comment}{ #This file is part of BiUFLv2012.}
+00007 \textcolor{comment}{ }
+00008 \textcolor{comment}{ #BiUFLv2012 is Copyright © 2012, University of Nantes}
+00009 \textcolor{comment}{ }
+00010 \textcolor{comment}{ #BiUFLv2012 is free software; you can redistribute it and/or modify it under
+       the terms of the GNU General Public License as published by the Free Software
+       Foundation; either version 2 of the License, or (at your option) any later version.}
+00011 \textcolor{comment}{ }
+00012 \textcolor{comment}{ #This program is distributed in the hope that it will be useful, but WITHOUT
+       ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+       A PARTICULAR PURPOSE. See the GNU General Public License for more details.}
+00013 \textcolor{comment}{ }
+00014 \textcolor{comment}{ #You should have received a copy of the GNU General Public License along with
+       this program; if not, you can also find the GPL on the GNU web site.}
+00015 \textcolor{comment}{ }
+00016 \textcolor{comment}{ #In addition, we kindly ask you to acknowledge BiUFLv2012 and its authors in
+       any program or publication in which you use BiUFLv2012. (You are not required to
+       do so; it is up to your common sense to decide whether you want to comply with
+       this request or not.) For general publications, we suggest referencing: 
+       BiUFLv2012, MSc ORO, University of Nantes.}
+00017 \textcolor{comment}{ }
+00018 \textcolor{comment}{ #Non-free versions of BiUFLv2012 are available under terms different from
+       those of the General Public License. (e.g. they do not require you to accompany any
+       object code using BiUFLv2012 with the corresponding source code.) For these
+       alternative terms you must purchase a license from Technology Transfer Office of the
+       University of Nantes. Users interested in such a license should contact us
+       (valorisation@univ-nantes.fr) for more information.}
+00019 \textcolor{comment}{ */}
+00020 
+00033 \textcolor{preprocessor}{#ifndef NODE\_H}
+00034 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define NODE\_H}
+00035 \textcolor{preprocessor}{}
+00036 \textcolor{preprocessor}{#include <iostream>}
+00037 \textcolor{preprocessor}{#include <list>}
+00038 
+00039 \textcolor{preprocessor}{#include "\hyperlink{Solution_8hpp}{Solution.hpp}"}
+00040 
+00045 \textcolor{keyword}{using namespace }std;
+00046 
+00047 \textcolor{keyword}{extern} \textcolor{keywordtype}{bool} \hyperlink{group__global_gaad6a6dfdf4fe7218476d4e7b6b3c3c3f}{modeVerbose};
+00048 
+\hypertarget{Node_8hpp_source_l00054}{}\hyperlink{classNode}{00054} \textcolor{keyword}{class }\hyperlink{classNode}{Node}
+00055 \{
+00056 \textcolor{keyword}{public}:
+00060     \hyperlink{classNode}{Node}();
+00066     \hyperlink{classNode}{Node}(\textcolor{keywordtype}{int} size);
+00070     ~\hyperlink{classNode}{Node}();
+00071     
+00076     \textcolor{keywordtype}{void} setSize(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} s);
+00077     
+00082     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} getSize() \textcolor{keyword}{const};
+00088     \textcolor{keywordtype}{double} getCostToEnterZ1(\textcolor{keywordtype}{int} i) \textcolor{keyword}{const};
+00094     \textcolor{keywordtype}{double} getCostToEnterZ2(\textcolor{keywordtype}{int} i) \textcolor{keyword}{const};
+00095     
+00099     \textcolor{keywordtype}{void} clearLabels();
+00106     \textcolor{keywordtype}{void} setValues(\textcolor{keywordtype}{int} index, \textcolor{keywordtype}{double} z1, \textcolor{keywordtype}{double} z2);
+00110     \textcolor{keywordtype}{void} print();
+00111     
+\hypertarget{Node_8hpp_source_l00112}{}\hyperlink{classNode_aaed9b5a5f87464cf60d1026b065cbb60}{00112}     list<Solution> \hyperlink{classNode_aaed9b5a5f87464cf60d1026b065cbb60}{labels_};
+00114 \textcolor{keyword}{private}:
+\hypertarget{Node_8hpp_source_l00115}{}\hyperlink{classNode_a9df2977b4bba73b9bd419f156e1668c8}{00115}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \hyperlink{classNode_a9df2977b4bba73b9bd419f156e1668c8}{size_};
+\hypertarget{Node_8hpp_source_l00117}{}\hyperlink{classNode_a0d70213bcef4604f06d2bb5694ba725d}{00117}     \textcolor{keywordtype}{double} *\hyperlink{classNode_a0d70213bcef4604f06d2bb5694ba725d}{costToEnterZ1_};
+\hypertarget{Node_8hpp_source_l00118}{}\hyperlink{classNode_ae12a8704dddd4e3557927ea8d5c04b8a}{00118}     \textcolor{keywordtype}{double} *\hyperlink{classNode_ae12a8704dddd4e3557927ea8d5c04b8a}{costToEnterZ2_};
+00119 \};
+00120 
+00121 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

@@ -1,0 +1,51 @@
+\hypertarget{group__generating}{\section{\-Methods of \-Generating}
+\label{group__generating}\index{\-Methods of Generating@{\-Methods of Generating}}
+}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+long int \hyperlink{group__generating_ga6a6fb7581f6d456fd632d435e72babef}{run\-Label\-Setting} (vector$<$ \hyperlink{classBox}{\-Box} $\ast$ $>$ \&vector\-Box, \hyperlink{classData}{\-Data} \&data)
+\begin{DoxyCompactList}\small\item\em \-This method runs the \-Label \-Setting algorithm. \end{DoxyCompactList}\item 
+void \hyperlink{group__generating_ga004bba79a35c68875ca45c4b14fd7583}{filter\-List\-Solution} (list$<$ \hyperlink{classSolution}{\-Solution} $>$ \&lsol)
+\begin{DoxyCompactList}\small\item\em \-Delete the solutions dominated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__generating_ga004bba79a35c68875ca45c4b14fd7583}{\index{\-Methods of Generating@{\-Methods of Generating}!filter\-List\-Solution@{filter\-List\-Solution}}
+\index{filter\-List\-Solution@{filter\-List\-Solution}!Methods of Generating@{\-Methods of Generating}}
+\subsubsection[{filter\-List\-Solution}]{\setlength{\rightskip}{0pt plus 5cm}{\bf filter\-List\-Solution} (
+\begin{DoxyParamCaption}
+\item[{list$<$ {\bf \-Solution} $>$ \&}]{lsol}
+\end{DoxyParamCaption}
+)}}\label{group__generating_ga004bba79a35c68875ca45c4b14fd7583}
+
+
+\-Delete the solutions dominated. 
+
+\-A method to delete all the dominated solutions into the objective space. \-This method computes a complete set of solution. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em lsol} & \-: \-A vector of {\ttfamily \hyperlink{classSolution}{\-Solution}} which contains all the {\ttfamily \-Solutions} to delete. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__generating_ga6a6fb7581f6d456fd632d435e72babef}{\index{\-Methods of Generating@{\-Methods of Generating}!run\-Label\-Setting@{run\-Label\-Setting}}
+\index{run\-Label\-Setting@{run\-Label\-Setting}!Methods of Generating@{\-Methods of Generating}}
+\subsubsection[{run\-Label\-Setting}]{\setlength{\rightskip}{0pt plus 5cm}{\bf run\-Label\-Setting} (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf \-Box} $\ast$ $>$ \&}]{vector\-Box, }
+\item[{{\bf \-Data} \&}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__generating_ga6a6fb7581f6d456fd632d435e72babef}
+
+
+\-This method runs the \-Label \-Setting algorithm. 
+
+\-This method executes a \-Label \-Setting algorithm in each {\ttfamily \hyperlink{classBox}{\-Box}} of the input vector. 
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em vector\-Box} & \-: \-A vector of {\ttfamily \hyperlink{classBox}{\-Box}} which contains all the {\ttfamily \-Boxes} in which one ones runs the algorithm of \-Label \-Setting. \\
+\hline
+\mbox{\tt in}  & {\em data} & \-: \-A {\ttfamily \hyperlink{classData}{\-Data}} object which contains all the values of the instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-A long int which value is the number of solutions of the algorithm proposed. 
+\end{DoxyReturn}
