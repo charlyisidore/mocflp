@@ -24,26 +24,22 @@ Node::Node()
 {	
 }
 
-Node::Node(int size)
+Node::Node(int size) :
+	size_(size),
+	costToEnterZ1_(size_),
+	costToEnterZ2_(size_)
 {
-	costToEnterZ1_ = new double[size];
-	costToEnterZ2_ = new double[size];
-	size_ = size;
-    
 }
 
 Node::~Node()
 {
-	delete[] costToEnterZ1_;
-	delete[] costToEnterZ2_;
-	labels_.clear();
 }
 
 void Node::setSize(unsigned int s)
 {
 	size_ = s;
-	costToEnterZ1_ = new double[size_];
-	costToEnterZ2_ = new double[size_];
+	costToEnterZ1_.resize(size_);
+	costToEnterZ2_.resize(size_);
 }
 
 unsigned int Node::getSize() const
@@ -76,12 +72,12 @@ void Node::print()
 {
 	if(modeVerbose)
 	{
-		cout << "(N) Print Node" << endl;
+		std::cout << "(N) Print Node" << std::endl;
 		int i = 0;
-		for( list<Solution>::iterator iter =labels_.begin(); iter != labels_.end(); iter++ )
+		for( std::list<Solution>::iterator iter = labels_.begin(); iter != labels_.end(); ++iter )
 		{
-			i++;
-			cout << i << "\t" << (*iter).getObj1() << "\t" << (*iter).getObj2() << endl;	
+			++i;
+			std::cout << i << '\t' << (*iter).getObj1() << '\t' << (*iter).getObj2() << std::endl;	
 		}
 	}
 }

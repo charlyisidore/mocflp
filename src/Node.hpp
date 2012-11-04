@@ -35,14 +35,9 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 
 #include "Solution.hpp"
-
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
 
 extern bool modeVerbose;
 
@@ -109,13 +104,13 @@ public:
 	*/
     void print();
     
-    list<Solution> labels_;/*!< A list of \c Solution which represents all the \c Solutions (or labels) in this \c Node*/
+    std::list<Solution> labels_;/*!< A list of \c Solution which represents all the \c Solutions (or labels) in this \c Node*/
 	
 private:
     unsigned int size_;/*!< A unsigned int which represents the size of this \c Node*/
     
-    double *costToEnterZ1_;/*!< A pointer of double which represents all the values to enter to this \c Node w.r.t objective 1*/
-    double *costToEnterZ2_;/*!< A pointer of double which represents all the values to enter to this \c Node w.r.t objective 2*/
+    std::vector<double> costToEnterZ1_,/*!< A pointer of double which represents all the values to enter to this \c Node w.r.t objective 1*/
+                        costToEnterZ2_;/*!< A pointer of double which represents all the values to enter to this \c Node w.r.t objective 2*/
 };
 
 #endif
