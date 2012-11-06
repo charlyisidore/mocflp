@@ -211,12 +211,9 @@ private:
     
     int nbCustomerNotAffected_; /*!< An integer which represents the number of \c Customer not affected of this \c Box*/
     
-    double minZ1_;/*!< A double which represents the minimum value w.r.t. objective 1*/
-    double minZ2_;/*!< A double which represents the minimum value w.r.t. objective 2*/
-    double maxZ1_;/*!< A double which represents the maximum value w.r.t. objective 1*/
-    double maxZ2_;/*!< A double which represents the maximum value w.r.t. objective 2*/
-    double originZ1_;/*!< A double which represents the value of the origin of this \c Box w.r.t. objective 1 */
-    double originZ2_;/*!< A double which represents the value of the origin of this \c Box w.r.t. objective 2 */
+    std::vector<double> minZ_;/*!< A double which represents the minimum value w.r.t. objective k*/
+    std::vector<double> maxZ_;/*!< A double which represents the maximum value w.r.t. objective k*/
+    std::vector<double> originZ_;/*!< A double which represents the value of the origin of this \c Box w.r.t. objective k */
     
 };
 

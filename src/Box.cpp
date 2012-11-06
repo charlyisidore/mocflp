@@ -31,12 +31,9 @@ data_(data)
     
 	//All cost are 0 (nothing is allocated)
 	nbCustomerNotAffected_ = data_.getnbCustomer();
-	minZ1_ = 0;
-	minZ2_ = 0;
-	maxZ1_ = 0;
-	maxZ2_ = 0;
-	originZ1_ = 0;
-	originZ2_ = 0;
+	minZ_.resize(2, 0.);
+	maxZ_.resize(2, 0.);
+	originZ_.resize(2, 0.);
 	id_ = "";
 }
 
@@ -51,12 +48,9 @@ data_(copy->data_)
 	isAssigned_ = copy->isAssigned_;
 	
 	nbCustomerNotAffected_ = copy->nbCustomerNotAffected_;
-	minZ1_ = copy->minZ1_;
-	minZ2_ = copy->minZ2_;
-	maxZ1_ = copy->maxZ1_;
-	maxZ2_ = copy->maxZ2_;
-	originZ1_ = copy->originZ1_ ;
-	originZ2_ = copy->originZ2_;
+	minZ_ = copy->minZ_;
+	maxZ_ = copy->maxZ_;
+	originZ_ = copy->originZ_;
 	id_ = copy->id_;
 	hasMoreStepWS_ = copy->hasMoreStepWS_;
 	hasNeighbor_ = copy->hasNeighbor_;
@@ -66,12 +60,9 @@ Box::Box(Data& data, bool *toOpen):
 data_(data)
 {
 	nbCustomerNotAffected_ = data_.getnbCustomer();
-	minZ1_ = 0;
-	minZ2_ = 0;
-	maxZ1_ = 0;
-	maxZ2_ = 0;
-	originZ1_ = 0;
-	originZ2_ = 0;
+	minZ_.resize(2, 0.);
+	maxZ_.resize(2, 0.);
+	originZ_.resize(2, 0.);
 	id_ = "";
 	hasMoreStepWS_ = true; // A priori, some supported points exist
 	hasNeighbor_ = false;
@@ -80,7 +71,6 @@ data_(data)
 	facility_.resize(data_.getnbFacility(), false);
 	for(unsigned int i = 0; i < data_.getnbFacility(); ++i)
 	{
-		//facility_[i] = false;
 		if (toOpen[i])
 		{
 			openFacility(i);
@@ -101,32 +91,32 @@ Box::~Box()
 
 double Box::getMinZ1() const
 {
-	return minZ1_;
+	return minZ_[0];
 }
 
 double Box::getMinZ2() const
 {
-	return minZ2_;
+	return minZ_[1];
 }
 
 double Box::getMaxZ1() const
 {
-	return maxZ1_;
+	return maxZ_[0];
 }
 
 double Box::getMaxZ2() const
 {
-	return maxZ2_;
+	return maxZ_[1];
 }
 
 double Box::getOriginZ1() const
 {
-	return originZ1_;
+	return originZ_[0];
 }
 
 double Box::getOriginZ2() const
 {
-	return originZ2_;
+	return originZ_[1];
 }
 
 const std::string & Box::getId() const
@@ -184,19 +174,19 @@ void Box::setId(const std::string & s)
 
 void Box::setMinZ1(double v)
 {
-	minZ1_ = v;
+	minZ_[0] = v;
 }
 void Box::setMinZ2(double v)
 {
-	minZ2_ = v;
+	minZ_[1] = v;
 }
 void Box::setMaxZ1(double v)
 {
-	maxZ1_ = v;
+	maxZ_[0] = v;
 }
 void Box::setMaxZ2(double v)
 {
-	maxZ2_ = v;
+	maxZ_[1] = v;
 }
 
 void Box::setHasNeighbor(bool b)
@@ -243,22 +233,22 @@ void Box::computeBox()
 		//If they are equals, this allocation is optimal <=> "trivial"
 		if(iMinZ1 == iMinZ2)
 		{
-			minZ1_ += data_.getAllocationObj1Cost(i,iMinZ1);
-			maxZ1_ += data_.getAllocationObj1Cost(i,iMinZ1);
-			originZ1_ += data_.getAllocationObj1Cost(i,iMinZ1);
-			minZ2_ += data_.getAllocationObj2Cost(i,iMinZ1);
-			maxZ2_ += data_.getAllocationObj2Cost(i,iMinZ1);
-			originZ2_ += data_.getAllocationObj2Cost(i,iMinZ1);
+			minZ_[0] += data_.getAllocationObj1Cost(i,iMinZ1);
+			maxZ_[0] += data_.getAllocationObj1Cost(i,iMinZ1);
+			originZ_[0] += data_.getAllocationObj1Cost(i,iMinZ1);
+			minZ_[1] += data_.getAllocationObj2Cost(i,iMinZ1);
+			maxZ_[1] += data_.getAllocationObj2Cost(i,iMinZ1);
+			originZ_[1] += data_.getAllocationObj2Cost(i,iMinZ1);
 			nbCustomerNotAffected_--;
 			isAssigned_[i] = true;
 		}
 		else
             //We add the lexicographically optimal cost
 		{
-			minZ1_ += vMinZ1;
-			minZ2_ += vMinZ2;
-			maxZ1_ += vMaxZ1;
-			maxZ2_ += vMaxZ2;	
+			minZ_[0] += vMinZ1;
+			minZ_[1] += vMinZ2;
+			maxZ_[0] += vMaxZ1;
+			maxZ_[1] += vMaxZ2;	
 		}
 	}
 	if(nbCustomerNotAffected_ == 0)
@@ -272,23 +262,23 @@ void Box::openFacility(int fac)
 {
 	facility_[fac] = true;
 	//We add costs to the box
-	minZ1_ += data_.getFacility(fac).getLocationObj1Cost();
-	maxZ1_ += data_.getFacility(fac).getLocationObj1Cost();
-	originZ1_  += data_.getFacility(fac).getLocationObj1Cost();
-	minZ2_ += data_.getFacility(fac).getLocationObj2Cost();
-	maxZ2_ += data_.getFacility(fac).getLocationObj2Cost();
-	originZ2_  += data_.getFacility(fac).getLocationObj2Cost();
+	minZ_[0] += data_.getFacility(fac).getLocationObj1Cost();
+	maxZ_[0] += data_.getFacility(fac).getLocationObj1Cost();
+	originZ_[0]  += data_.getFacility(fac).getLocationObj1Cost();
+	minZ_[1] += data_.getFacility(fac).getLocationObj2Cost();
+	maxZ_[1] += data_.getFacility(fac).getLocationObj2Cost();
+	originZ_[1]  += data_.getFacility(fac).getLocationObj2Cost();
 }
 
 void Box::print()
 {
 #ifdef verbose
-	cout << "minZ1_ =" << minZ1_ << endl;
-	cout << "minZ2_ =" << minZ2_ << endl;
-	cout << "maxZ1_ =" << maxZ1_ << endl;
-	cout << "maxZ2_ =" << maxZ2_ << endl;
-	cout << "originZ1_ =" << originZ1_ << endl;
-	cout << "originZ2_ =" << originZ2_ << endl;
+	cout << "minZ1_ =" << minZ_[0] << endl;
+	cout << "minZ2_ =" << minZ_[1] << endl;
+	cout << "maxZ1_ =" << maxZ_[0] << endl;
+	cout << "maxZ2_ =" << maxZ_[1] << endl;
+	cout << "originZ1_ =" << originZ_[0] << endl;
+	cout << "originZ2_ =" << originZ_[1] << endl;
 	for(unsigned int i = 0; i < data_.getnbCustomer(); ++i)
 	{
 		if( !isAssigned_[i] )
