@@ -20,14 +20,16 @@
 
 #include "Solution.hpp"
 
-Solution::Solution()
+Solution::Solution() :
+	obj_(2)
 {
 }
 
-Solution::Solution(double obj1, double obj2)
+Solution::Solution(double obj1, double obj2) :
+	obj_(2)
 {
-	obj1_ = obj1;
-	obj2_ = obj2;
+	obj_[0] = obj1;
+	obj_[1] = obj2;
 }
 
 Solution::~Solution()
@@ -36,25 +38,25 @@ Solution::~Solution()
 
 void Solution::setObj1(double obj)
 {
-	obj1_ = obj;
+	obj_[0] = obj;
 }
 
 void Solution::setObj2(double obj)
 {
-	obj2_ = obj;
+	obj_[1] = obj;
 }
 
 double Solution::getObj1() const
 {
-	return obj1_;
+	return obj_[0];
 }
 
 double Solution::getObj2() const
 {
-	return obj2_;
+	return obj_[1];
 }
 
-bool operator< (Solution s1, Solution s2)
+bool operator< (const Solution & s1, const Solution & s2)
 {
 	return s1.getObj1() < s2.getObj1();
 }

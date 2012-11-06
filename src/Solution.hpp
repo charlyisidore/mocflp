@@ -33,6 +33,8 @@
 #ifndef SOLUTION_H
 #define SOLUTION_H
 
+#include <vector>
+
 /*! \class Solution
 * \brief Class to represent a \c Solution.
 *
@@ -80,8 +82,7 @@ public:
     double getObj2() const;
     
 private:
-    double obj1_;/*!< Double which represents the value w.r.t. objective 1 of this \c Solution */
-    double obj2_;/*!< Double which represents the value w.r.t. objective 2 of this \c Solution */
+    std::vector<double> obj_;/*!< Double which represents the value w.r.t. objective k of this \c Solution */
     
 };
 
@@ -94,6 +95,6 @@ private:
 *	\param[in] s2 : The second \c Solution to compare.
 *	\return A boolean which gets \c TRUE if the value w.r.t. objective 1 of the \c Solution s1 is stricty lower to the value w.r.t. objective 1 of the \c Solution s2, FALSE otherwise.
 */
-bool operator< (Solution s1, Solution s2);
+bool operator< (const Solution & s1, const Solution & s2);
 
 #endif
