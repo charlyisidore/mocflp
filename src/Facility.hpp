@@ -34,12 +34,7 @@
 #define FACILITY_H
 
 #include <iostream>
-
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
+#include <vector>
 
 /*! \class Facility
 * \brief Class to represent a \c Facility.
@@ -55,7 +50,7 @@ public:
 	*	\param[in] x : An unsigned integer which represents the x coordinate of the \c Facility.
 	*	\param[in] y : An unsigned integer which represents the y coordinate of the \c Facility.
 	*/
-    Facility(unsigned short &x, unsigned short &y);
+    Facility(unsigned short x, unsigned short y);
     
    	/*!
 	*	\brief Getter for the x coordinate.
@@ -82,18 +77,17 @@ public:
 	*	\brief Setter for the location cost w.r.t. objective 1.
 	*	\param[in] val : A double which represents the value of the location cost of this \c Facility w.r.t. objective 1.
 	*/
-    void setLocationObj1Cost(double &val);
+    void setLocationObj1Cost(double val);
     /*!
 	*	\brief Setter for the location cost w.r.t. objective 2.
 	*	\param[in] val : A double which represents the value of the location cost of this \c Facility w.r.t. objective 2.
 	*/
-    void setLocationObj2Cost(double &val);
+    void setLocationObj2Cost(double val);
     
 private:
     unsigned short coordX_;/*!< Unsigned short which represents the value of the x coordinate of this \c Facility */
     unsigned short coordY_;/*!< Unsigned short which represents the value of the y coordinate of this \c Facility */
-    double locationObj1Cost_;/*!< Double which represents the value of the location cost of this \c Facility w.r.t. objective 1 */
-    double locationObj2Cost_;/*!< Double which represents the value of the location cost of this \c Facility w.r.t. objective 2 */
+    std::vector<double> locationObjCost_;/*!< Double which represents the value of the location cost of this \c Facility w.r.t. objective k */
 };
 
 /*!

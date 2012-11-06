@@ -20,8 +20,8 @@
 
 #include "Facility.hpp"
 
-Facility::Facility(unsigned short &x, unsigned short &y)
-: coordX_(x), coordY_(y), locationObj1Cost_(0), locationObj2Cost_(0)
+Facility::Facility(unsigned short x, unsigned short y)
+: coordX_(x), coordY_(y), locationObjCost_(2, 0)
 {
 }
 
@@ -37,25 +37,25 @@ unsigned short Facility::getCoordY() const
 
 double Facility::getLocationObj1Cost() const
 {
-    return locationObj1Cost_;
+    return locationObjCost_[0];
 }
 
 double Facility::getLocationObj2Cost() const
 {
-    return locationObj2Cost_;
+    return locationObjCost_[1];
 }
 
-void Facility::setLocationObj1Cost(double &val)
+void Facility::setLocationObj1Cost(double val)
 {
-    locationObj1Cost_ = val;
+    locationObjCost_[0] = val;
 }
 
-void Facility::setLocationObj2Cost(double &val)
+void Facility::setLocationObj2Cost(double val)
 {
-    locationObj2Cost_ = val;
+    locationObjCost_[1] = val;
 }
 
-ostream &operator<<(ostream &out, const Facility *fac)
+std::ostream &operator<<(std::ostream &out, const Facility *fac)
 {
     out << "[" << fac->getCoordX() << "," << fac->getCoordY() << "]"
     << "\n\tCost Obj 1 =" << fac->getLocationObj1Cost()
