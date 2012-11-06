@@ -109,8 +109,7 @@ public:
 private:
     unsigned int size_;/*!< A unsigned int which represents the size of this \c Node*/
     
-    std::vector<double> costToEnterZ1_,/*!< A pointer of double which represents all the values to enter to this \c Node w.r.t objective 1*/
-                        costToEnterZ2_;/*!< A pointer of double which represents all the values to enter to this \c Node w.r.t objective 2*/
+    std::vector< std::vector<double> > costToEnterZ_;/*!< A vector of double which represents all the values to enter to this \c Node w.r.t objective k*/
 };
 
 #endif

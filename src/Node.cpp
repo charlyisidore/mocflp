@@ -26,8 +26,7 @@ Node::Node()
 
 Node::Node(int size) :
 	size_(size),
-	costToEnterZ1_(size_),
-	costToEnterZ2_(size_)
+	costToEnterZ_(2, std::vector<double>(size_))
 {
 }
 
@@ -38,8 +37,7 @@ Node::~Node()
 void Node::setSize(unsigned int s)
 {
 	size_ = s;
-	costToEnterZ1_.resize(size_);
-	costToEnterZ2_.resize(size_);
+	costToEnterZ_.resize(2, std::vector<double>(size_));
 }
 
 unsigned int Node::getSize() const
@@ -49,12 +47,12 @@ unsigned int Node::getSize() const
 
 double Node::getCostToEnterZ1(int i) const
 {
-	return costToEnterZ1_[i];
+	return costToEnterZ_[0][i];
 }
 
 double Node::getCostToEnterZ2(int i) const
 {
-	return costToEnterZ2_[i];
+	return costToEnterZ_[1][i];
 }
 
 void Node::clearLabels()
@@ -64,8 +62,8 @@ void Node::clearLabels()
 
 void Node::setValues(int index, double z1, double z2)
 {
-	costToEnterZ1_[index] = z1;
-	costToEnterZ2_[index] = z2;
+	costToEnterZ_[0][index] = z1;
+	costToEnterZ_[1][index] = z2;
 }
 
 void Node::print()
