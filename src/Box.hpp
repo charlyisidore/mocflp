@@ -33,15 +33,11 @@
 #define BOX_H
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include <cfloat>
 
 #include "Data.hpp"
-
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
 
 /*! \class Box
 * \brief Class to represent a \c Box.
@@ -111,7 +107,7 @@ public:
 	*	\brief Getter for the id.
 	*	\return A string as the sequence of 1 and 0 representing the combination of \c Facility of this \c Box.
 	*/
-    string getId() const;
+    const std::string & getId() const;
     
     /*!
 	*	\brief method to know if a \c Customer is assigned or not.
@@ -156,7 +152,7 @@ public:
 	*	\brief Setter for the id of this \c Box.
 	*	\param[in] s : A string which represents the id (combination of \c Facility) of this \c Box.
 	*/
-    void setId(string s);
+    void setId(const std::string & s);
     /*!
 	*	\brief Setter for the minimum value w.r.t. objective 1.
 	*	\param[in] v : A double which represents the minimum value w.r.t. objective 1 of this \c Box.
@@ -204,12 +200,12 @@ public:
     void print();	
     
 private:
-    string id_;/*!< A string which represents the id of this \c Box */
+    std::string id_;/*!< A string which represents the id of this \c Box */
     
     Data& data_;/*!< A reference to the \c Data of this \c Box */
     
-    bool *isAssigned_;/*!< A boolean which represents the vector of \c Customer assigned or not */
-    bool *facility_;/*!< A boolean which represents the vector of \c Facility opened or not */
+    std::vector<bool> isAssigned_;/*!< A boolean which represents the vector of \c Customer assigned or not */
+    std::vector<bool> facility_;/*!< A boolean which represents the vector of \c Facility opened or not */
     bool hasMoreStepWS_;/*!< A boolean which represents if this \c Box has a remaining iteration of weighted sum method*/
     bool hasNeighbor_;/*!< A boolean which represents if this \c Box has a neighboor or not */
     
@@ -251,7 +247,7 @@ bool isDominatedBetweenOrigins(Box *box1, Box *box2);
 *	A method to filter and delete \c Box in a vector of \c Boxes by comparing each other. 
 *	\param[in] vectBox : A vector of \c Boxes.
 */
-void filterDominatedBoxes(vector<Box*> &vectBox);
+void filterDominatedBoxes(std::vector<Box*> &vectBox);
 /*!
 * 	\relates Box
 *	\brief Method of comparison between a \c Box and a vector of \c Boxes.
@@ -260,7 +256,7 @@ void filterDominatedBoxes(vector<Box*> &vectBox);
 *	\param[in] box : A \c Box to compare.
 *	\return A boolean which value is TRUE if \c Box box is dominated by one of the \c Box of the vector vectBox. 
 */
-bool isDominatedByItsOrigin(vector<Box*> &vectBox, Box *box);
+bool isDominatedByItsOrigin(std::vector<Box*> &vectBox, Box *box);
 /*!
 * 	\relates Box
 *	\brief Method of comparison between a \c Box and a vector of \c Boxes.
@@ -269,6 +265,6 @@ bool isDominatedByItsOrigin(vector<Box*> &vectBox, Box *box);
 *	\param[in] box : A \c Box to compare.
 *	\return A boolean which value is TRUE if one of the \c Box of the vector vectBox is dominated by the \c Box box. 
 */
-bool isDominatedByItsBox   (vector<Box*> &vectBox, Box *box);
+bool isDominatedByItsBox(std::vector<Box*> &vectBox, Box *box);
 
 #endif

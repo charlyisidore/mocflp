@@ -24,18 +24,10 @@ Box::Box(Data &data):
 data_(data)
 {
 	//Set opening of depots to FALSE
-	facility_ = new bool[data_.getnbFacility()];
-	for(unsigned int i = 0; i < data_.getnbFacility(); ++i)
-	{
-		facility_[i] = false;
-	}
+	facility_.resize(data_.getnbFacility(), false);
 	
 	//Set allocation of customer to FALSE
-	isAssigned_ = new bool[data_.getnbCustomer()];
-	for(unsigned int i = 0; i < data_.getnbCustomer(); ++i)
-	{
-		isAssigned_[i] = false;
-	}
+	isAssigned_.resize(data_.getnbCustomer(), false);
     
 	//All cost are 0 (nothing is allocated)
 	nbCustomerNotAffected_ = data_.getnbCustomer();
@@ -53,18 +45,10 @@ data_(copy->data_)
 {
     
 	//Set Facilities
-	facility_ = new bool[data_.getnbFacility()];
-	for(unsigned int i = 0; i < data_.getnbFacility(); ++i)
-	{
-		facility_[i] = copy->facility_[i];
-	}
+	facility_ = copy->facility_;
 	
 	//Set Customers
-	isAssigned_ = new bool[data_.getnbCustomer()];
-	for(unsigned int i = 0; i < data_.getnbCustomer(); ++i)
-	{
-		isAssigned_[i] = copy->isAssigned_[i];
-	}
+	isAssigned_ = copy->isAssigned_;
 	
 	nbCustomerNotAffected_ = copy->nbCustomerNotAffected_;
 	minZ1_ = copy->minZ1_;
@@ -93,10 +77,10 @@ data_(data)
 	hasNeighbor_ = false;
 	
 	//Set opening of depots to FALSE
-	facility_ = new bool[data_.getnbFacility()];
+	facility_.resize(data_.getnbFacility(), false);
 	for(unsigned int i = 0; i < data_.getnbFacility(); ++i)
 	{
-		facility_[i] = false;
+		//facility_[i] = false;
 		if (toOpen[i])
 		{
 			openFacility(i);
@@ -108,17 +92,11 @@ data_(data)
 		}
 	}
 	//Set allocation of customer to FALSE
-	isAssigned_ = new bool[data_.getnbCustomer()];
-	for(unsigned int i = 0; i < data_.getnbCustomer(); ++i)
-	{
-		isAssigned_[i] = false;
-	}	
+	isAssigned_.resize(data_.getnbCustomer(), false);
 }
 
 Box::~Box()
 {
-	delete[] facility_;
-	delete[] isAssigned_;
 }
 
 double Box::getMinZ1() const
@@ -151,7 +129,7 @@ double Box::getOriginZ2() const
 	return originZ2_;
 }
 
-string Box::getId() const
+const std::string & Box::getId() const
 {
 	return id_;
 }
@@ -199,7 +177,7 @@ Data& Box::getData() const
 	return data_;
 }
 
-void Box::setId(string s)
+void Box::setId(const std::string & s)
 {
 	id_ += s;
 }
@@ -362,7 +340,7 @@ bool isDominatedBetweenOrigins(Box *box1, Box *box2)
 	return dominated;
 }
 
-void filterDominatedBoxes(vector<Box*> &vectBox)
+void filterDominatedBoxes(std::vector<Box*> &vectBox)
 {
 	for(unsigned int it = 0; it < vectBox.size(); it++)
 	{
@@ -393,7 +371,7 @@ void filterDominatedBoxes(vector<Box*> &vectBox)
 bool isDominatedByItsOrigin(vector<Box*> &vectBox, Box *box)
 {
 	bool isDominated(false);
-	vector<Box*>::iterator it;
+	std::vector<Box*>::iterator it;
 	/*Stop Criterion
      - all the vector is travelled (but condition 3 may occur before)
      - we are dominated
@@ -412,7 +390,7 @@ bool isDominatedByItsOrigin(vector<Box*> &vectBox, Box *box)
 bool isDominatedByItsBox(vector<Box*> &vectBox, Box *box)
 {
 	bool isDominated(false);
-	vector<Box*>::iterator it;
+	std::vector<Box*>::iterator it;
 	/*Stop Criterion
      - all the vector is travelled (but condition 3 may occur before)
      - we are dominated
