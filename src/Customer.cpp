@@ -20,7 +20,7 @@
 
 #include "Customer.hpp"
 
-Customer::Customer(unsigned short &x, unsigned short &y)
+Customer::Customer(unsigned short x, unsigned short y)
 : coordX_(x), coordY_(y)
 {
 }
@@ -35,7 +35,7 @@ unsigned short Customer::getCoordY() const
     return coordY_;
 }
 
-ostream &operator<<(ostream &out, const Customer *cust)
+std::ostream &operator<<(std::ostream &out, const Customer *cust)
 {
     out << "[" << cust->getCoordX() << "," << cust->getCoordY() << "]";
     return out;

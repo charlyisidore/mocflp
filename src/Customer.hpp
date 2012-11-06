@@ -35,12 +35,6 @@
 
 #include <iostream>
 
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
-
 /*! \class Customer
 * \brief Class to represent a \c Customer.
 *
@@ -55,7 +49,7 @@ public:
 	*	\param[in] x : An unsigned short which represents the x coordinate of the \c Customer.
 	*	\param[in] y : An unsigned short which represents the y coordinate of the \c Customer.
 	*/
-    Customer(unsigned short &x, unsigned short &y);
+    Customer(unsigned short x, unsigned short y);
     
 	/*!
 	*	\brief Getter for the x coordinate .
@@ -82,6 +76,6 @@ private:
 *	\param[out] out : The standard output stream.
 *	\param[in] cust : A \c Customer to print in the standard output stream.
 */
-ostream& operator<<(ostream &out, const Customer *cust);
+std::ostream& operator<<(std::ostream &out, const Customer *cust);
 
 #endif
