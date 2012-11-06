@@ -35,18 +35,13 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 
 #include "Data.hpp"
 #include "Box.hpp"
 #include "Node.hpp"
 #include "Solution.hpp"
 #include "Functions.hpp"
-
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
 
 extern bool modeVerbose;
 
@@ -94,8 +89,7 @@ public:
 private:
     unsigned int nbRank_;/*!< A unsigned int which represents the number of level of this algorithm in this \c Box */
     
-    double boundZ1_;/*!< A unsigned int which represents the maximum value w.r.t. objective 1 of this \c Box */
-    double boundZ2_;/*!< A unsigned int which represents the maximum value w.r.t. objective 2 of this \c Box */
+    std::vector<double> boundZ_;/*!< A unsigned int which represents the maximum value w.r.t. objective k of this \c Box */
     
     Data &data_;/*!< A reference to the \c Data of this \c Box */
     

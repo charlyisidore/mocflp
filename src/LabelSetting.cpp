@@ -21,10 +21,11 @@
 #include "LabelSetting.hpp"
 
 LabelSetting::LabelSetting(Box &box):
+boundZ_(2),
 data_(box.getData())
 {
-    boundZ1_ = box.getMaxZ1();
-    boundZ2_ = box.getMaxZ2();
+    boundZ_[0] = box.getMaxZ1();
+    boundZ_[1] = box.getMaxZ2();
     nbRank_ = box.getnbCustomerNotAffected() + 1;
     
     //Compute n level + initial level
@@ -36,8 +37,8 @@ data_(box.getData())
     
     unsigned int nbNodeNonDominated;
     //In each line, there is maximum getNbFacilityOpen() nodes
-    double *tabZ1 = new double[box.getNbFacilityOpen()];
-    double *tabZ2 = new double[box.getNbFacilityOpen()];
+    std::vector<double> tabZ1(box.getNbFacilityOpen()),
+                        tabZ2(box.getNbFacilityOpen());
     
     int indexOpen = 0;
     for(unsigned int i = 0; i < data_.getnbCustomer(); i++)
@@ -128,7 +129,7 @@ void LabelSetting::computeNode(int indexNode)
 	iterSuivant++;
 	list<Solution>::iterator iter        = (nodes_[indexNode]).labels_.begin();
 	
-	while( (*iter).getObj2() > boundZ2_ )
+	while( (*iter).getObj2() > boundZ_[1] )
 	{
 		iter = nodes_[indexNode].labels_.erase(iter);
 	}
@@ -137,7 +138,7 @@ void LabelSetting::computeNode(int indexNode)
     
 	iter = (nodes_[indexNode]).labels_.end();
 	iter--;
-	while ((*iter).getObj1() > boundZ1_)
+	while ( (*iter).getObj1() > boundZ_[0] )
 	{
 		iter = nodes_[indexNode].labels_.erase(iter);
 		iter--;
