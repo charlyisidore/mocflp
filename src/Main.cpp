@@ -31,7 +31,7 @@
 #include <sys/time.h>
 #include <stdexcept>
 #include <iostream>
-#include <string.h>
+#include <cstring>
 #include <cfloat>
 #include <cmath>
 #include <cstdlib>
@@ -40,12 +40,6 @@
 #include "Data.hpp"
 #include "Functions.hpp"
 #include "ToFile.hpp"
-
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
 
 /*!
 *	\defgroup global Global Variables
@@ -106,7 +100,7 @@ int main(int argc, char *argv[])
 
 	if(argc < 2)
 	{
-	    cout << "Type for help : " << argv[0] << " --help" << endl;
+	    std::cout << "Type for help : " << argv[0] << " --help" << std::endl;
 	    return 0;
 	}
        
@@ -114,32 +108,32 @@ int main(int argc, char *argv[])
 	{
 		pathInstance = argv[1];
            
-		if(!strcmp(argv[a], "--help") || argc == 2)
+		if(!std::strcmp(argv[a], "--help") || argc == 2)
 		{
-			cout << "Command is: " << argv[0] << " <instance> -OPTIONS" << endl;
-			cout << "## OPTIONS ##" << endl;
-			cout << "-f for filtering method" << endl;
-			cout << "-r for reconstruction method" << endl;
-			cout << "-verbose for verbose mode" << endl;
-			cout << "-export to export results" << endl;
+			std::cout << "Command is: " << argv[0] << " <instance> -OPTIONS" << std::endl
+			          << "## OPTIONS ##" << std::endl
+			          << "-f for filtering method" << std::endl
+			          << "-r for reconstruction method" << std::endl
+			          << "-verbose for verbose mode" << std::endl
+			          << "-export to export results" << std::endl;
 			return 0;
 		}
-		if(!strcmp(argv[a], "-f"))
+		if(!std::strcmp(argv[a], "-f"))
 		{
 			doFiltering = true;				
 			continue;
 		}
-		if(!strcmp(argv[a], "-r"))
+		if(!std::strcmp(argv[a], "-r"))
 		{
 			doReconstruction = true;				
 			continue;
 		}
-           if(!strcmp(argv[a], "-verbose"))
+           if(!std::strcmp(argv[a], "-verbose"))
 		{
 			modeVerbose = true;				
 			continue;
 		}
-		if(!strcmp(argv[a], "-export"))
+		if(!std::strcmp(argv[a], "-export"))
 		{
 			modeExport = true;				
 			continue;
@@ -158,14 +152,24 @@ int main(int argc, char *argv[])
 	
 	if(modeVerbose)
 	{
-		cout << endl;
-		cout << "+" << setfill('-') << setw(15) << "+" << " INSTANCE " << "+" << setw(16) << "+" << endl;
-		cout << setfill (' ');
-		cout << " " << setw(20) << left << "Name " << "|" << setw(20) << right << data->getFileName() << " " << endl;
-		cout << " " << setw(20) << left << "Facility " << "|" << setw(20) << right << data->getnbFacility() << " " << endl;
-		cout << " " << setw(20) << left << "Customer " << "|" << setw(20) << right << data->getnbCustomer() << " " << endl;
-		cout << " " << setw(20) << left << "Correlation " << "|" << setw(20) << right << computeCorrelation(*data) << " " << endl;
-		cout << "+" << setfill('-') << setw(42) << "+" << endl << endl;
+		std::cout << std::endl
+		<< "+" << std::setfill('-') << std::setw(15) << "+"
+			<< " INSTANCE " << "+" << std::setw(16) << "+" << std::endl
+			<< std::setfill(' ')
+			<< " " << std::setw(20) << std::left
+			<< "Name " << "|" << std::setw(20) << std::right
+			<< data->getFileName() << " " << std::endl
+		<< " " << std::setw(20) << std::left
+			<< "Facility " << "|" << std::setw(20) << std::right
+			<< data->getnbFacility() << " " << std::endl
+		<< " " << std::setw(20) << std::left
+			<< "Customer " << "|" << std::setw(20) << std::right
+			<< data->getnbCustomer() << " " << std::endl
+		<< " " << std::setw(20) << std::left
+			<< "Correlation " << "|" << std::setw(20) << std::right
+			<< computeCorrelation(*data) << " " << std::endl
+		<< "+" << std::setfill('-') << std::setw(42) << "+" << std::endl
+		<< std::endl;
 	}
 
 	gettimeofday(&start,NULL);
@@ -173,45 +177,56 @@ int main(int argc, char *argv[])
 	//#############################
 	//## Functions to create Box ##
 	
-		boxTotal = pow((long double)2, (int)data->getnbFacility() )-1;
+		boxTotal = std::pow((long double)2, (int)data->getnbFacility() )-1;
 	
-		vector<Box*> vectorBox;
+		std::vector<Box*> vectorBox;
 	
-		gettimeofday(&beginB,NULL);		
+		gettimeofday(&beginB, 0);		
 		numberBoxComputed = createBox(vectorBox, *data);		
 		boxBeforeFitlering = vectorBox.size();		
-		gettimeofday(&endB,NULL);
+		gettimeofday(&endB, 0);
        
 		if(modeVerbose)
 		{
-			cout << "+" << setfill('-') << setw(18) << "+" << " BOX " << "+" << setw(18) << "+" << endl;
-			cout << setfill (' ');
-			cout << "+" << setfill(' ') << setw(10) << " " <<" ! before filtering ! " << " " << setw(9) << "+" << endl;
-			cout << " " << setw(20) << left << "Box Total " << "|" << setw(20) << right << setprecision(0) << fixed << boxTotal << " " << endl;
-			cout << " " << setw(20) << left << "Box Computed " << "|" << setw(20) << right << numberBoxComputed << " " << endl;
-			cout << " " << setw(20) << left << "Box Non-Dominated" << "|" << setw(20) << right << boxBeforeFitlering << " " << endl;
-			cout << " " << setw(20) << left << "Time (ms) " << "|" << setw(20) << right << (1000*time_s_Diff(beginB,endB) + time_ms_Diff(beginB,endB)) << " " << endl;
-			cout << "+" << setfill('-') << setw(42) << "+" << endl << endl;
+			std::cout << "+" << std::setfill('-') << std::setw(18) << "+"
+				<< " BOX " << "+" << std::setw(18) << "+" << std::endl
+			<< std::setfill (' ')
+				<< "+" << std::setfill(' ') << std::setw(10) << " "
+				<< " ! before filtering ! " << " " << std::setw(9) << "+" << std::endl
+			<< " " << std::setw(20) << std::left
+				<< "Box Total " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+				<< boxTotal << " " << std::endl
+			<< " " << std::setw(20) << std::left
+				<< "Box Computed " << "|" << std::setw(20) << std::right
+				<< numberBoxComputed << " " << std::endl
+			<< " " << std::setw(20) << std::left
+				<< "Box Non-Dominated" << "|" << std::setw(20) << std::right
+				<< boxBeforeFitlering << " " << std::endl
+			<< " " << std::setw(20) << std::left
+				<< "Time (ms) " << "|" << std::setw(20) << std::right
+				<< (1000*time_s_Diff(beginB,endB) + time_ms_Diff(beginB,endB)) << " " << std::endl
+			<< "+" << std::setfill('-') << std::setw(42) << "+" << std::endl
+			<< std::endl;
 		}
 	
 	//##################################################
 	//## Functions to filter Boxes and reconstruction ##
 	
-		vector<Box*> vectorBoxFinal;
+		std::vector<Box*> vectorBoxFinal;
 	
 		if(doFiltering)
 		{
-			gettimeofday(&beginBF,NULL);
+			gettimeofday(&beginBF, 0);
 			boxFiltering(vectorBox, *data, nbToCompute, nbWithNeighbor);
-			gettimeofday(&endBF,NULL);
+			gettimeofday(&endBF, 0);
 		
 			boxAfterFiltering = vectorBox.size();	
 			
 			if(doReconstruction)
 			{
-				gettimeofday(&beginRC,NULL);
+				gettimeofday(&beginRC, 0);
 				recomposition(vectorBox, vectorBoxFinal, *data, nbToCompute, nbWithNeighbor);
-				gettimeofday(&endRC,NULL);
+				gettimeofday(&endRC, 0);
 				boxAfterReconstruction = vectorBoxFinal.size();
 			}
 			else
@@ -221,18 +236,29 @@ int main(int argc, char *argv[])
 		
 			if(modeVerbose)
 			{
-				cout << "+" << setfill('-') << setw(13) << "+" << " BOX FILTERING " << "+" << setw(13) << "+" << endl;
-				cout << setfill (' ');
-				cout << "+" << setfill(' ') << setw(10) << " " <<" ! after filtering !  " << " " << setw(9) << "+" << endl;
-				cout << " " << setw(20) << left << "Box " << "|" << setw(20) << right << setprecision(0) << fixed << boxAfterFiltering << " " << endl;
-				cout << " " << setw(20) << left << "Time (ms) " << "|" << setw(20) << right << (1000*time_s_Diff(beginBF,endBF) + time_ms_Diff(beginBF,endBF)) << " " << endl;
+				std::cout << "+" << std::setfill('-') << std::setw(13)
+					<< "+" << " BOX FILTERING " << "+" << std::setw(13) << "+" << std::endl
+				<< std::setfill(' ')
+				<< "+" << std::setfill(' ') << std::setw(10) << " "
+					<< " ! after filtering !  " << " " << std::setw(9) << "+" << std::endl
+				<< " " << std::setw(20) << std::left
+					<< "Box " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+					<< boxAfterFiltering << " " << std::endl
+				<< " " << std::setw(20) << std::left
+					<< "Time (ms) " << "|" << std::setw(20) << std::right
+					<< (1000*time_s_Diff(beginBF,endBF) + time_ms_Diff(beginBF,endBF)) << " " << std::endl;
 				if(doReconstruction)
 				{
-				cout << "+" << setfill(' ') << setw(8) << " " <<" ! after reconstruction !  " << " " << setw(6) << "+" << endl;
-				cout << " " << setw(20) << left << "Box " << "|" << setw(20) << right << setprecision(0) << fixed << boxAfterReconstruction << " " << endl;
-				cout << " " << setw(20) << left << "Time (ms) " << "|" << setw(20) << right << (1000*time_s_Diff(beginRC,endRC) + time_ms_Diff(beginRC,endRC)) << " " << endl;
+					std::cout << "+" << std::setfill(' ') << std::setw(8) << " "
+						<< " ! after reconstruction !  " << " " << std::setw(6) << "+" << std::endl
+					<< " " << std::setw(20) << std::left
+						<< "Box " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+						<< boxAfterReconstruction << " " << std::endl
+					<< " " << std::setw(20) << std::left
+						<< "Time (ms) " << "|" << std::setw(20) << std::right
+						<< (1000*time_s_Diff(beginRC,endRC) + time_ms_Diff(beginRC,endRC)) << " " << std::endl;
 				}
-				cout << "+" << setfill('-') << setw(42) << "+" << endl << endl;
+				std::cout << "+" << std::setfill('-') << std::setw(42) << "+" << std::endl << std::endl;
 			}
 	        
 		}
@@ -244,36 +270,46 @@ int main(int argc, char *argv[])
 	//###################
 	//## LABEL SETTING ##
 	
-		gettimeofday(&beginLS,NULL);			
+		gettimeofday(&beginLS, 0);			
 		nbSolLS = runLabelSetting(vectorBoxFinal,*data);				
-		gettimeofday(&endLS,NULL);
+		gettimeofday(&endLS, 0);
 		
 		if(modeVerbose)
 		{
-			cout << "+" << setfill('-') << setw(13) << "+" << " LABEL SETTING " << "+" << setw(13) << "+" << endl;
-			cout << setfill (' ');
-			cout << " " << setw(20) << left << "Sol computed " << "|" << setw(20) << right << setprecision(0) << fixed << nbSolLS << " " << endl;
-			cout << " " << setw(20) << left << "Time (ms) " << "|" << setw(20) << right << (1000*time_s_Diff(beginLS,endLS) + time_ms_Diff(beginLS,endLS)) << " " << endl;
-			cout << "+" << setfill('-') << setw(42) << "+" << endl;
+			std::cout << "+" << std::setfill('-') << std::setw(13) << "+"
+				<< " LABEL SETTING " << "+" << std::setw(13) << "+" << std::endl
+			<< std::setfill (' ') << " " << std::setw(20) << std::left
+				<< "Sol computed " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+				<< nbSolLS << " " << std::endl
+			<< " " << std::setw(20) << std::left
+				<< "Time (ms) " << "|" << std::setw(20) << std::right
+				<< (1000*time_s_Diff(beginLS,endLS) + time_ms_Diff(beginLS,endLS)) << " " << std::endl
+			<< "+" << std::setfill('-') << std::setw(42) << "+" << std::endl;
 		}
 	
 	//#########
 	//## END ##		
        
-	gettimeofday(&end,NULL);
-	cout << endl;
-	cout << "+" << setfill('-') << setw(15) << "+" << " SYNTHESIS " << "+" << setw(15) << "+" << endl;
-	cout << setfill (' ');
-	cout << " " << setw(20) << left << "Instance " << "|" << setw(20) << right << data->getFileName() << " " << endl;
-	cout << " " << setw(20) << left << "Solutions " << "|" << setw(20) << right << setprecision(0) << fixed << nbSolLS << " " << endl;
-	cout << " " << setw(20) << left << "Total Time (ms) " << "|" << setw(20) << right << (1000*time_s_Diff(start,end) + time_ms_Diff(start,end)) << " " << endl;
-	cout << "+" << setfill('-') << setw(42) << "+" << endl << endl;
+	gettimeofday(&end, 0);
+	std::cout << std::endl
+	<< "+" << std::setfill('-') << std::setw(15) << "+"
+		<< " SYNTHESIS " << "+" << std::setw(15) << "+" << std::endl
+	<< std::setfill(' ') << " " << std::setw(20) << std::left
+		<< "Instance " << "|" << std::setw(20) << std::right
+		<< data->getFileName() << " " << std::endl
+	<< " " << std::setw(20) << std::left
+		<< "Solutions " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+		<< nbSolLS << " " << std::endl
+	<< " " << std::setw(20) << std::left
+		<< "Total Time (ms) " << "|" << std::setw(20) << std::right
+		<< (1000*time_s_Diff(start,end) + time_ms_Diff(start,end)) << " " << std::endl
+	<< "+" << std::setfill('-') << std::setw(42) << "+" << std::endl << std::endl;
 	
 	if(modeExport)
 	{
 		if( system("./plot/plot.sh") != 0 )
 		{
-			cout << " Failure in the execution of the script " << endl;
+			std::cout << " Failure in the execution of the script " << std::endl;
 		}
 	}
 	
