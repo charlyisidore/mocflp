@@ -33,7 +33,7 @@ void ToFile::removeFiles()
 			{
 				if(lecture->d_name[0] != '.')
 				{	
-					string plot;
+					std::string plot;
 					plot += "res/";
 					plot += lecture->d_name;
 					if( remove(plot.c_str()) == 0 )
@@ -51,10 +51,10 @@ void ToFile::saveCorrelation(Data &data)
 	if(modeExport)
 	{
 		//Opening output file
-		string temp("res/");
+		std::string temp("res/");
 		temp += data.getFileName();
 		temp += "_Correlation.out";
-		ofstream oFile(temp.c_str(), ios::out | ios::trunc);
+		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
 		
 		if(oFile)
 		{
@@ -62,14 +62,14 @@ void ToFile::saveCorrelation(Data &data)
 			{
 				for(unsigned int j = 0; j < data.getnbFacility(); j++)
 				{
-					oFile << data.getAllocationObj1Cost(i,j) << " " << data.getAllocationObj2Cost(i,j) << endl;
+					oFile << data.getAllocationObj1Cost(i,j) << " " << data.getAllocationObj2Cost(i,j) << std::endl;
 				}
 			}
 		    
 		}
 		else
 		{
-			cerr << "Unable to open the file !" << endl;
+			std::cerr << "Unable to open the file !" << std::endl;
 		}
 		
 		//Close the file
@@ -77,26 +77,26 @@ void ToFile::saveCorrelation(Data &data)
 	}
 }
 
-void ToFile::saveInitialBoxes(vector<Box*> &vectorBox, Data &data)
+void ToFile::saveInitialBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
 	if(modeExport)
 	{
 		//Opening output file
-		string temp("res/");
+		std::string temp("res/");
 		temp += data.getFileName();
 		temp += "_InitialBoxes.out";
-		ofstream oFile(temp.c_str(), ios::out | ios::trunc);
+		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
 		
 		if(oFile)
 		{
 			for(unsigned int it = 0; it < vectorBox.size(); it++)
 			{
-				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << endl;
+				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << std::endl;
 			}
 		}
 		else
 		{
-			cerr << "Unable to open the file !" << endl;
+			std::cerr << "Unable to open the file !" << std::endl;
 		}
 		
 		//Close the file
@@ -104,26 +104,26 @@ void ToFile::saveInitialBoxes(vector<Box*> &vectorBox, Data &data)
 	}
 }
 
-void ToFile::saveFilteringBoxes(vector<Box*> &vectorBox, Data &data)
+void ToFile::saveFilteringBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
 	if(modeExport)
 	{
 		//Opening output file
-		string temp("res/");
+		std::string temp("res/");
 		temp += data.getFileName();
 		temp += "_FilteringBoxes.out";
-		ofstream oFile(temp.c_str(), ios::out | ios::trunc);
+		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
 		
 		if(oFile)
 		{
 			for(unsigned int it = 0; it < vectorBox.size(); it++)
 			{
-				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << endl;
+				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << std::endl;
 			}
 		}
 		else
 		{
-			cerr << "Unable to open the file !" << endl;
+			std::cerr << "Unable to open the file !" << std::endl;
 		}
 		
 		//Close the file
@@ -131,26 +131,26 @@ void ToFile::saveFilteringBoxes(vector<Box*> &vectorBox, Data &data)
 	}
 }
 
-void ToFile::saveReconstructionBoxes(vector<Box*> &vectorBox, Data &data)
+void ToFile::saveReconstructionBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
 	if(modeExport)
 	{
 		//Opening output file
-		string temp("res/");
+		std::string temp("res/");
 		temp += data.getFileName();
 		temp += "_ReconstructionBoxes.out";
-		ofstream oFile(temp.c_str(), ios::out | ios::trunc);
+		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
 		
 		if(oFile)
 		{
 			for(unsigned int it = 0; it < vectorBox.size(); it++)
 			{
-				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << endl;
+				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << std::endl;
 			}
 		}
 		else
 		{
-			cerr << "Unable to open the file !" << endl;
+			std::cerr << "Unable to open the file !" << std::endl;
 		}
 		
 		//Close the file
@@ -158,28 +158,28 @@ void ToFile::saveReconstructionBoxes(vector<Box*> &vectorBox, Data &data)
 	}
 }
 
-void ToFile::saveYN(list<Solution> &lsol, Data &data)
+void ToFile::saveYN(std::list<Solution> &lsol, Data &data)
 {
 	if(modeExport)
 	{
 		//Opening output file
-		string temp("res/");
+		std::string temp("res/");
 		temp += data.getFileName();
 		temp += "_YN.out";
-		ofstream oFile(temp.c_str(), ios::out | ios::trunc);
+		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
 		
-		list<Solution>::iterator iter;
+		std::list<Solution>::iterator iter;
 		
 		if(oFile)
 		{
 			for(iter = lsol.begin(); iter != lsol.end(); iter++)
 			{
-				oFile << fixed << setprecision(0) << (*iter).getObj1() << "\t" << (*iter).getObj2() << endl;
+				oFile << fixed << setprecision(0) << (*iter).getObj1() << "\t" << (*iter).getObj2() << std::endl;
 			}
 		}
 		else
 		{
-			cerr << "Unable to open the file !" << endl;
+			std::cerr << "Unable to open the file !" << std::endl;
 		}
 		
 		//Close the file

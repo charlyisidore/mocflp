@@ -20,7 +20,7 @@
 
 #include "Functions.hpp"
 
-long int createBox(vector<Box*> &vectorBox, Data &data)
+long int createBox(std::vector<Box*> &vectorBox, Data &data)
 {
 	long int nbBoxComputed = 0;
 		
@@ -81,7 +81,7 @@ long int createBox(vector<Box*> &vectorBox, Data &data)
 }
 
 
-void addChildren(Box *boxMother, vector<Box*> &vBox)
+void addChildren(Box *boxMother, std::vector<Box*> &vBox)
 {
     Data& data = boxMother->getData();
     
@@ -110,7 +110,7 @@ void addChildren(Box *boxMother, vector<Box*> &vBox)
     delete []facilityOpen;
 }
 
-void filter(vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor)
+void filter(std::vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor)
 {
 	//Initializing booleans
 	for(unsigned int it = 0; it < vectorBox.size();it++)
@@ -171,7 +171,7 @@ void filter(vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeig
 	}
 }
 
-void boxFiltering(vector<Box*> &vectorBox, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
+void boxFiltering(std::vector<Box*> &vectorBox, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
 {
 	int i = 1;
 	filter(vectorBox, nbToCompute, nbWithNeighbor);
@@ -191,10 +191,10 @@ void boxFiltering(vector<Box*> &vectorBox, Data &data, long int &nbToCompute, lo
     
 }
 
-void recomposition(vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
+void recomposition(std::vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
 {
-	map<string,int> mapBox;
-	map<string,int>::iterator itM;
+	std::map<string,int> mapBox;
+	std::map<string,int>::iterator itM;
 	//Add boxes in the map
 	for(unsigned int it = 0; it < vectorBox.size(); it++)
 	{
@@ -212,7 +212,7 @@ void recomposition(vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &
 	for(itM = mapBox.begin(); itM != mapBox.end(); itM++)
 	{
 		Box *box0 = new Box(data);
-		string tempString = itM->first;
+		std::string tempString = itM->first;
 		for(unsigned int i = 0; i < tempString.size(); i++)
 		{
 			if(tempString[i] == '1')
@@ -264,7 +264,7 @@ void recomposition(vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &
 	}
 }
 
-void weightedSumOneStep(vector<Box*> &vectorBox, Data &data)
+void weightedSumOneStep(std::vector<Box*> &vectorBox, Data &data)
 {
 	unsigned int size = vectorBox.size();
 	for(unsigned int it = 0; it < size; it++)
@@ -323,10 +323,10 @@ void weightedSumOneStep(vector<Box*> &vectorBox, Data &data)
 }
 
 //LABELSETTING
-long int runLabelSetting(vector<Box*> &vectorBox, Data &data)
+long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
 {
-	list<Solution> allSolution;
-	list<Solution>::iterator it;
+	std::list<Solution> allSolution;
+	std::list<Solution>::iterator it;
 	vector<Box*>::iterator itVector;
 	for(itVector = vectorBox.begin(); itVector != vectorBox.end(); itVector++)
 	{						
@@ -347,11 +347,11 @@ long int runLabelSetting(vector<Box*> &vectorBox, Data &data)
 	return (long int) allSolution.size();
 }
 
-void filterListSolution(list<Solution> &lsol)
+void filterListSolution(std::list<Solution> &lsol)
 {
-    list<Solution>::iterator iterSuivant = lsol.begin();
+    std::list<Solution>::iterator iterSuivant = lsol.begin();
     iterSuivant++;
-    list<Solution>::iterator iter        = lsol.begin();
+    std::list<Solution>::iterator iter        = lsol.begin();
     while(iterSuivant != lsol.end())
     {
         if( (*iter).getObj1() == (*iterSuivant).getObj1() )

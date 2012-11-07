@@ -47,12 +47,6 @@
 #include "Data.hpp"
 #include "Solution.hpp"
 
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
-
 /*! \class ToFile
 * \brief Class to represent a \c ToFile.
 *
@@ -81,28 +75,28 @@ public:
 	*	\param[in] vectorBox : A vector of initial \c Boxes.
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
 	*/
-    static void saveInitialBoxes(vector<Box*> &vectorBox, Data &data);
+    static void saveInitialBoxes(std::vector<Box*> &vectorBox, Data &data);
     /*!
 	*	\brief \e Static method to save filtered \c Boxes into a file.
 	*
 	*	\param[in] vectorBox : A vector of filtered \c Boxes.
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
 	*/
-    static void saveFilteringBoxes(vector<Box*> &vectorBox, Data &data);
+    static void saveFilteringBoxes(std::vector<Box*> &vectorBox, Data &data);
     /*!
 	*	\brief \e Static method to save recomposed \c Boxes into a file.
 	*
 	*	\param[in] vectorBox : A vector of recomposed \c Boxes.
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
 	*/
-    static void saveReconstructionBoxes(vector<Box*> &vectorBox, Data &data);
+    static void saveReconstructionBoxes(std::vector<Box*> &vectorBox, Data &data);
     /*!
 	*	\brief \e Static method to save solutions into a file.
 	*
 	*	\param[in] lsol : A list of \c Sotuions.
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
 	*/
-    static void saveYN(list<Solution> &lsol, Data &data);
+    static void saveYN(std::list<Solution> &lsol, Data &data);
 };
 
 #endif

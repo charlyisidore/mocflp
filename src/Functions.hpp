@@ -45,12 +45,6 @@
 #include "ToFile.hpp"
 #include "LabelSetting.hpp"
 
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
-
 extern bool modeExport;
 
 /*!
@@ -67,7 +61,7 @@ extern bool modeExport;
 *	\param[in] data : A \c Data object which contains all the values of the instance.
 *	\return A long int which represents the number of \c Boxes computed by the method.
 */
-long int createBox(vector<Box*> &vectorBox, Data &data);
+long int createBox(std::vector<Box*> &vectorBox, Data &data);
 
 /*!
 *	\fn addChildren(Box *boxMother, vector<Box*> &vBox)
@@ -78,7 +72,7 @@ long int createBox(vector<Box*> &vectorBox, Data &data);
 *	\param[in] boxMother : A \c Box for which ones wants to add children \c Boxes.
 *	\param[in,out] vBox : A vector of \c Box in whichone ones add all the children \c Boxes at the end (enqueue at the end of the vector).
 */
-void addChildren(Box *boxMother, vector<Box*> &vBox);
+void addChildren(Box *boxMother, std::vector<Box*> &vBox);
 
 /*!
 *	\fn filter(vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor)
@@ -89,7 +83,7 @@ void addChildren(Box *boxMother, vector<Box*> &vBox);
 *	\param[in,out] nbToCompute : A long int that takes the number of \c Boxes with a available decomposition.
 *	\param[in,out] nbWithNeighbor : A long int that takes the number of \c Boxes overlapped by another one.
 */
-void filter(vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor);
+void filter(std::vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor);
 
 /*!
 *	\fn boxFiltering(vector<Box*> &vectorBox, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
@@ -102,7 +96,7 @@ void filter(vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeig
 *	\param[in,out] nbToCompute : A long int that takes the number of \c Boxes with a available decomposition.
 *	\param[in,out] nbWithNeighbor : A long int that takes the number of \c Boxes overlapped by another one.
 */
-void boxFiltering(vector<Box*> &vectorBox, Data &data, long int &nbToCompute, long int &nbWithNeighbor);
+void boxFiltering(std::vector<Box*> &vectorBox, Data &data, long int &nbToCompute, long int &nbWithNeighbor);
 
 /*!
 *	\fn recomposition(vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
@@ -116,7 +110,7 @@ void boxFiltering(vector<Box*> &vectorBox, Data &data, long int &nbToCompute, lo
 *	\param[in,out] nbToCompute : A long int that takes the number of \c Boxes with a available decomposition.
 *	\param[in,out] nbWithNeighbor : A long int that takes the number of \c Boxes overlapped by another one.
 */
-void recomposition(vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &data, long int &nbToCompute, long int &nbWithNeighbor);
+void recomposition(std::vector<Box*> &vectorBox, std::vector<Box*> &vectorBoxFinal, Data &data, long int &nbToCompute, long int &nbWithNeighbor);
 
 /*!
 *	\fn weightedSumOneStep(vector<Box*> &vectorBox, Data &data)
@@ -128,7 +122,7 @@ void recomposition(vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &
 *	\param[in] data : A \c Data object which contains all the values of the instance.
 *	\return A long int which value is the number of solutions of the algorithm proposed.
 */
-void weightedSumOneStep(vector<Box*> &vectorBox, Data &data);
+void weightedSumOneStep(std::vector<Box*> &vectorBox, Data &data);
 
 /*!
 *	\defgroup generating Methods of Generating
@@ -144,7 +138,7 @@ void weightedSumOneStep(vector<Box*> &vectorBox, Data &data);
 *	\param[in] data : A \c Data object which contains all the values of the instance.
 *	\return A long int which value is the number of solutions of the algorithm proposed.
 */
-long int runLabelSetting(vector<Box*> &vectorBox, Data &data);
+long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data);
 
 /*!
 *	\fn filterListSolution(list<Solution> &lsol)
@@ -154,7 +148,7 @@ long int runLabelSetting(vector<Box*> &vectorBox, Data &data);
 *	A method to delete all the dominated solutions into the objective space. This method computes a complete set of solution.
 *	\param[in] lsol : A vector of \c Solution which contains all the \c Solutions to delete.
 */
-void filterListSolution(list<Solution> &lsol);
+void filterListSolution(std::list<Solution> &lsol);
 
 /*!
 *	\defgroup others Others Methods

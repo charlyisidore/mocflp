@@ -39,12 +39,6 @@
 *
 */
 
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
-
 /*! \class Parser
 * \brief Class to represent a \c Parser.
 *
@@ -67,13 +61,13 @@ private:
 	*
 	*	\param[in] file : A ifstream (IOstream) which represents the file readed.
 	*/
-    static void ignoreLine(ifstream &file);
+    static void ignoreLine(std::ifstream &file);
     /*!
 	*	\brief \e Static method to skip a character from the instance.
 	*
 	*	\param[in] file : A ifstream (IOstream) which represents the file readed.
 	*/
-    static void ignoreChar(ifstream &file);
+    static void ignoreChar(std::ifstream &file);
 };
 
 #endif

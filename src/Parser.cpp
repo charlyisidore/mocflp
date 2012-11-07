@@ -22,7 +22,7 @@
 
 Data *Parser::Parsing(const char *filename)
 {
-	ifstream file(filename);
+	std::ifstream file(filename);
     
 	if(file.is_open())
 	{
@@ -99,17 +99,17 @@ Data *Parser::Parsing(const char *filename)
 	}
 	else
 	{
-		cerr << "Can't open instance" << endl;
-		return NULL;
+		std::cerr << "Can't open instance" << std::endl;
+		return 0;
 	}
 }
 
-void Parser::ignoreLine(ifstream &file)
+void Parser::ignoreLine(std::ifstream &file)
 {
 	file.ignore(2000000000, '\n');
 }
 
-void Parser::ignoreChar(ifstream &file)
+void Parser::ignoreChar(std::ifstream &file)
 {
 	char c;	
 	file >> c;
