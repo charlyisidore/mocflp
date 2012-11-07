@@ -20,16 +20,15 @@
  
 #include "Data.hpp"
 
-Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name)
+Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name) :
+	allocationObjCost_(2)
 {
-	allocationObj1Cost_ = new double*[nbCustomer];
-	allocationObj2Cost_ = new double*[nbCustomer];
-	for(unsigned int i = 0; i < nbCustomer; ++i)
+	// Allocate a matrix nbCustomer x nbFacility for each objective
+	for(unsigned int k = 0; k < 2; ++k)
 	{
-		allocationObj1Cost_[i] = new double[nbFacility];
-		allocationObj2Cost_[i] = new double[nbFacility];
+		allocationObjCost_[k].resize( nbCustomer, std::vector<double>( nbFacility ) );
 	}
-	
+
 	fileName_ = name;
 	int index1 = int(fileName_.find('/'));
 	int index2 = int(fileName_.find('.'));
@@ -38,21 +37,14 @@ Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string &
 
 Data::~Data()
 {
-	for(unsigned int i = 0; i < getnbCustomer(); ++i)
-	{
-		delete[] allocationObj1Cost_[i];
-		delete[] allocationObj2Cost_[i];
-	}
-	delete[] allocationObj1Cost_;
-	delete[] allocationObj2Cost_;
 }
 
-void Data::addFacility(Facility fac)
+void Data::addFacility(const Facility & fac)
 {
 	facilityList_.push_back(fac);
 }
 
-void Data::addCustomer(Customer cust)
+void Data::addCustomer(const Customer & cust)
 {
 	customerList_.push_back(cust);
 }
@@ -69,12 +61,12 @@ unsigned int Data::getnbCustomer() const
 
 double Data::getAllocationObj1Cost(int cust, int fac) const
 {
-	return allocationObj1Cost_[cust][fac];
+	return allocationObjCost_[0][cust][fac];
 }
 
 double Data::getAllocationObj2Cost(int cust, int fac) const
 {
-	return allocationObj2Cost_[cust][fac];
+	return allocationObjCost_[1][cust][fac];
 }
 
 Facility & Data::getFacility(int fac)
@@ -89,12 +81,12 @@ const std::string & Data::getFileName() const
 
 void Data::setAllocationObj1Cost(int cust,int fac, double val)
 {
-	allocationObj1Cost_[cust][fac] = val;
+	allocationObjCost_[0][cust][fac] = val;
 }
 
 void Data::setAllocationObj2Cost(int cust,int fac, double val)
 {
-	allocationObj2Cost_[cust][fac] = val;
+	allocationObjCost_[1][cust][fac] = val;
 }
 
 void Data::setFileName(const std::string & name)

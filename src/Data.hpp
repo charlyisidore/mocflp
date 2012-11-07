@@ -48,19 +48,6 @@
 class Data
 {
 public:
-	/*! \typedef vector<Facility> ListFacilities
-	*  \brief The list of all facilities.
-	*
-	* This is a vector from the STL Containers of object \c Facility.
-	*/
-    typedef std::vector<Facility> ListFacilities;
-    /*! \typedef vector<Customer> ListCustomers
-	*  \brief The list of all customers.
-	*
-	* This is a vector from the STL Containers of object \c Customer.
-	*/
-    typedef std::vector<Customer> ListCustomers;
-    
 	/*!
 	*	\brief Constructor of the class \c Data.
 	*
@@ -78,12 +65,12 @@ public:
 	*	\brief Method to add a \c Facility to the \c Data.
 	*	\param fac : An object \c Facility.
 	*/
-    void addFacility(Facility fac);
+    void addFacility(const Facility & fac);
     /*!
 	*	\brief Method to add a \c Customer to the \c Data.
 	*	\param cust : An object \c Customer.
 	*/
-    void addCustomer(Customer cust);
+    void addCustomer(const Customer & cust);
     /*!
 	*	\brief Getter for the number of facilities.
 	*	\return An unsigned int as the number of facilities of the instance.
@@ -141,12 +128,16 @@ public:
     void setFileName(const std::string & name);
     
 private:
-    ListFacilities facilityList_;
-    ListCustomers customerList_;
+	/*! \typedef std::vector< std::vector<double> > Matrixd
+	*  \brief A matrix of double.
+	*/
+    typedef std::vector< std::vector<double> > Matrixd;
+
+    std::vector<Facility> facilityList_;
+    std::vector<Customer> customerList_;
     
     std::string fileName_;/*!< A string which represents the name of the instance */
-    double **allocationObj1Cost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective 1 */
-    double **allocationObj2Cost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective 2 */
+    std::vector<Matrixd> allocationObjCost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective k */
 };
 
 #endif
