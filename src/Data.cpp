@@ -20,7 +20,7 @@
  
 #include "Data.hpp"
 
-Data::Data(unsigned int nbFacility, unsigned int nbCustomer, string name)
+Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name)
 {
 	allocationObj1Cost_ = new double*[nbCustomer];
 	allocationObj2Cost_ = new double*[nbCustomer];
@@ -82,7 +82,7 @@ Facility & Data::getFacility(int fac)
 	return facilityList_[fac];
 }
 
-string Data::getFileName() const
+const std::string & Data::getFileName() const
 {
 	return fileName_;
 }
@@ -97,7 +97,7 @@ void Data::setAllocationObj2Cost(int cust,int fac, double val)
 	allocationObj2Cost_[cust][fac] = val;
 }
 
-void Data::setFileName(string name)
+void Data::setFileName(const std::string & name)
 {
 	fileName_ = name;
 }

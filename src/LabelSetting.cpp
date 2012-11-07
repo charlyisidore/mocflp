@@ -103,8 +103,8 @@ void LabelSetting::computeNode(int indexNode)
 	for(unsigned int i = 0; i < nodes_[indexNode].getSize(); i++)
 	{
 		//We have an iterator on the place where we want to add the element
-		list<Solution>::iterator itDest = nodes_[indexNode].labels_.begin();
-		list<Solution>::iterator iter;
+		std::list<Solution>::iterator itDest = nodes_[indexNode].labels_.begin();
+		std::list<Solution>::iterator iter;
 		for( iter = nodes_[indexNode - 1].labels_.begin(); iter != nodes_[indexNode - 1].labels_.end(); iter++)
 		{
 			//We create new elements, one by one
@@ -125,9 +125,9 @@ void LabelSetting::computeNode(int indexNode)
 	//FILTERING ALGORITHM
     
 	//To delete dominated nodes
-	list<Solution>::iterator iterSuivant = (nodes_[indexNode]).labels_.begin();
+	std::list<Solution>::iterator iterSuivant = (nodes_[indexNode]).labels_.begin();
 	iterSuivant++;
-	list<Solution>::iterator iter        = (nodes_[indexNode]).labels_.begin();
+	std::list<Solution>::iterator iter        = (nodes_[indexNode]).labels_.begin();
 	
 	while( (*iter).getObj2() > boundZ_[1] )
 	{
@@ -165,10 +165,10 @@ void LabelSetting::print()
 	{
 		for(unsigned int i = 0; i < nbRank_; i++)
 		{
-			cout << "(LS) Node " << i << endl;
+			std::cout << "(LS) Node " << i << std::endl;
 			for(unsigned int j = 0; j < nodes_[i].getSize(); j++)
 			{		
-				cout << nodes_[i].getCostToEnterZ1(j) << "*" << nodes_[i].getCostToEnterZ2(j) << endl;
+				std::cout << nodes_[i].getCostToEnterZ1(j) << "*" << nodes_[i].getCostToEnterZ2(j) << std::endl;
 			}
 		}
 	}

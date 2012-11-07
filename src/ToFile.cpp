@@ -174,7 +174,7 @@ void ToFile::saveYN(std::list<Solution> &lsol, Data &data)
 		{
 			for(iter = lsol.begin(); iter != lsol.end(); iter++)
 			{
-				oFile << fixed << setprecision(0) << (*iter).getObj1() << "\t" << (*iter).getObj2() << std::endl;
+				oFile << std::fixed << std::setprecision(0) << (*iter).getObj1() << "\t" << (*iter).getObj2() << std::endl;
 			}
 		}
 		else

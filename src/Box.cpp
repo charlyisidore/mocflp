@@ -358,7 +358,7 @@ void filterDominatedBoxes(std::vector<Box*> &vectBox)
 	}
 }
 
-bool isDominatedByItsOrigin(vector<Box*> &vectBox, Box *box)
+bool isDominatedByItsOrigin(std::vector<Box*> &vectBox, Box *box)
 {
 	bool isDominated(false);
 	std::vector<Box*>::iterator it;
@@ -377,7 +377,7 @@ bool isDominatedByItsOrigin(vector<Box*> &vectBox, Box *box)
 	return isDominated;
 }
 
-bool isDominatedByItsBox(vector<Box*> &vectBox, Box *box)
+bool isDominatedByItsBox(std::vector<Box*> &vectBox, Box *box)
 {
 	bool isDominated(false);
 	std::vector<Box*>::iterator it;

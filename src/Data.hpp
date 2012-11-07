@@ -40,12 +40,6 @@
 #include <vector>
 #include <cfloat>
 
-/*! \namespace std
-* 
-* Using the standard namespace std of the IOstream library of C++.
-*/
-using namespace std;
-
 /*! \class Data
 * \brief Class to represent a \c Data.
 *
@@ -59,13 +53,13 @@ public:
 	*
 	* This is a vector from the STL Containers of object \c Facility.
 	*/
-    typedef vector<Facility> ListFacilities;
+    typedef std::vector<Facility> ListFacilities;
     /*! \typedef vector<Customer> ListCustomers
 	*  \brief The list of all customers.
 	*
 	* This is a vector from the STL Containers of object \c Customer.
 	*/
-    typedef vector<Customer> ListCustomers;
+    typedef std::vector<Customer> ListCustomers;
     
 	/*!
 	*	\brief Constructor of the class \c Data.
@@ -74,7 +68,7 @@ public:
 	*	\param[in] nbCustomer : The number of \c Customer of the instance.
 	*	\param[in] name : The name of the instance.
 	*/
-    Data(unsigned int nbFacility, unsigned int nbCustomer, string name);
+    Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name);
 	/*!
 	*	\brief Destructor of the class \c Data.
 	*/
@@ -124,7 +118,7 @@ public:
 	*	\brief Getter for the name of the instance.
 	*	\return A string which represents the name of the instance.
 	*/
-    string getFileName() const;
+    const std::string & getFileName() const;
     
     /*!
 	*	\brief Setter for the allocation cost w.r.t. objective 1 between a \c Customer and a \c Facility.
@@ -144,13 +138,13 @@ public:
 	*	\brief Setter for the name of the instance.
 	*	\param[in] name : A string which represents the name of the instance.
 	*/
-    void setFileName(string name);
+    void setFileName(const std::string & name);
     
 private:
     ListFacilities facilityList_;
     ListCustomers customerList_;
     
-    string fileName_;/*!< A string which represents the name of the instance */
+    std::string fileName_;/*!< A string which represents the name of the instance */
     double **allocationObj1Cost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective 1 */
     double **allocationObj2Cost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective 2 */
 };

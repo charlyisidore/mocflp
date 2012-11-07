@@ -191,10 +191,10 @@ void boxFiltering(std::vector<Box*> &vectorBox, Data &data, long int &nbToComput
     
 }
 
-void recomposition(std::vector<Box*> &vectorBox, vector<Box*> &vectorBoxFinal, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
+void recomposition(std::vector<Box*> &vectorBox, std::vector<Box*> &vectorBoxFinal, Data &data, long int &nbToCompute, long int &nbWithNeighbor)
 {
-	std::map<string,int> mapBox;
-	std::map<string,int>::iterator itM;
+	std::map<std::string,int> mapBox;
+	std::map<std::string,int>::iterator itM;
 	//Add boxes in the map
 	for(unsigned int it = 0; it < vectorBox.size(); it++)
 	{
@@ -327,7 +327,7 @@ long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
 {
 	std::list<Solution> allSolution;
 	std::list<Solution>::iterator it;
-	vector<Box*>::iterator itVector;
+	std::vector<Box*>::iterator itVector;
 	for(itVector = vectorBox.begin(); itVector != vectorBox.end(); itVector++)
 	{						
 		LabelSetting *m = new LabelSetting(*(*itVector));
