@@ -51,7 +51,22 @@ public:
 	*	\param[in] y : An unsigned integer which represents the y coordinate of the \c Facility.
 	*/
     Facility(unsigned short x, unsigned short y);
-    
+
+	/*!
+	*	\brief Getter for the number of objectives.
+	*	\return A int as the number of objectives.
+	*/
+    int getNbObjective() const;
+    /*!
+	*	\brief Getter for the location cost w.r.t. objective k.
+	*	\return A double as the location cost w.r.t. objective k of this \c Facility.
+	*/
+    double getLocationObjCost(int k) const;
+    /*!
+	*	\brief Setter for the location cost w.r.t. objective k.
+	*	\param[in] val : A double which represents the value of the location cost of this \c Facility w.r.t. objective k.
+	*/
+    void setLocationObjCost(int k, double val);
    	/*!
 	*	\brief Getter for the x coordinate.
 	*	\return An unsigned short as the x coordinate of this \c Facility.
@@ -63,22 +78,26 @@ public:
 	*/
     unsigned short getCoordY() const;
     /*!
+	*	\deprecated
 	*	\brief Getter for the location cost w.r.t. objective 1.
 	*	\return A double as the location cost w.r.t. objective 1 of this \c Facility.
 	*/
     double getLocationObj1Cost() const;
     /*!
+	*	\deprecated
 	*	\brief Getter for the location cost w.r.t. objective 2.
 	*	\return A double as the location cost w.r.t. objective 2 of this \c Facility.
 	*/
     double getLocationObj2Cost() const;
     
     /*!
+	*	\deprecated
 	*	\brief Setter for the location cost w.r.t. objective 1.
 	*	\param[in] val : A double which represents the value of the location cost of this \c Facility w.r.t. objective 1.
 	*/
     void setLocationObj1Cost(double val);
     /*!
+	*	\deprecated
 	*	\brief Setter for the location cost w.r.t. objective 2.
 	*	\param[in] val : A double which represents the value of the location cost of this \c Facility w.r.t. objective 2.
 	*/
@@ -99,5 +118,24 @@ private:
 *	\param[in] fac : A \c Facility to print in the standard output stream.
 */
 std::ostream& operator<<(std::ostream &out, const Facility *fac);
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions
+
+inline int Facility::getNbObjective() const
+{
+	return locationObjCost_.size();
+}
+
+inline double Facility::getLocationObjCost(int k) const
+{
+    return locationObjCost_[k];
+}
+
+inline void Facility::setLocationObjCost(int k, double val)
+{
+    locationObjCost_[k] = val;
+}
 
 #endif

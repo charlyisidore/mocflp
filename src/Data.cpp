@@ -20,14 +20,14 @@
  
 #include "Data.hpp"
 
-Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name) :
-	allocationObjCost_(2)
+Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name)
 {
+	nbObjective_ = 2;
+
 	// Allocate a matrix nbCustomer x nbFacility for each objective
-	for(unsigned int k = 0; k < 2; ++k)
-	{
-		allocationObjCost_[k].resize( nbCustomer, std::vector<double>( nbFacility ) );
-	}
+	allocationObjCost_.resize( getNbObjective(),                   // p matrices
+		std::vector< std::vector<double> > ( nbCustomer,       // with nbCustomer rows
+		             std::vector<double>   ( nbFacility ) ) ); // and  nbFacility columns
 
 	fileName_ = name;
 	int index1 = int(fileName_.find('/'));

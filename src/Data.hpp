@@ -62,6 +62,12 @@ public:
     ~Data();
     
     /*!
+	*	\brief Getter for the number of objectives.
+	*	\return A int as the number of objectives.
+	*/
+    int getNbObjective() const;
+
+    /*!
 	*	\brief Method to add a \c Facility to the \c Data.
 	*	\param fac : An object \c Facility.
 	*/
@@ -82,6 +88,21 @@ public:
 	*/
     unsigned int getnbCustomer() const;
 	/*!
+	*	\brief Getter for the allocation cost w.r.t. objective k between a \c Customer and a \c Facility.
+	*	\param[in] cust : The index of the \c Customer.
+	*	\param[in] fac : The index of the \c Facility.
+	*	\return A double as the value of the allocation cost w.r.t. objective k for the \c Customer cust to the \c Facility fac.
+	*/
+    double getAllocationObjCost(int k, int cust, int fac) const;
+    /*!
+	*	\brief Setter for the allocation cost w.r.t. objective k between a \c Customer and a \c Facility.
+	*	\param[in] cust : The index of the \c Customer.
+	*	\param[in] fac : The index of the \c Facility.
+	*	\param[in] val : The value of the allocation cost of the customer cust to the facility fac w.r.t. objective k.
+	*/
+    void setAllocationObjCost(int k, int cust, int fac, double val);
+	/*!
+	*	\deprecated
 	*	\brief Getter for the allocation cost w.r.t. objective 1 between a \c Customer and a \c Facility.
 	*	\param[in] cust : The index of the \c Customer.
 	*	\param[in] fac : The index of the \c Facility.
@@ -89,6 +110,7 @@ public:
 	*/
     double getAllocationObj1Cost(int cust, int fac) const;
     /*!
+	*	\deprecated
 	*	\brief Getter for the allocation cost w.r.t. objective 2 between a \c Customer and a \c Facility.
 	*	\param[in] cust : The index of the \c Customer.
 	*	\param[in] fac : The index of the \c Facility.
@@ -108,6 +130,7 @@ public:
     const std::string & getFileName() const;
     
     /*!
+	*	\deprecated
 	*	\brief Setter for the allocation cost w.r.t. objective 1 between a \c Customer and a \c Facility.
 	*	\param[in] cust : The index of the \c Customer.
 	*	\param[in] fac : The index of the \c Facility.
@@ -115,6 +138,7 @@ public:
 	*/
     void setAllocationObj1Cost(int cust,int fac, double val);
     /*!
+	*	\deprecated
 	*	\brief Setter for the allocation cost w.r.t. objective 2 between a \c Customer and a \c Facility.
 	*	\param[in] cust : The index of the \c Customer.
 	*	\param[in] fac : The index of the \c Facility.
@@ -133,11 +157,32 @@ private:
 	*/
     typedef std::vector< std::vector<double> > Matrixd;
 
+    int nbObjective_;
+
     std::vector<Facility> facilityList_;
     std::vector<Customer> customerList_;
     
     std::string fileName_;/*!< A string which represents the name of the instance */
     std::vector<Matrixd> allocationObjCost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective k */
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions
+
+inline int Data::getNbObjective() const
+{
+	return nbObjective_;
+}
+
+inline double Data::getAllocationObjCost(int k, int cust, int fac) const
+{
+	return allocationObjCost_[k][cust][fac];
+}
+
+inline void Data::setAllocationObjCost(int k, int cust, int fac, double val)
+{
+	allocationObjCost_[k][cust][fac] = val;
+}
 
 #endif

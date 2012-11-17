@@ -19,6 +19,7 @@
  */
  
 #include "Box.hpp"
+#include <limits>
 
 Box::Box(Data &data):
 data_(data)
@@ -31,16 +32,16 @@ data_(data)
     
 	//All cost are 0 (nothing is allocated)
 	nbCustomerNotAffected_ = data_.getnbCustomer();
-	minZ_.resize(2, 0.);
-	maxZ_.resize(2, 0.);
-	originZ_.resize(2, 0.);
+
+	minZ_.resize(getNbObjective(), 0.);
+	maxZ_.resize(getNbObjective(), 0.);
+	originZ_.resize(getNbObjective(), 0.);
 	id_ = "";
 }
 
 Box::Box(Box* copy):
 data_(copy->data_)
 {
-    
 	//Set Facilities
 	facility_ = copy->facility_;
 	
@@ -56,13 +57,14 @@ data_(copy->data_)
 	hasNeighbor_ = copy->hasNeighbor_;
 }
 
-Box::Box(Data& data, bool *toOpen):
+Box::Box(Data& data, const std::vector<bool> & toOpen):
 data_(data)
 {
 	nbCustomerNotAffected_ = data_.getnbCustomer();
-	minZ_.resize(2, 0.);
-	maxZ_.resize(2, 0.);
-	originZ_.resize(2, 0.);
+
+	minZ_.resize(getNbObjective(), 0.);
+	maxZ_.resize(getNbObjective(), 0.);
+	originZ_.resize(getNbObjective(), 0.);
 	id_ = "";
 	hasMoreStepWS_ = true; // A priori, some supported points exist
 	hasNeighbor_ = false;
@@ -146,7 +148,7 @@ int Box::getNbFacilityOpen() const
 	{
 		if(isOpened(i))
 		{
-			ret++;
+			++ret;
 		}
 	}
 	return ret;
@@ -201,6 +203,7 @@ void Box::setHasMoreStepWS(bool b)
 
 void Box::computeBox()
 {
+	// TODO: p-objective
 	//Calcul of the box
 	for(unsigned int i = 0; i < data_.getnbCustomer(); ++i)
 	{
@@ -261,45 +264,47 @@ void Box::computeBox()
 void Box::openFacility(int fac)
 {
 	facility_[fac] = true;
-	//We add costs to the box
-	minZ_[0] += data_.getFacility(fac).getLocationObj1Cost();
-	maxZ_[0] += data_.getFacility(fac).getLocationObj1Cost();
-	originZ_[0]  += data_.getFacility(fac).getLocationObj1Cost();
-	minZ_[1] += data_.getFacility(fac).getLocationObj2Cost();
-	maxZ_[1] += data_.getFacility(fac).getLocationObj2Cost();
-	originZ_[1]  += data_.getFacility(fac).getLocationObj2Cost();
+	// We add costs to the box
+	for ( int k = 0; k < getNbObjective(); ++k )
+	{
+		double c = data_.getFacility(fac).getLocationObjCost(k);
+		minZ_[k] += c;
+		maxZ_[k] += c;
+		originZ_[k] += c;
+	}
 }
 
 void Box::print()
 {
 #ifdef verbose
-	cout << "minZ1_ =" << minZ_[0] << endl;
-	cout << "minZ2_ =" << minZ_[1] << endl;
-	cout << "maxZ1_ =" << maxZ_[0] << endl;
-	cout << "maxZ2_ =" << maxZ_[1] << endl;
-	cout << "originZ1_ =" << originZ_[0] << endl;
-	cout << "originZ2_ =" << originZ_[1] << endl;
-	for(unsigned int i = 0; i < data_.getnbCustomer(); ++i)
+	for ( int k = 0; k < getNbObjective(); ++k )
 	{
-		if( !isAssigned_[i] )
+		std::cout << "minZ" << k+1 << " =" << getMinZ(k) << std::endl;
+	}
+	for ( int k = 0; k < getNbObjective(); ++k )
+	{
+		std::cout << "maxZ" << k+1 << " =" << getMaxZ(k) << std::endl;
+	}
+	for ( int k = 0; k < getNbObjective(); ++k )
+	{
+		std::cout << "originZ" << k+1 << " =" << getOriginZ(k) << std::endl;
+	}
+	for ( unsigned int i = 0; i < data_.getnbCustomer(); ++i )
+	{
+		if ( !isAssigned_[i] )
 		{
-			cout << "Customer: " << i << endl;
-			for(unsigned int j = 0; j < data_.getnbFacility(); ++j)
+			std::cout << "Customer: " << i << std::endl;
+			for ( int k = 0; k < getNbObjective(); ++k )
 			{
-				if( isOpened(j) )
+				for ( unsigned int j = 0; j < data_.getnbFacility(); ++j )
 				{
-					cout <<data_.getAllocationObj1Cost(i,j) <<"-";
+					if ( isOpened(j) )
+					{
+						std::cout << data_.getAllocationObjCost(k,i,j) << "-";
+					}
 				}
+				std::cout << std::endl;
 			}
-			cout << endl;
-			for(unsigned int j = 0; j < data_.getnbFacility(); ++j)
-			{
-				if( isOpened(j) )
-				{
-					cout <<data_.getAllocationObj2Cost(i,j) <<"-";
-				}
-			}
-			cout <<endl;
 		}
 	}
 #endif
@@ -309,43 +314,56 @@ void Box::print()
 
 bool isDominatedBetweenTwoBoxes(Box *box1, Box *box2)
 {
-	bool dominated(false);
-	
-	if(	( box1->getMinZ1() > box2->getMaxZ1() && box1->getMinZ2() > box2->getMinZ2() ) || ( box1->getMinZ2() > box2->getMaxZ2() && box1->getMinZ1() > box2->getMinZ1() ) )
+	// | +---+          |
+	// | | 1 |          |
+	// | o---+          | +---+
+	// o---+-----   +---+ | 1 |
+	// | 2 |        | 2 | o---+
+	// +---+        +---o---------
+
+	bool dominatedBy1Obj = false;
+	for ( int k = 0; k < box1->getNbObjective(); ++k )
 	{
-		dominated = true;
+		if ( !( box2->getMinZ(k) < box1->getMinZ(k) ) ) return false;
+		if ( !dominatedBy1Obj && ( box2->getMaxZ(k) < box1->getMinZ(k) ) ) dominatedBy1Obj = true;
 	}
-	
-	return dominated;
+	return dominatedBy1Obj;
 }
 
 bool isDominatedBetweenOrigins(Box *box1, Box *box2)
 {
-	bool dominated(false);
-	if(	( box1->getOriginZ1() > box2->getMaxZ1() && box1->getOriginZ2() > box2->getMinZ2() ) || ( box1->getOriginZ2() > box2->getMaxZ2() && box1->getOriginZ1() > box2->getMinZ1() ) )
+	// |                |
+	// |                |
+	// | o              |
+	// o---+-----   +---+
+	// | 2 |        | 2 | o
+	// +---+        +---o---------
+
+	bool dominatedBy1Obj = false;
+	for ( int k = 0; k < box1->getNbObjective(); ++k )
 	{
-		dominated = true;
+		if ( !( box2->getMinZ(k) < box1->getOriginZ(k) ) ) return false;
+		if ( !dominatedBy1Obj && ( box2->getMaxZ(k) < box1->getOriginZ(k) ) ) dominatedBy1Obj = true;
 	}
-	
-	return dominated;
+	return dominatedBy1Obj;
 }
 
 void filterDominatedBoxes(std::vector<Box*> &vectBox)
 {
-	for(unsigned int it = 0; it < vectBox.size(); it++)
+	for ( unsigned int it = 0; it < vectBox.size(); ++it )
 	{
-		for(unsigned int it2 = it + 1; it2 < vectBox.size(); it2++)
+		for ( unsigned int it2 = it + 1; it2 < vectBox.size(); ++it2 )
 		{
-			if( isDominatedBetweenTwoBoxes( vectBox[it2] , vectBox[it] ) )
+			if ( isDominatedBetweenTwoBoxes( vectBox[it2] , vectBox[it] ) )
 			{
 				//it2 is dominated
 				delete (vectBox[it2]);
 				vectBox.erase((vectBox.begin())+=it2);
-				it2--;//We delete it2, so we shift by one
+				--it2;//We delete it2, so we shift by one
 			}
 			else
 			{
-				if( isDominatedBetweenTwoBoxes( vectBox[it] , vectBox[it2] ) )
+				if ( isDominatedBetweenTwoBoxes( vectBox[it] , vectBox[it2] ) )
 				{
 					//it is dominated
 					delete (vectBox[it]);
@@ -363,13 +381,13 @@ bool isDominatedByItsOrigin(std::vector<Box*> &vectBox, Box *box)
 	bool isDominated(false);
 	std::vector<Box*>::iterator it;
 	/*Stop Criterion
-     - all the vector is travelled (but condition 3 may occur before)
-     - we are dominated
-     - we compare with itself
-     */
-	for( it = vectBox.begin(); it != vectBox.end() && !isDominated && (*it != box); it++)
+	- all the vector is travelled (but condition 3 may occur before)
+	- we are dominated
+	- we compare with itself
+	*/
+	for ( it = vectBox.begin(); it != vectBox.end() && !isDominated && (*it != box); ++it )
 	{
-		if( isDominatedBetweenOrigins( box , (*it) ) )
+		if ( isDominatedBetweenOrigins( box , (*it) ) )
 		{
 			isDominated = true;
 		}
@@ -382,13 +400,13 @@ bool isDominatedByItsBox(std::vector<Box*> &vectBox, Box *box)
 	bool isDominated(false);
 	std::vector<Box*>::iterator it;
 	/*Stop Criterion
-     - all the vector is travelled (but condition 3 may occur before)
-     - we are dominated
-     - we compare with itself
-     */
-	for(it = vectBox.begin(); it != vectBox.end() && !isDominated && (*it != box); it++)
+	- all the vector is travelled (but condition 3 may occur before)
+	- we are dominated
+	- we compare with itself
+	*/
+	for ( it = vectBox.begin(); it != vectBox.end() && !isDominated && (*it != box); ++it )
 	{
-		if( isDominatedBetweenTwoBoxes( box , (*it) ) )
+		if ( isDominatedBetweenTwoBoxes( box , (*it) ) )
 		{
 			isDominated = true;
 		}

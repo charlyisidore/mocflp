@@ -65,40 +65,81 @@ public:
 	*
 	*	This construtor gives a \c Box which a set of \c Facilities opened.
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
-	*	\param[in] toOpen : A pointer of boolean representing the vector of \c Facility to open in order to construct an object \c Box.
+	*	\param[in] toOpen : A vector of boolean representing the vector of \c Facility to open in order to construct an object \c Box.
 	*/
-    Box(Data &data, bool* toOpen);
+    Box(Data &data, const std::vector<bool> & toOpen);
     /*!
 	*	\brief Destructor of the class \c Box.
 	*/
     ~Box();
-    
+
     /*!
+	*	\brief Getter for the number of objectives.
+	*	\return A int as the number of objectives.
+	*/
+    int getNbObjective() const;
+
+    /*!
+	*	\brief Getter for the minimum value w.r.t. objective k.
+	*	\return A double as the minimum value w.r.t. objective k of this \c Box.
+	*/
+    double getMinZ(int k) const;
+
+    /*!
+	*	\brief Getter for the maximum value w.r.t. objective k.
+	*	\return A double as the maximum value w.r.t. objective k of this \c Box.
+	*/
+    double getMaxZ(int k) const;
+
+     /*!
+	*	\brief Getter for the value of the origin w.r.t. objective k.
+	*	\return A double as the value of the point of origin w.r.t. objective k of this \c Box.
+	*/
+    double getOriginZ(int k) const;
+
+     /*!
+	*	\brief Setter for the minimum value w.r.t. objective k.
+	*	\param[in] v : A double which represents the minimum value w.r.t. objective k of this \c Box.
+	*/
+    void setMinZ(int k, double v);
+    /*!
+	*	\brief Setter for the maximum value w.r.t. objective k.
+	*	\param[in] v : A double which represents the maximum value w.r.t. objective k of this \c Box.
+	*/
+    void setMaxZ(int k, double v);
+
+    /*!
+	*	\deprecated
 	*	\brief Getter for the minimum value w.r.t. objective 1.
 	*	\return A double as the minimum value w.r.t. objective 1 of this \c Box.
 	*/
     double getMinZ1() const;
     /*!
+	*	\deprecated
 	*	\brief Getter for the minimum value w.r.t. objective 2.
 	*	\return A double as the minimum value w.r.t. objective 2 of this \c Box.
 	*/
     double getMinZ2() const;
      /*!
+	*	\deprecated
 	*	\brief Getter for the maximum value w.r.t. objective 1.
 	*	\return A double as the maximum value w.r.t. objective 1 of this \c Box.
 	*/
     double getMaxZ1() const;
      /*!
+	*	\deprecated
 	*	\brief Getter for the maximum value w.r.t. objective 2.
 	*	\return A double as the maximum value w.r.t. objective 2 of this \c Box.
 	*/
     double getMaxZ2() const;
     /*!
+	*	\deprecated
 	*	\brief Getter for the value of the origin w.r.t. objective 1.
 	*	\return A double as the value of the point of origin w.r.t. objective 1 of this \c Box.
 	*/
     double getOriginZ1() const;
      /*!
+	*	\deprecated
 	*	\brief Getter for the value of the origin w.r.t. objective 2.
 	*	\return A double as the value of the point of origin w.r.t. objective 2 of this \c Box.
 	*/
@@ -154,21 +195,25 @@ public:
 	*/
     void setId(const std::string & s);
     /*!
+	*	\deprecated
 	*	\brief Setter for the minimum value w.r.t. objective 1.
 	*	\param[in] v : A double which represents the minimum value w.r.t. objective 1 of this \c Box.
 	*/
     void setMinZ1(double v);
      /*!
+	*	\deprecated
 	*	\brief Setter for the minimum value w.r.t. objective 2.
 	*	\param[in] v : A double which represents the minimum value w.r.t. objective 2 of this \c Box.
 	*/
     void setMinZ2(double v);
     /*!
+	*	\deprecated
 	*	\brief Setter for the maximum value w.r.t. objective 1.
 	*	\param[in] v : A double which represents the maximum value w.r.t. objective 1 of this \c Box.
 	*/
     void setMaxZ1(double v);
     /*!
+	*	\deprecated
 	*	\brief Setter for the maximum value w.r.t. objective 2.
 	*	\param[in] v : A double which represents the maximum value w.r.t. objective 2 of this \c Box.
 	*/
@@ -263,5 +308,39 @@ bool isDominatedByItsOrigin(std::vector<Box*> &vectBox, Box *box);
 *	\return A boolean which value is TRUE if one of the \c Box of the vector vectBox is dominated by the \c Box box. 
 */
 bool isDominatedByItsBox(std::vector<Box*> &vectBox, Box *box);
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions
+
+inline int Box::getNbObjective() const
+{
+	return data_.getNbObjective();
+}
+
+inline double Box::getMinZ(int k) const
+{
+	return minZ_[k];
+}
+
+inline double Box::getMaxZ(int k) const
+{
+	return maxZ_[k];
+}
+
+inline double Box::getOriginZ(int k) const
+{
+	return originZ_[k];
+}
+
+inline void Box::setMinZ(int k, double v)
+{
+	minZ_[k] = v;
+}
+
+inline void Box::setMaxZ(int k, double v)
+{
+	maxZ_[k] = v;
+}
 
 #endif

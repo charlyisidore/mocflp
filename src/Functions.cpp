@@ -86,7 +86,7 @@ void addChildren(Box *boxMother, std::vector<Box*> &vBox)
     Data& data = boxMother->getData();
     
     //To find the last digit at 1 in the open facility
-    bool *facilityOpen = new bool[data.getnbFacility()];
+    std::vector<bool> facilityOpen(data.getnbFacility());
     int indexLastOpened = -1;
     
     for(unsigned int i = 0 ; i < data.getnbFacility() ; i++)
@@ -106,8 +106,6 @@ void addChildren(Box *boxMother, std::vector<Box*> &vBox)
         vBox.push_back(tmp);		
         facilityOpen[i] = false;
     }
-    
-    delete []facilityOpen;
 }
 
 void filter(std::vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor)
