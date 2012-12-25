@@ -57,13 +57,18 @@ void ToFile::saveCorrelation(Data &data)
 		temp += "_Correlation.out";
 		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
 		
-		if(oFile)
+		if (oFile)
 		{
-			for(unsigned int i = 0; i < data.getnbCustomer(); i++)
+			for (unsigned int i = 0; i < data.getnbCustomer(); ++i)
 			{
-				for(unsigned int j = 0; j < data.getnbFacility(); j++)
+				for (unsigned int j = 0; j < data.getnbFacility(); ++j)
 				{
-					oFile << data.getAllocationObj1Cost(i,j) << " " << data.getAllocationObj2Cost(i,j) << std::endl;
+					for (int k = 0; k < data.getNbObjective(); ++k)
+					{
+						if (k > 0) oFile << ' ';
+						oFile << data.getAllocationObjCost(k,i,j);
+					}
+					oFile << std::endl;
 				}
 			}
 		    
@@ -80,83 +85,17 @@ void ToFile::saveCorrelation(Data &data)
 
 void ToFile::saveInitialBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
-	if (Argument::mode_export)
-	{
-		//Opening output file
-		std::string temp("res/");
-		temp += data.getFileName();
-		temp += "_InitialBoxes.out";
-		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
-		
-		if(oFile)
-		{
-			for(unsigned int it = 0; it < vectorBox.size(); it++)
-			{
-				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << std::endl;
-			}
-		}
-		else
-		{
-			std::cerr << "Unable to open the file !" << std::endl;
-		}
-		
-		//Close the file
-		oFile.close();
-	}
+	saveBoxes(vectorBox, data, "_InitialBoxes.out");
 }
 
 void ToFile::saveFilteringBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
-	if (Argument::mode_export)
-	{
-		//Opening output file
-		std::string temp("res/");
-		temp += data.getFileName();
-		temp += "_FilteringBoxes.out";
-		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
-		
-		if(oFile)
-		{
-			for(unsigned int it = 0; it < vectorBox.size(); it++)
-			{
-				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << std::endl;
-			}
-		}
-		else
-		{
-			std::cerr << "Unable to open the file !" << std::endl;
-		}
-		
-		//Close the file
-		oFile.close();
-	}
+	saveBoxes(vectorBox, data, "_FilteringBoxes.out");
 }
 
 void ToFile::saveReconstructionBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
-	if (Argument::mode_export)
-	{
-		//Opening output file
-		std::string temp("res/");
-		temp += data.getFileName();
-		temp += "_ReconstructionBoxes.out";
-		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
-		
-		if(oFile)
-		{
-			for(unsigned int it = 0; it < vectorBox.size(); it++)
-			{
-				oFile << vectorBox[it]->getMinZ1() << "\t" << vectorBox[it]->getMinZ2() << "\t" << vectorBox[it]->getMaxZ1() << "\t" << vectorBox[it]->getMaxZ2() << std::endl;
-			}
-		}
-		else
-		{
-			std::cerr << "Unable to open the file !" << std::endl;
-		}
-		
-		//Close the file
-		oFile.close();
-	}
+	saveBoxes(vectorBox, data, "_ReconstructionBoxes.out");
 }
 
 void ToFile::saveYN(std::list<Solution> &lsol, Data &data)
@@ -170,12 +109,19 @@ void ToFile::saveYN(std::list<Solution> &lsol, Data &data)
 		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
 		
 		std::list<Solution>::iterator iter;
-		
-		if(oFile)
+
+		if (oFile)
 		{
-			for(iter = lsol.begin(); iter != lsol.end(); iter++)
+			// Display with decimal notation (instead of scientific notation)
+			oFile << std::fixed << std::setprecision(0);
+			for (iter = lsol.begin(); iter != lsol.end(); ++iter)
 			{
-				oFile << std::fixed << std::setprecision(0) << (*iter).getObj1() << "\t" << (*iter).getObj2() << std::endl;
+				for (int k = 0; k < (*iter).getNbObjective(); ++k)
+				{
+					if (k > 0) oFile << '\t';
+					oFile << (*iter).getObj(k);
+				}
+				oFile << std::endl;
 			}
 		}
 		else
@@ -187,3 +133,41 @@ void ToFile::saveYN(std::list<Solution> &lsol, Data &data)
 		oFile.close();
 	}
 }
+
+void ToFile::saveBoxes(std::vector<Box*> &vectorBox, Data &data, const std::string & suffix)
+{
+	if (Argument::mode_export)
+	{
+		//Opening output file
+		std::string temp("res/");
+		temp += data.getFileName();
+		temp += suffix;
+		std::ofstream oFile(temp.c_str(), std::ios::out | std::ios::trunc);
+		
+		if (oFile)
+		{
+			for (unsigned int i = 0; i < vectorBox.size(); ++i)
+			{
+				for (int k = 0; k < vectorBox[i]->getNbObjective(); ++k)
+				{
+					if (k > 0) oFile << '\t';
+					oFile << vectorBox[i]->getMinZ(k);
+				}
+				for (int k = 0; k < vectorBox[i]->getNbObjective(); ++k)
+				{
+					oFile << '\t';
+					oFile << vectorBox[i]->getMaxZ(k);
+				}
+				oFile << std::endl;
+			}
+		}
+		else
+		{
+			std::cerr << "Unable to open the file !" << std::endl;
+		}
+		
+		//Close the file
+		oFile.close();
+	}
+}
+

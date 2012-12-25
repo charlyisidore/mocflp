@@ -89,6 +89,7 @@ public:
     unsigned int getnbCustomer() const;
 	/*!
 	*	\brief Getter for the allocation cost w.r.t. objective k between a \c Customer and a \c Facility.
+	*	\param[in] k : The index of the objective.
 	*	\param[in] cust : The index of the \c Customer.
 	*	\param[in] fac : The index of the \c Facility.
 	*	\return A double as the value of the allocation cost w.r.t. objective k for the \c Customer cust to the \c Facility fac.
@@ -96,6 +97,7 @@ public:
     double getAllocationObjCost(int k, int cust, int fac) const;
     /*!
 	*	\brief Setter for the allocation cost w.r.t. objective k between a \c Customer and a \c Facility.
+	*	\param[in] k : The index of the objective.
 	*	\param[in] cust : The index of the \c Customer.
 	*	\param[in] fac : The index of the \c Facility.
 	*	\param[in] val : The value of the allocation cost of the customer cust to the facility fac w.r.t. objective k.

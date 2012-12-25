@@ -95,6 +95,9 @@ public:
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
 	*/
     static void saveYN(std::list<Solution> &lsol, Data &data);
+
+	// Common to all functions that save boxes, only file name suffix changes.
+	static void saveBoxes(std::vector<Box*> &vectorBox, Data &data, const std::string & suffix);
 };
 
 #endif

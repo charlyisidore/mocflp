@@ -81,29 +81,34 @@ public:
 
     /*!
 	*	\brief Getter for the minimum value w.r.t. objective k.
+	*	\param[in] k : The index of the objective.
 	*	\return A double as the minimum value w.r.t. objective k of this \c Box.
 	*/
     double getMinZ(int k) const;
 
     /*!
 	*	\brief Getter for the maximum value w.r.t. objective k.
+	*	\param[in] k : The index of the objective.
 	*	\return A double as the maximum value w.r.t. objective k of this \c Box.
 	*/
     double getMaxZ(int k) const;
 
      /*!
 	*	\brief Getter for the value of the origin w.r.t. objective k.
+	*	\param[in] k : The index of the objective.
 	*	\return A double as the value of the point of origin w.r.t. objective k of this \c Box.
 	*/
     double getOriginZ(int k) const;
 
      /*!
 	*	\brief Setter for the minimum value w.r.t. objective k.
+	*	\param[in] k : The index of the objective.
 	*	\param[in] v : A double which represents the minimum value w.r.t. objective k of this \c Box.
 	*/
     void setMinZ(int k, double v);
     /*!
 	*	\brief Setter for the maximum value w.r.t. objective k.
+	*	\param[in] k : The index of the objective.
 	*	\param[in] v : A double which represents the maximum value w.r.t. objective k of this \c Box.
 	*/
     void setMaxZ(int k, double v);

@@ -58,24 +58,48 @@ public:
 	*	\brief Destructor of the class \c Solution.
 	*/
     ~Solution();
-    
+
     /*!
+	*	\brief Getter for the number of objectives.
+	*	\return A int as the number of objectives.
+	*/
+    int getNbObjective() const;
+
+    /*!
+	*	\brief Getter for the value w.r.t. objective k of this \c Solution.
+	*	\param[in] k : The index of the objective.
+	*	\return A double as the value w.r.t. objective k of this \c Solution.
+	*/
+    double getObj(int k) const;
+
+    /*!
+	*	\brief Setter for the value w.r.t objective k of this \c Solution.
+	*	\param[in] k : The index of the objective.
+	*	\param[in] obj : A double which represents the value of the \c Solution w.r.t objective k.
+	*/
+    void setObj(int k, double obj);
+
+    /*!
+	*	\deprecated
 	*	\brief Setter for the value w.r.t objective 1 of this \c Solution.
 	*	\param[in] obj : A double which represents the value of the \c Solution w.r.t objective 1.
 	*/
     void setObj1(double obj);
     /*!
+	*	\deprecated
 	*	\brief Setter for the value w.r.t objective 2 of this \c Solution.
 	*	\param[in] obj : A double which represents the value of the \c Solution w.r.t objective 2.
 	*/
     void setObj2(double obj);
     
     /*!
+	*	\deprecated
 	*	\brief Getter for the value w.r.t. objective 1 of this \c Solution.
 	*	\return A double as the value w.r.t. objective 1 of this \c Solution.
 	*/
     double getObj1() const;
     /*!
+	*	\deprecated
 	*	\brief Getter for the value w.r.t. objective 2 of this \c Solution.
 	*	\return A double as the value w.r.t. objective 2 of this \c Solution.
 	*/
@@ -96,5 +120,24 @@ private:
 *	\return A boolean which gets \c TRUE if the value w.r.t. objective 1 of the \c Solution s1 is stricty lower to the value w.r.t. objective 1 of the \c Solution s2, FALSE otherwise.
 */
 bool operator< (const Solution & s1, const Solution & s2);
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions
+
+inline int Solution::getNbObjective() const
+{
+	return obj_.size();
+}
+
+inline double Solution::getObj(int k) const
+{
+	return obj_[k];
+}
+
+inline void Solution::setObj(int k, double obj)
+{
+	obj_[k] = obj;
+}
 
 #endif

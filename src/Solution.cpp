@@ -58,5 +58,5 @@ double Solution::getObj2() const
 
 bool operator< (const Solution & s1, const Solution & s2)
 {
-	return s1.getObj1() < s2.getObj1();
+	return s1.getObj(0) < s2.getObj(0);
 }
