@@ -45,8 +45,6 @@
 #include "ToFile.hpp"
 #include "LabelSetting.hpp"
 
-extern bool modeExport;
-
 /*!
 *	\defgroup paving Methods of Paving
 */

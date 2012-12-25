@@ -19,10 +19,11 @@
  */
  
 #include "ToFile.hpp"
+#include "Argument.hpp"
 
 void ToFile::removeFiles()
 {
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		struct dirent *lecture;	
 		DIR *repertoire;
@@ -48,7 +49,7 @@ void ToFile::removeFiles()
 
 void ToFile::saveCorrelation(Data &data)
 {
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		//Opening output file
 		std::string temp("res/");
@@ -79,7 +80,7 @@ void ToFile::saveCorrelation(Data &data)
 
 void ToFile::saveInitialBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		//Opening output file
 		std::string temp("res/");
@@ -106,7 +107,7 @@ void ToFile::saveInitialBoxes(std::vector<Box*> &vectorBox, Data &data)
 
 void ToFile::saveFilteringBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		//Opening output file
 		std::string temp("res/");
@@ -133,7 +134,7 @@ void ToFile::saveFilteringBoxes(std::vector<Box*> &vectorBox, Data &data)
 
 void ToFile::saveReconstructionBoxes(std::vector<Box*> &vectorBox, Data &data)
 {
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		//Opening output file
 		std::string temp("res/");
@@ -160,7 +161,7 @@ void ToFile::saveReconstructionBoxes(std::vector<Box*> &vectorBox, Data &data)
 
 void ToFile::saveYN(std::list<Solution> &lsol, Data &data)
 {
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		//Opening output file
 		std::string temp("res/");

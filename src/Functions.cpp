@@ -19,6 +19,7 @@
  */
 
 #include "Functions.hpp"
+#include "Argument.hpp"
 
 long int createBox(std::vector<Box*> &vectorBox, Data &data)
 {
@@ -72,7 +73,7 @@ long int createBox(std::vector<Box*> &vectorBox, Data &data)
 		}
 	}
 	
-	if(modeExport)
+	if (Argument::mode_export)
 	{	
 		ToFile::saveInitialBoxes(vectorBox, data);
 	}
@@ -182,7 +183,7 @@ void boxFiltering(std::vector<Box*> &vectorBox, Data &data, long int &nbToComput
 		filter(vectorBox, nbToCompute, nbWithNeighbor);
 	}
     
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		ToFile::saveFilteringBoxes(vectorBox, data);
 	}
@@ -256,7 +257,7 @@ void recomposition(std::vector<Box*> &vectorBox, std::vector<Box*> &vectorBoxFin
 	
 	filter(vectorBoxFinal, nbToCompute, nbWithNeighbor);
     
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		ToFile::saveReconstructionBoxes(vectorBoxFinal, data);
 	}
@@ -337,7 +338,7 @@ long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
 	
 	filterListSolution(allSolution);
     
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		ToFile::saveYN(allSolution, data);
 	}
@@ -408,8 +409,8 @@ double computeCorrelation(Data &data)
 	}
     
 	correl = num / (sqrt(den1)*sqrt(den2));
-    
-	if(modeExport)
+
+	if (Argument::mode_export)
 	{
 		ToFile::saveCorrelation(data);
 	}

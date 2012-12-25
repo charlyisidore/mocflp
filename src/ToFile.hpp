@@ -53,8 +53,6 @@
 *  This class represents a \c ToFile with all its attributes and methods.
 */
 
-extern bool modeExport;
-
 class ToFile
 {
 public:

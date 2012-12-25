@@ -19,6 +19,7 @@
  */
 
 #include "LabelSetting.hpp"
+#include "Argument.hpp"
 
 LabelSetting::LabelSetting(Box &box):
 boundZ_(2),
@@ -161,7 +162,7 @@ void LabelSetting::compute()
 
 void LabelSetting::print()
 {
-	if(modeVerbose)
+	if (Argument::verbose)
 	{
 		for(unsigned int i = 0; i < nbRank_; i++)
 		{

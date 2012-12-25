@@ -36,6 +36,7 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "Argument.hpp"
 #include "Parser.hpp"
 #include "Data.hpp"
 #include "Functions.hpp"
@@ -50,23 +51,6 @@
 */
 
 /*!
-*	\var modeVerbose
-*	\ingroup global
-*	\brief Variable representing the Verbose mode.
-*
-*	This boolean gets the value TRUE if the verbose mode is on, and FALSE otherwise. If the verbose mode is on, the software prints detailled information while running.
-*/
-bool modeVerbose = false;
-/*!
-*	\var modeExport
-*	\ingroup global
-*	\brief Variable representing the Export mode.
-*
-*	This boolean gets the value TRUE if the export mode is on, and FALSE otherwise. If the export mode is on, result files are written in the folder /res.
-*/
-bool modeExport = false;
-
-/*!
 *	\fn int main(int argc, char *argv[])
 *	\ingroup main
 *
@@ -76,14 +60,8 @@ bool modeExport = false;
 */
 int main(int argc, char *argv[])
 {
+	Data* data;
 
-	const char *pathInstance = NULL;//Path of the instance
-	
-	bool doFiltering(false);// boolean for Filtering method
-	bool doReconstruction(false);// boolean for Reconstruction method
-    
-	Data* data;//Data
-	
 	long int nbToCompute;
 	long int nbWithNeighbor;
 	long int nbSolLS(0);
@@ -91,66 +69,37 @@ int main(int argc, char *argv[])
 	long int boxAfterFiltering(0);
 	long int boxAfterReconstruction(0);
 	long int numberBoxComputed(0);
-    long double boxTotal(0);
-    
-    //Time strucure
+	long double boxTotal(0);
+
+	//Time strucure
 	struct timeval start, end, beginB, endB, beginBF, endBF, beginRC, endRC, beginLS, endLS;
-    
+
 	//## READING ARGUMENTS ##
 
-	if(argc < 2)
+	Argument::parse( argc, argv );
+
+	if ( Argument::help )
 	{
-	    std::cout << "Type for help : " << argv[0] << " --help" << std::endl;
-	    return 0;
+		Argument::usage( argv[0] );
+		return 0;
 	}
-       
-	for(int a = 0; a < argc; ++a)
+	else if ( Argument::filename.empty() )
 	{
-		pathInstance = argv[1];
-           
-		if(!std::strcmp(argv[a], "--help") || argc == 2)
-		{
-			std::cout << "Command is: " << argv[0] << " <instance> -OPTIONS" << std::endl
-			          << "## OPTIONS ##" << std::endl
-			          << "-f for filtering method" << std::endl
-			          << "-r for reconstruction method" << std::endl
-			          << "-verbose for verbose mode" << std::endl
-			          << "-export to export results" << std::endl;
-			return 0;
-		}
-		if(!std::strcmp(argv[a], "-f"))
-		{
-			doFiltering = true;				
-			continue;
-		}
-		if(!std::strcmp(argv[a], "-r"))
-		{
-			doReconstruction = true;				
-			continue;
-		}
-           if(!std::strcmp(argv[a], "-verbose"))
-		{
-			modeVerbose = true;				
-			continue;
-		}
-		if(!std::strcmp(argv[a], "-export"))
-		{
-			modeExport = true;				
-			continue;
-		}
-	}		
+		std::cout << "Type for help : " << argv[0] << " --help" << std::endl;
+		return 0;
+	}
 
 	//## END READING ARGUMENTS ##
-	
-	data = Parser::Parsing(pathInstance);
-	
-	if(modeExport)
+
+	data = Parser::Parsing(Argument::filename.c_str());
+
+	if (Argument::mode_export)
 	{
 		ToFile::removeFiles();
 		computeCorrelation(*data);
 	}
-	
-	if(modeVerbose)
+
+	if (Argument::verbose)
 	{
 		std::cout << std::endl
 		<< "+" << std::setfill('-') << std::setw(15) << "+"
@@ -172,7 +121,7 @@ int main(int argc, char *argv[])
 		<< std::endl;
 	}
 
-	gettimeofday(&start,NULL);
+	gettimeofday(&start, 0);
 	
 	//#############################
 	//## Functions to create Box ##
@@ -186,7 +135,7 @@ int main(int argc, char *argv[])
 		boxBeforeFitlering = vectorBox.size();		
 		gettimeofday(&endB, 0);
        
-		if(modeVerbose)
+		if (Argument::verbose)
 		{
 			std::cout << "+" << std::setfill('-') << std::setw(18) << "+"
 				<< " BOX " << "+" << std::setw(18) << "+" << std::endl
@@ -214,7 +163,7 @@ int main(int argc, char *argv[])
 	
 		std::vector<Box*> vectorBoxFinal;
 	
-		if(doFiltering)
+		if (Argument::filtering)
 		{
 			gettimeofday(&beginBF, 0);
 			boxFiltering(vectorBox, *data, nbToCompute, nbWithNeighbor);
@@ -222,7 +171,7 @@ int main(int argc, char *argv[])
 		
 			boxAfterFiltering = vectorBox.size();	
 			
-			if(doReconstruction)
+			if (Argument::reconstruction)
 			{
 				gettimeofday(&beginRC, 0);
 				recomposition(vectorBox, vectorBoxFinal, *data, nbToCompute, nbWithNeighbor);
@@ -234,7 +183,7 @@ int main(int argc, char *argv[])
 				vectorBoxFinal = vectorBox;
 			}
 		
-			if(modeVerbose)
+			if (Argument::verbose)
 			{
 				std::cout << "+" << std::setfill('-') << std::setw(13)
 					<< "+" << " BOX FILTERING " << "+" << std::setw(13) << "+" << std::endl
@@ -247,7 +196,7 @@ int main(int argc, char *argv[])
 				<< " " << std::setw(20) << std::left
 					<< "Time (ms) " << "|" << std::setw(20) << std::right
 					<< (1000*time_s_Diff(beginBF,endBF) + time_ms_Diff(beginBF,endBF)) << " " << std::endl;
-				if(doReconstruction)
+				if (Argument::reconstruction)
 				{
 					std::cout << "+" << std::setfill(' ') << std::setw(8) << " "
 						<< " ! after reconstruction !  " << " " << std::setw(6) << "+" << std::endl
@@ -274,7 +223,7 @@ int main(int argc, char *argv[])
 		nbSolLS = runLabelSetting(vectorBoxFinal,*data);				
 		gettimeofday(&endLS, 0);
 		
-		if(modeVerbose)
+		if (Argument::verbose)
 		{
 			std::cout << "+" << std::setfill('-') << std::setw(13) << "+"
 				<< " LABEL SETTING " << "+" << std::setw(13) << "+" << std::endl
@@ -305,7 +254,7 @@ int main(int argc, char *argv[])
 		<< (1000*time_s_Diff(start,end) + time_ms_Diff(start,end)) << " " << std::endl
 	<< "+" << std::setfill('-') << std::setw(42) << "+" << std::endl << std::endl;
 	
-	if(modeExport)
+	if (Argument::mode_export)
 	{
 		if( system("./plot/plot.sh") != 0 )
 		{

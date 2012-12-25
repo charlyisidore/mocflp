@@ -18,65 +18,74 @@
  #Non-free versions of BiUFLv2012 are available under terms different from those of the General Public License. (e.g. they do not require you to accompany any object code using BiUFLv2012 with the corresponding source code.) For these alternative terms you must purchase a license from Technology Transfer Office of the University of Nantes. Users interested in such a license should contact us (valorisation@univ-nantes.fr) for more information.
  */
 
-#include "Node.hpp"
-#include "Argument.hpp"
+/*!
+* \file Argument.hpp
+* \brief Class to handle program options.
+* \author Charly LERSTEAU
+* \date 25 December 2012
+* \version 1.1
+* \copyright GNU General Public License 
+*
+* This class uses getopt to handle standard POSIX arguments.
+*
+*/
 
-Node::Node()
-{	
-}
+#ifndef ARGUMENT_H
+#define ARGUMENT_H
 
-Node::Node(int size) :
-	size_(size),
-	costToEnterZ_(2, std::vector<double>(size_))
+#include <iostream>
+#include <string>
+
+/*! \class Argument
+* \brief Class to handle POSIX program options easily using getopt.
+*
+* This class parses and represents arguments values.
+*/
+struct Argument
 {
-}
+	/*!
+	*	\brief Parse the arguments.
+	*
+	*	\param[in] argc : The number of arguments.
+	*	\param[in] argv : The array of strings of the arguments.
+	*/
+	static void parse( int argc, char * argv[] );
 
-Node::~Node()
-{
-}
+	/*!
+	*	\brief Display arguments parsed to see what the program has understood.
+	*
+	*	\param[in] os : An output stream.
+	*/
+	static void print( std::ostream & os = std::cout );
 
-void Node::setSize(unsigned int s)
-{
-	size_ = s;
-	costToEnterZ_.resize(2, std::vector<double>(size_));
-}
+	/*!
+	*	\brief Display a short user manual.
+	*
+	*	\param[in] program_name : The executable name (use argv[0]).
+	*	\param[in] os : An output stream.
+	*/
+	static void usage( const char * program_name, std::ostream & os = std::cout );
 
-unsigned int Node::getSize() const
-{
-	return size_;
-}
+	// Integer or boolean parameters
+	static int
+		filtering,
+		reconstruction,
+		mode_export,
+		verbose,
+		help;
 
-double Node::getCostToEnterZ1(int i) const
-{
-	return costToEnterZ_[0][i];
-}
+	// Positive integer parameters
+	static unsigned int
+		random_seed;
 
-double Node::getCostToEnterZ2(int i) const
-{
-	return costToEnterZ_[1][i];
-}
-
-void Node::clearLabels()
-{
-	labels_.clear();
-}
-
-void Node::setValues(int index, double z1, double z2)
-{
-	costToEnterZ_[0][index] = z1;
-	costToEnterZ_[1][index] = z2;
-}
-
-void Node::print()
-{
-	if (Argument::verbose)
+	// Identifiers
+	enum
 	{
-		std::cout << "(N) Print Node" << std::endl;
-		int i = 0;
-		for( std::list<Solution>::iterator iter = labels_.begin(); iter != labels_.end(); ++iter )
-		{
-			++i;
-			std::cout << i << '\t' << (*iter).getObj1() << '\t' << (*iter).getObj2() << std::endl;	
-		}
-	}
-}
+		id_random_seed = 0x100
+	};
+
+	// Instance file name
+	static std::string filename;
+};
+
+#endif

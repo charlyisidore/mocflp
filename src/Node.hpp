@@ -39,8 +39,6 @@
 
 #include "Solution.hpp"
 
-extern bool modeVerbose;
-
 /*! \class Node
 * \brief Class to represent a \c Node.
 *

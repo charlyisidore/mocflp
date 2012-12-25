@@ -43,8 +43,6 @@
 #include "Solution.hpp"
 #include "Functions.hpp"
 
-extern bool modeVerbose;
-
 /*! \class LabelSetting
 * \brief Class to represent a \c LabelSetting.
 *
