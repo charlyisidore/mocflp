@@ -22,6 +22,7 @@
 
 Data *Parser::Parsing(const char *filename)
 {
+	// TODO: extend to p-objective
 	std::ifstream file(filename);
     
 	if(file.is_open())
@@ -62,7 +63,7 @@ Data *Parser::Parsing(const char *filename)
 			for(j = 0; j < nbFacility; ++j)
 			{
 				file >> v;
-				d->setAllocationObj1Cost(i, j, v);
+				d->setAllocationObjCost(0, i, j, v);
 			}
 			ignoreLine(file);
 		}
@@ -74,7 +75,7 @@ Data *Parser::Parsing(const char *filename)
 			for(j = 0; j < nbFacility; ++j)
 			{
 				file >> v;
-				d->setAllocationObj2Cost(i, j, v);
+				d->setAllocationObjCost(1, i, j, v);
 			}
 			ignoreLine(file);
 		}
@@ -84,7 +85,7 @@ Data *Parser::Parsing(const char *filename)
 		for(i = 0; i < nbFacility; ++i)
 		{			
 			file >> v;
-			d->getFacility(i).setLocationObj1Cost(v);
+			d->getFacility(i).setLocationObjCost(0, v);
 		}
 		ignoreLine(file);
         
@@ -92,7 +93,7 @@ Data *Parser::Parsing(const char *filename)
 		for(i = 0; i < nbFacility; ++i)
 		{
 			file >> v;
-			d->getFacility(i).setLocationObj2Cost(v);
+			d->getFacility(i).setLocationObjCost(1, v);
 		}
         
 		return d;

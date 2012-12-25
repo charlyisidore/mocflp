@@ -20,45 +20,30 @@
 
 #include "Facility.hpp"
 
-Facility::Facility(unsigned short x, unsigned short y)
-: coordX_(x), coordY_(y), locationObjCost_(2, 0)
+Facility::Facility(unsigned short x, unsigned short y) :
+	coordX_(x),
+	coordY_(y),
+	locationObjCost_(2, 0)
 {
 }
 
 unsigned short Facility::getCoordX() const
 {
-    return coordX_;
+	return coordX_;
 }
 
 unsigned short Facility::getCoordY() const
 {
-    return coordY_;
-}
-
-double Facility::getLocationObj1Cost() const
-{
-    return locationObjCost_[0];
-}
-
-double Facility::getLocationObj2Cost() const
-{
-    return locationObjCost_[1];
-}
-
-void Facility::setLocationObj1Cost(double val)
-{
-    locationObjCost_[0] = val;
-}
-
-void Facility::setLocationObj2Cost(double val)
-{
-    locationObjCost_[1] = val;
+	return coordY_;
 }
 
 std::ostream &operator<<(std::ostream &out, const Facility *fac)
 {
-    out << "[" << fac->getCoordX() << "," << fac->getCoordY() << "]"
-    << "\n\tCost Obj 1 =" << fac->getLocationObj1Cost()
-    << "\n\tCost Obj 2 =" << fac->getLocationObj2Cost();
-    return out;
+	out << "[" << fac->getCoordX() << "," << fac->getCoordY() << "]" << std::endl;
+
+	for (int k = 0; k < fac->getNbObjective(); ++k)
+	{
+		out << "\tCost obj " << k+1 << fac->getLocationObjCost(k) << std::endl;
+	}
+	return out;
 }
