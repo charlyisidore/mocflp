@@ -25,42 +25,6 @@ Solution::Solution(int nbObjective) :
 {
 }
 
-Solution::Solution() :
-	obj_(2)
-{
-}
-
-Solution::Solution(double obj1, double obj2) :
-	obj_(2)
-{
-	obj_[0] = obj1;
-	obj_[1] = obj2;
-}
-
-Solution::~Solution()
-{
-}
-
-void Solution::setObj1(double obj)
-{
-	obj_[0] = obj;
-}
-
-void Solution::setObj2(double obj)
-{
-	obj_[1] = obj;
-}
-
-double Solution::getObj1() const
-{
-	return obj_[0];
-}
-
-double Solution::getObj2() const
-{
-	return obj_[1];
-}
-
 bool operator< (const Solution & s1, const Solution & s2)
 {
 	return s1.getObj(0) < s2.getObj(0);

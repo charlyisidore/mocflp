@@ -50,24 +50,6 @@ public:
 	*/
     Solution(int nbObjective);
 
-	/*!
-	*	\deprecated
-	*	\brief Default constructor of the class \c Solution.
-	*/
-    Solution();
-    /*!
-	*	\deprecated
-	*	\brief Constructor of the class \c Solution.
-	*
-	*	\param[in] obj1 : A double which represents the value of the \c Solution w.r.t. objective 1.
-	*	\param[in] obj2 : A double which represents the value of the \c Solution w.r.t. objective 2.
-	*/
-    Solution(double obj1, double obj2);
-    /*!
-	*	\brief Destructor of the class \c Solution.
-	*/
-    ~Solution();
-
     /*!
 	*	\brief Getter for the number of objectives.
 	*	\return A int as the number of objectives.
@@ -87,32 +69,6 @@ public:
 	*	\param[in] obj : A double which represents the value of the \c Solution w.r.t objective k.
 	*/
     void setObj(int k, double obj);
-
-    /*!
-	*	\deprecated
-	*	\brief Setter for the value w.r.t objective 1 of this \c Solution.
-	*	\param[in] obj : A double which represents the value of the \c Solution w.r.t objective 1.
-	*/
-    void setObj1(double obj);
-    /*!
-	*	\deprecated
-	*	\brief Setter for the value w.r.t objective 2 of this \c Solution.
-	*	\param[in] obj : A double which represents the value of the \c Solution w.r.t objective 2.
-	*/
-    void setObj2(double obj);
-    
-    /*!
-	*	\deprecated
-	*	\brief Getter for the value w.r.t. objective 1 of this \c Solution.
-	*	\return A double as the value w.r.t. objective 1 of this \c Solution.
-	*/
-    double getObj1() const;
-    /*!
-	*	\deprecated
-	*	\brief Getter for the value w.r.t. objective 2 of this \c Solution.
-	*	\return A double as the value w.r.t. objective 2 of this \c Solution.
-	*/
-    double getObj2() const;
     
 private:
     std::vector<double> obj_;/*!< Double which represents the value w.r.t. objective k of this \c Solution */

@@ -91,37 +91,20 @@ public:
     void setValue(int k, int index, double zk);
 
     /*!
-	*	\deprecated
-	*	\brief Getter for the cost to enter to this \c Node w.r.t. objective 1.
-	*	\param i : The index.
-	*	\return A double as the cost to enter to this \c Node w.r.t. objective 1 at the index i.
-	*/
-    double getCostToEnterZ1(int i) const;
-    /*!
-	*	\deprecated
-	*	\brief Getter for the cost to enter to this \c Node w.r.t. objective 2.
-	*	\param i : The index.
-	*	\return A double as the cost to enter to this \c Node w.r.t. objective 2 at the index i.
-	*/
-    double getCostToEnterZ2(int i) const;
-    
-    /*!
 	*	\brief A method to delete all the labels of this \c Node.
 	*/
     void clearLabels();
 
-     /*!
-	*	\deprecated
-	*	\brief Setter of the values of the solution ones want to set.
-	*	\param[in] index : The index.
-	*	\param[in] z1 : The value of the solution w.r.t. objective 1 ones wants to set.
-	*	\param[in] z2 : The value of the solution w.r.t. objective 2 ones wants to set.
-	*/
-    void setValues(int index, double z1, double z2);
     /*!
 	*	\brief A method to print informations about this \c Node.
 	*/
     void print();
+
+    /*!
+	*	\brief Getter for the number of objectives.
+	*	\return A int as the number of objectives.
+	*/
+    int getNbObjective() const;
     
     std::list<Solution> labels_;/*!< A list of \c Solution which represents all the \c Solutions (or labels) in this \c Node*/
 	
@@ -143,6 +126,11 @@ inline double Node::getCostToEnterZ(int k, int i) const
 inline void Node::setValue(int k, int index, double zk)
 {
 	costToEnterZ_[k][index] = zk;
+}
+
+inline int Node::getNbObjective() const
+{
+	return costToEnterZ_.size();
 }
 
 #endif

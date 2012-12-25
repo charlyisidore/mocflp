@@ -21,7 +21,8 @@
 #include "Node.hpp"
 #include "Argument.hpp"
 
-Node::Node()
+Node::Node() :
+	costToEnterZ_(2)
 {	
 }
 
@@ -37,8 +38,10 @@ Node::~Node()
 
 void Node::setSize(unsigned int s)
 {
+	int nbObjective = getNbObjective();
 	size_ = s;
-	costToEnterZ_.resize(2, std::vector<double>(size_));
+	costToEnterZ_.clear();
+	costToEnterZ_.resize(nbObjective, std::vector<double>(size_));
 }
 
 unsigned int Node::getSize() const
@@ -46,25 +49,9 @@ unsigned int Node::getSize() const
 	return size_;
 }
 
-double Node::getCostToEnterZ1(int i) const
-{
-	return costToEnterZ_[0][i];
-}
-
-double Node::getCostToEnterZ2(int i) const
-{
-	return costToEnterZ_[1][i];
-}
-
 void Node::clearLabels()
 {
 	labels_.clear();
-}
-
-void Node::setValues(int index, double z1, double z2)
-{
-	costToEnterZ_[0][index] = z1;
-	costToEnterZ_[1][index] = z2;
 }
 
 void Node::print()
@@ -73,10 +60,15 @@ void Node::print()
 	{
 		std::cout << "(N) Print Node" << std::endl;
 		int i = 0;
-		for( std::list<Solution>::iterator iter = labels_.begin(); iter != labels_.end(); ++iter )
+		for ( std::list<Solution>::iterator iter = labels_.begin(); iter != labels_.end(); ++iter )
 		{
 			++i;
-			std::cout << i << '\t' << (*iter).getObj1() << '\t' << (*iter).getObj2() << std::endl;	
+			std::cout << i;
+			for (int k = 0; k < (*iter).getNbObjective(); ++k)
+			{
+				std::cout << '\t' << (*iter).getObj(k);
+			}
+			std::cout << std::endl;	
 		}
 	}
 }
