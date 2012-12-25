@@ -81,15 +81,31 @@ public:
 	*	\return A unsigned int which value is the rank (number of level) of the algorithm.
 	*/
     unsigned int getRank() const;
-    
-    Node *nodes_;/*!< A pointer of \c Node which represents all the solutions in each level */
+
+    /*!
+	*	\brief Getter for the number of objectives.
+	*	\return A int as the number of objectives.
+	*/
+    int getNbObjective() const;
+
+    std::vector<Node> nodes_;/*!< A vector of \c Node which represents all the solutions in each level */
     
 private:
     unsigned int nbRank_;/*!< A unsigned int which represents the number of level of this algorithm in this \c Box */
-    
+
     std::vector<double> boundZ_;/*!< A unsigned int which represents the maximum value w.r.t. objective k of this \c Box */
-    
+
     Data &data_;/*!< A reference to the \c Data of this \c Box */
     
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions
+
+inline int LabelSetting::getNbObjective() const
+{
+	return boundZ_.size();
+}
+
 #endif

@@ -43,11 +43,20 @@
 class Solution
 {
 public:
+    /*!
+	*	\brief Default constructor of the class \c Solution.
+	*
+	*	\param[in] nbObjective : The number of objectives.
+	*/
+    Solution(int nbObjective);
+
 	/*!
+	*	\deprecated
 	*	\brief Default constructor of the class \c Solution.
 	*/
     Solution();
     /*!
+	*	\deprecated
 	*	\brief Constructor of the class \c Solution.
 	*
 	*	\param[in] obj1 : A double which represents the value of the \c Solution w.r.t. objective 1.

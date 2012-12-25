@@ -20,6 +20,11 @@
 
 #include "Solution.hpp"
 
+Solution::Solution(int nbObjective) :
+	obj_(nbObjective)
+{
+}
+
 Solution::Solution() :
 	obj_(2)
 {
