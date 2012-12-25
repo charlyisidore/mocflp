@@ -73,13 +73,32 @@ public:
 	*	\return An unsigned int as the size of this \c Node.
 	*/
     unsigned int getSize() const;
+
     /*!
+	*	\brief Getter for the cost to enter to this \c Node w.r.t. objective k.
+	*	\param k : The index of the objective.
+	*	\param i : The index.
+	*	\return A double as the cost to enter to this \c Node w.r.t. objective k at the index i.
+	*/
+    double getCostToEnterZ(int k, int i) const;
+
+     /*!
+	*	\brief Setter of the values of the solution ones want to set.
+	*	\param[in] k : The index of the objective.
+	*	\param[in] index : The index.
+	*	\param[in] zk : The value of the solution w.r.t. objective k ones wants to set.
+	*/
+    void setValue(int k, int index, double zk);
+
+    /*!
+	*	\deprecated
 	*	\brief Getter for the cost to enter to this \c Node w.r.t. objective 1.
 	*	\param i : The index.
 	*	\return A double as the cost to enter to this \c Node w.r.t. objective 1 at the index i.
 	*/
     double getCostToEnterZ1(int i) const;
     /*!
+	*	\deprecated
 	*	\brief Getter for the cost to enter to this \c Node w.r.t. objective 2.
 	*	\param i : The index.
 	*	\return A double as the cost to enter to this \c Node w.r.t. objective 2 at the index i.
@@ -90,7 +109,9 @@ public:
 	*	\brief A method to delete all the labels of this \c Node.
 	*/
     void clearLabels();
+
      /*!
+	*	\deprecated
 	*	\brief Setter of the values of the solution ones want to set.
 	*	\param[in] index : The index.
 	*	\param[in] z1 : The value of the solution w.r.t. objective 1 ones wants to set.
@@ -109,5 +130,19 @@ private:
     
     std::vector< std::vector<double> > costToEnterZ_;/*!< A vector of double which represents all the values to enter to this \c Node w.r.t objective k*/
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions
+
+inline double Node::getCostToEnterZ(int k, int i) const
+{
+	return costToEnterZ_[k][i];
+}
+
+inline void Node::setValue(int k, int index, double zk)
+{
+	costToEnterZ_[k][index] = zk;
+}
 
 #endif
