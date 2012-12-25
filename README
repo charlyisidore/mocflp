@@ -134,8 +134,8 @@ In the directory where you downloaded the source
 	OPTIONS AVAILABLE
 	-f : execute the filtering method
 	-r : execute the reconstruction method
-	-verbose : print detailled informations about the execution
-	-export : export result files and plot files in the directories
+	--verbose : print detailled informations about the execution
+	--export : export result files and plot files in the directories
 	 /res, /plot respectively.
 	
-	e.g. : ./bin/BiUFLP dat/TEST5-10.txt -f -r -export
+	e.g. : ./bin/BiUFLP dat/TEST5-10.txt -f -r --export
