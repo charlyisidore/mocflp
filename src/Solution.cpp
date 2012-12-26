@@ -20,12 +20,4 @@
 
 #include "Solution.hpp"
 
-Solution::Solution(int nbObjective) :
-	obj_(nbObjective)
-{
-}
 
-bool operator< (const Solution & s1, const Solution & s2)
-{
-	return s1.getObj(0) < s2.getObj(0);
-}

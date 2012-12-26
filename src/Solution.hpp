@@ -33,46 +33,54 @@
 #ifndef SOLUTION_H
 #define SOLUTION_H
 
+// Macro constant which specializes the class Solution for the bi-objective problem.
+// Instead of using a dynamic std::vector to store values, it uses a static double C-style array.
+// It speeds up the algorithm up to two times faster.
+#define SPEEDUP_FOR_BI_OBJECTIVE 1
+
 #include <vector>
 
 /*! \class Solution
 * \brief Class to represent a \c Solution.
 *
-*  This class represents a \c Solution with all its two attributes (obj1_ and obj2_).
+*  This class represents a \c Solution with its array attribute (obj_).
 */
 class Solution
 {
 public:
-    /*!
+	/*!
 	*	\brief Default constructor of the class \c Solution.
 	*
 	*	\param[in] nbObjective : The number of objectives.
 	*/
-    Solution(int nbObjective);
+	Solution(int nbObjective);
 
-    /*!
+	/*!
 	*	\brief Getter for the number of objectives.
 	*	\return A int as the number of objectives.
 	*/
-    int getNbObjective() const;
+	int getNbObjective() const;
 
-    /*!
+	/*!
 	*	\brief Getter for the value w.r.t. objective k of this \c Solution.
 	*	\param[in] k : The index of the objective.
 	*	\return A double as the value w.r.t. objective k of this \c Solution.
 	*/
-    double getObj(int k) const;
+	double getObj(int k) const;
 
-    /*!
+	/*!
 	*	\brief Setter for the value w.r.t objective k of this \c Solution.
 	*	\param[in] k : The index of the objective.
 	*	\param[in] obj : A double which represents the value of the \c Solution w.r.t objective k.
 	*/
-    void setObj(int k, double obj);
-    
+	void setObj(int k, double obj);
+
 private:
-    std::vector<double> obj_;/*!< Double which represents the value w.r.t. objective k of this \c Solution */
-    
+#if SPEEDUP_FOR_BI_OBJECTIVE
+	double obj_[2]; /*!< Static double C-style array which represents the value w.r.t. objective k of this \c Solution */
+#else
+	std::vector<double> obj_; /*!< Dynamic double vector which represents the value w.r.t. objective k of this \c Solution */
+#endif
 };
 
 /*!
@@ -90,9 +98,20 @@ bool operator< (const Solution & s1, const Solution & s2);
 
 // Inline functions
 
+inline Solution::Solution(int nbObjective)
+#if !SPEEDUP_FOR_BI_OBJECTIVE
+ : obj_(nbObjective)
+#endif
+{
+}
+
 inline int Solution::getNbObjective() const
 {
+#if SPEEDUP_FOR_BI_OBJECTIVE
+	return 2;
+#else
 	return obj_.size();
+#endif
 }
 
 inline double Solution::getObj(int k) const
@@ -103,6 +122,11 @@ inline double Solution::getObj(int k) const
 inline void Solution::setObj(int k, double obj)
 {
 	obj_[k] = obj;
+}
+
+inline bool operator< (const Solution & s1, const Solution & s2)
+{
+	return s1.getObj(0) < s2.getObj(0);
 }
 
 #endif
