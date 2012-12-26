@@ -71,7 +71,7 @@ data_(data)
 	
 	//Set opening of depots to FALSE
 	facility_.resize(data_.getnbFacility(), false);
-	for(unsigned int i = 0; i < data_.getnbFacility(); ++i)
+	for (unsigned int i = 0; i < data_.getnbFacility(); ++i)
 	{
 		if (toOpen[i])
 		{
@@ -144,9 +144,9 @@ int Box::getnbCustomerNotAffected() const
 int Box::getNbFacilityOpen() const
 {
 	int ret = 0;
-	for(unsigned int i = 0; i < data_.getnbFacility(); ++i)
+	for (unsigned int i = 0; i < data_.getnbFacility(); ++i)
 	{
-		if(isOpened(i))
+		if (isOpened(i))
 		{
 			++ret;
 		}
@@ -205,48 +205,48 @@ void Box::computeBox()
 {
 	// TODO: p-objective
 	//Calcul of the box
-	for(unsigned int i = 0; i < data_.getnbCustomer(); ++i)
+	for (unsigned int i = 0; i < data_.getnbCustomer(); ++i)
 	{
 		double vMinZ1 = DBL_MAX;
 		double vMaxZ1 = -1;
 		double vMinZ2 = DBL_MAX;
 		double vMaxZ2 = -1;
 		int iMinZ1 = -1, iMinZ2 = -1;
-		for(unsigned int j = 0; j < data_.getnbFacility(); ++j)
+		for (unsigned int j = 0; j < data_.getnbFacility(); ++j)
 		{
 			//Search for local min and max
-			if(facility_[j])
+			if (facility_[j])
 			{
-				if( data_.getAllocationObj1Cost(i,j) <  vMinZ1 || (data_.getAllocationObj1Cost(i,j) == vMinZ1 && data_.getAllocationObj2Cost(i,j) < vMaxZ2) )
+				if ( data_.getAllocationObjCost(0, i, j) < vMinZ1 || (data_.getAllocationObjCost(0, i, j) == vMinZ1 && data_.getAllocationObjCost(1, i, j) < vMaxZ2) )
 				{
 					// <Z1 || =Z1 et <Z2
-					vMinZ1 = data_.getAllocationObj1Cost(i,j);
-					vMaxZ2 = data_.getAllocationObj2Cost(i,j);
+					vMinZ1 = data_.getAllocationObjCost(0, i, j);
+					vMaxZ2 = data_.getAllocationObjCost(1, i, j);
 					iMinZ1 = j;
 				}
-				if(data_.getAllocationObj2Cost(i,j) <  vMinZ2 || (data_.getAllocationObj2Cost(i,j) == vMinZ2 && data_.getAllocationObj1Cost(i,j) < vMaxZ1) )
+				if (data_.getAllocationObjCost(1, i, j) < vMinZ2 || (data_.getAllocationObjCost(1, i, j) == vMinZ2 && data_.getAllocationObjCost(0, i, j) < vMaxZ1) )
 				{
 					// <Z2 || =Z2 et <Z1
-					vMinZ2 = data_.getAllocationObj2Cost(i,j);
-					vMaxZ1 = data_.getAllocationObj1Cost(i,j);
+					vMinZ2 = data_.getAllocationObjCost(1, i, j);
+					vMaxZ1 = data_.getAllocationObjCost(0, i, j);
 					iMinZ2 = j;
 				}
 			}
 		}
 		//If they are equals, this allocation is optimal <=> "trivial"
-		if(iMinZ1 == iMinZ2)
+		if (iMinZ1 == iMinZ2)
 		{
-			minZ_[0] += data_.getAllocationObj1Cost(i,iMinZ1);
-			maxZ_[0] += data_.getAllocationObj1Cost(i,iMinZ1);
-			originZ_[0] += data_.getAllocationObj1Cost(i,iMinZ1);
-			minZ_[1] += data_.getAllocationObj2Cost(i,iMinZ1);
-			maxZ_[1] += data_.getAllocationObj2Cost(i,iMinZ1);
-			originZ_[1] += data_.getAllocationObj2Cost(i,iMinZ1);
+			minZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);
+			maxZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);
+			originZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);
+			minZ_[1] += data_.getAllocationObjCost(1, i, iMinZ1);
+			maxZ_[1] += data_.getAllocationObjCost(1, i, iMinZ1);
+			originZ_[1] += data_.getAllocationObjCost(1, i, iMinZ1);
 			nbCustomerNotAffected_--;
 			isAssigned_[i] = true;
 		}
 		else
-            //We add the lexicographically optimal cost
+		//We add the lexicographically optimal cost
 		{
 			minZ_[0] += vMinZ1;
 			minZ_[1] += vMinZ2;
@@ -254,7 +254,7 @@ void Box::computeBox()
 			maxZ_[1] += vMaxZ2;	
 		}
 	}
-	if(nbCustomerNotAffected_ == 0)
+	if (nbCustomerNotAffected_ == 0)
 	{
 		//If all customers are affected, the box is a point, so there is no more WS step possible
 		hasMoreStepWS_= false;

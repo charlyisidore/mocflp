@@ -55,38 +55,38 @@ public:
 	*	\param[in] nbCustomer : The number of \c Customer of the instance.
 	*	\param[in] name : The name of the instance.
 	*/
-    Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name);
+	Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name);
+
 	/*!
-	*	\brief Destructor of the class \c Data.
-	*/
-    ~Data();
-    
-    /*!
 	*	\brief Getter for the number of objectives.
 	*	\return A int as the number of objectives.
 	*/
-    int getNbObjective() const;
+	int getNbObjective() const;
 
-    /*!
+	/*!
 	*	\brief Method to add a \c Facility to the \c Data.
 	*	\param fac : An object \c Facility.
 	*/
-    void addFacility(const Facility & fac);
-    /*!
+	void addFacility(const Facility & fac);
+
+	/*!
 	*	\brief Method to add a \c Customer to the \c Data.
 	*	\param cust : An object \c Customer.
 	*/
-    void addCustomer(const Customer & cust);
-    /*!
+	void addCustomer(const Customer & cust);
+
+	/*!
 	*	\brief Getter for the number of facilities.
 	*	\return An unsigned int as the number of facilities of the instance.
 	*/
-    unsigned int getnbFacility() const;
+	unsigned int getnbFacility() const;
+
 	/*!
 	*	\brief Getter for the number of customers.
 	*	\return An unsigned int as the number of customers of the instance.
 	*/
-    unsigned int getnbCustomer() const;
+	unsigned int getnbCustomer() const;
+
 	/*!
 	*	\brief Getter for the allocation cost w.r.t. objective k between a \c Customer and a \c Facility.
 	*	\param[in] k : The index of the objective.
@@ -94,78 +94,47 @@ public:
 	*	\param[in] fac : The index of the \c Facility.
 	*	\return A double as the value of the allocation cost w.r.t. objective k for the \c Customer cust to the \c Facility fac.
 	*/
-    double getAllocationObjCost(int k, int cust, int fac) const;
-    /*!
+	double getAllocationObjCost(int k, int cust, int fac) const;
+
+	/*!
 	*	\brief Setter for the allocation cost w.r.t. objective k between a \c Customer and a \c Facility.
 	*	\param[in] k : The index of the objective.
 	*	\param[in] cust : The index of the \c Customer.
 	*	\param[in] fac : The index of the \c Facility.
 	*	\param[in] val : The value of the allocation cost of the customer cust to the facility fac w.r.t. objective k.
 	*/
-    void setAllocationObjCost(int k, int cust, int fac, double val);
+	void setAllocationObjCost(int k, int cust, int fac, double val);
+
 	/*!
-	*	\deprecated
-	*	\brief Getter for the allocation cost w.r.t. objective 1 between a \c Customer and a \c Facility.
-	*	\param[in] cust : The index of the \c Customer.
-	*	\param[in] fac : The index of the \c Facility.
-	*	\return A double as the value of the allocation cost w.r.t. objective 1 for the \c Customer cust to the \c Facility fac.
-	*/
-    double getAllocationObj1Cost(int cust, int fac) const;
-    /*!
-	*	\deprecated
-	*	\brief Getter for the allocation cost w.r.t. objective 2 between a \c Customer and a \c Facility.
-	*	\param[in] cust : The index of the \c Customer.
-	*	\param[in] fac : The index of the \c Facility.
-	*	\return A double as the value of the allocation cost w.r.t. objective 2 for the \c Customer cust to the \c Facility fac.
-	*/
-    double getAllocationObj2Cost(int cust, int fac) const;
-    /*!
 	*	\brief Getter for a \c Facility.
 	*	\param[in] fac : The index of the \c Facility to return.
 	*	\return A \c Facility.
 	*/
-    Facility & getFacility(int fac);
-    /*!
+	Facility & getFacility(int fac);
+
+	/*!
 	*	\brief Getter for the name of the instance.
 	*	\return A string which represents the name of the instance.
 	*/
-    const std::string & getFileName() const;
-    
-    /*!
-	*	\deprecated
-	*	\brief Setter for the allocation cost w.r.t. objective 1 between a \c Customer and a \c Facility.
-	*	\param[in] cust : The index of the \c Customer.
-	*	\param[in] fac : The index of the \c Facility.
-	*	\param[in] val : The value of the allocation cost of the customer cust to the facility fac w.r.t. objective 1.
-	*/
-    void setAllocationObj1Cost(int cust,int fac, double val);
-    /*!
-	*	\deprecated
-	*	\brief Setter for the allocation cost w.r.t. objective 2 between a \c Customer and a \c Facility.
-	*	\param[in] cust : The index of the \c Customer.
-	*	\param[in] fac : The index of the \c Facility.
-	*	\param[in] val : The value of the allocation cost of the customer cust to the facility fac w.r.t. objective 2.
-	*/
-    void setAllocationObj2Cost(int cust, int fac, double val);
-    /*!
+	const std::string & getFileName() const;
+
+	/*!
 	*	\brief Setter for the name of the instance.
 	*	\param[in] name : A string which represents the name of the instance.
 	*/
-    void setFileName(const std::string & name);
-    
+	void setFileName(const std::string & name);
+
 private:
 	/*! \typedef std::vector< std::vector<double> > Matrixd
-	*  \brief A matrix of double.
+	*   \brief A matrix of double.
 	*/
-    typedef std::vector< std::vector<double> > Matrixd;
+	typedef std::vector< std::vector<double> > Matrixd;
 
-    int nbObjective_;
+	std::vector<Facility> facilityList_;
+	std::vector<Customer> customerList_;
 
-    std::vector<Facility> facilityList_;
-    std::vector<Customer> customerList_;
-    
-    std::string fileName_;/*!< A string which represents the name of the instance */
-    std::vector<Matrixd> allocationObjCost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective k */
+	std::string fileName_;/*!< A string which represents the name of the instance */
+	std::vector<Matrixd> allocationObjCost_;/*!< An array of double (2 dimensions) which represents the matrix of allocation cost w.r.t. objective k */
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -174,7 +143,7 @@ private:
 
 inline int Data::getNbObjective() const
 {
-	return nbObjective_;
+	return allocationObjCost_.size();
 }
 
 inline double Data::getAllocationObjCost(int k, int cust, int fac) const
@@ -185,6 +154,41 @@ inline double Data::getAllocationObjCost(int k, int cust, int fac) const
 inline void Data::setAllocationObjCost(int k, int cust, int fac, double val)
 {
 	allocationObjCost_[k][cust][fac] = val;
+}
+
+inline void Data::addFacility(const Facility & fac)
+{
+	facilityList_.push_back(fac);
+}
+
+inline void Data::addCustomer(const Customer & cust)
+{
+	customerList_.push_back(cust);
+}
+
+inline unsigned int Data::getnbFacility() const
+{
+	return facilityList_.size();
+}
+
+inline unsigned int Data::getnbCustomer() const
+{
+	return customerList_.size();
+}
+
+inline Facility & Data::getFacility(int fac)
+{
+	return facilityList_[fac];
+}
+
+inline const std::string & Data::getFileName() const
+{
+	return fileName_;
+}
+
+inline void Data::setFileName(const std::string & name)
+{
+	fileName_ = name;
 }
 
 #endif

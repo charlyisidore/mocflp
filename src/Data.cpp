@@ -22,10 +22,10 @@
 
 Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string & name)
 {
-	nbObjective_ = 2;
+	int nbObjective = 2;
 
 	// Allocate a matrix nbCustomer x nbFacility for each objective
-	allocationObjCost_.resize( getNbObjective(),                   // p matrices
+	allocationObjCost_.resize( nbObjective,                        // p matrices
 		std::vector< std::vector<double> > ( nbCustomer,       // with nbCustomer rows
 		             std::vector<double>   ( nbFacility ) ) ); // and  nbFacility columns
 
@@ -35,61 +35,3 @@ Data::Data(unsigned int nbFacility, unsigned int nbCustomer, const std::string &
 	fileName_ = name.substr(index1 + 1, index2 - index1 - 1);
 }
 
-Data::~Data()
-{
-}
-
-void Data::addFacility(const Facility & fac)
-{
-	facilityList_.push_back(fac);
-}
-
-void Data::addCustomer(const Customer & cust)
-{
-	customerList_.push_back(cust);
-}
-
-unsigned int Data::getnbFacility() const
-{
-	return facilityList_.size();
-}
-
-unsigned int Data::getnbCustomer() const
-{
-	return customerList_.size();
-}
-
-double Data::getAllocationObj1Cost(int cust, int fac) const
-{
-	return allocationObjCost_[0][cust][fac];
-}
-
-double Data::getAllocationObj2Cost(int cust, int fac) const
-{
-	return allocationObjCost_[1][cust][fac];
-}
-
-Facility & Data::getFacility(int fac)
-{
-	return facilityList_[fac];
-}
-
-const std::string & Data::getFileName() const
-{
-	return fileName_;
-}
-
-void Data::setAllocationObj1Cost(int cust,int fac, double val)
-{
-	allocationObjCost_[0][cust][fac] = val;
-}
-
-void Data::setAllocationObj2Cost(int cust,int fac, double val)
-{
-	allocationObjCost_[1][cust][fac] = val;
-}
-
-void Data::setFileName(const std::string & name)
-{
-	fileName_ = name;
-}
