@@ -47,224 +47,170 @@
 class Box
 {
 public:
-    /*!
+	/*!
 	*	\brief Default Constructor of the class \c Box.
 	*
 	*	The default construtor gives a \c Box which anyone \c Facility opened.
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
 	*/
-    Box(Data &data);
-    /*!
+	Box(Data &data);
+
+	/*!
 	*	\brief Constructor of copy of the class \c Box.
 	*
 	*	\param[in] copy : A \c Box to copy.
 	*/
-    Box(Box* copy);
-    /*!
+	Box(Box* copy);
+
+	/*!
 	*	\brief Constructor of the class \c Box.
 	*
 	*	This construtor gives a \c Box which a set of \c Facilities opened.
 	*	\param[in] data : A \c Data object which contains all the values of the instance.
 	*	\param[in] toOpen : A vector of boolean representing the vector of \c Facility to open in order to construct an object \c Box.
 	*/
-    Box(Data &data, const std::vector<bool> & toOpen);
-    /*!
-	*	\brief Destructor of the class \c Box.
-	*/
-    ~Box();
+	Box(Data &data, const std::vector<bool> & toOpen);
 
-    /*!
+	/*!
 	*	\brief Getter for the number of objectives.
 	*	\return A int as the number of objectives.
 	*/
-    int getNbObjective() const;
+	int getNbObjective() const;
 
-    /*!
+	/*!
 	*	\brief Getter for the minimum value w.r.t. objective k.
 	*	\param[in] k : The index of the objective.
 	*	\return A double as the minimum value w.r.t. objective k of this \c Box.
 	*/
-    double getMinZ(int k) const;
+	double getMinZ(int k) const;
 
-    /*!
+	/*!
 	*	\brief Getter for the maximum value w.r.t. objective k.
 	*	\param[in] k : The index of the objective.
 	*	\return A double as the maximum value w.r.t. objective k of this \c Box.
 	*/
-    double getMaxZ(int k) const;
+	double getMaxZ(int k) const;
 
-     /*!
+	/*!
 	*	\brief Getter for the value of the origin w.r.t. objective k.
 	*	\param[in] k : The index of the objective.
 	*	\return A double as the value of the point of origin w.r.t. objective k of this \c Box.
 	*/
-    double getOriginZ(int k) const;
+	double getOriginZ(int k) const;
 
-     /*!
+	/*!
 	*	\brief Setter for the minimum value w.r.t. objective k.
 	*	\param[in] k : The index of the objective.
 	*	\param[in] v : A double which represents the minimum value w.r.t. objective k of this \c Box.
 	*/
-    void setMinZ(int k, double v);
-    /*!
+	void setMinZ(int k, double v);
+
+	/*!
 	*	\brief Setter for the maximum value w.r.t. objective k.
 	*	\param[in] k : The index of the objective.
 	*	\param[in] v : A double which represents the maximum value w.r.t. objective k of this \c Box.
 	*/
-    void setMaxZ(int k, double v);
+	void setMaxZ(int k, double v);
 
-    /*!
-	*	\deprecated
-	*	\brief Getter for the minimum value w.r.t. objective 1.
-	*	\return A double as the minimum value w.r.t. objective 1 of this \c Box.
-	*/
-    double getMinZ1() const;
-    /*!
-	*	\deprecated
-	*	\brief Getter for the minimum value w.r.t. objective 2.
-	*	\return A double as the minimum value w.r.t. objective 2 of this \c Box.
-	*/
-    double getMinZ2() const;
-     /*!
-	*	\deprecated
-	*	\brief Getter for the maximum value w.r.t. objective 1.
-	*	\return A double as the maximum value w.r.t. objective 1 of this \c Box.
-	*/
-    double getMaxZ1() const;
-     /*!
-	*	\deprecated
-	*	\brief Getter for the maximum value w.r.t. objective 2.
-	*	\return A double as the maximum value w.r.t. objective 2 of this \c Box.
-	*/
-    double getMaxZ2() const;
-    /*!
-	*	\deprecated
-	*	\brief Getter for the value of the origin w.r.t. objective 1.
-	*	\return A double as the value of the point of origin w.r.t. objective 1 of this \c Box.
-	*/
-    double getOriginZ1() const;
-     /*!
-	*	\deprecated
-	*	\brief Getter for the value of the origin w.r.t. objective 2.
-	*	\return A double as the value of the point of origin w.r.t. objective 2 of this \c Box.
-	*/
-    double getOriginZ2() const;
-    /*!
+	/*!
 	*	\brief Getter for the id.
 	*	\return A string as the sequence of 1 and 0 representing the combination of \c Facility of this \c Box.
 	*/
-    const std::string & getId() const;
-    
-    /*!
+	const std::string & getId() const;
+
+	/*!
 	*	\brief method to know if a \c Customer is assigned or not.
 	*	\param[in] cust : A \c Customer.
 	*	\return A boolean which value is TRUE if the \c Customer is assigned to any \c Facility.
 	*/
-    bool isAssigned(int cust) const;
-    /*!
+	bool isAssigned(int cust) const;
+
+	/*!
 	*	\brief method to know if a \c Facility is opened or not.
 	*	\param[in] cust : A \c Facility.
 	*	\return A boolean which value is TRUE if the \c Facility is opened.
 	*/
-    bool isOpened(int fac) const;
-    
-    /*!
+	bool isOpened(int fac) const;
+
+	/*!
 	*	\brief Getter for the number of \c Customers nonaffected.
 	*	\return An int as the number of \c Customers which are not affected to a \c Facility.
 	*/
-    int getnbCustomerNotAffected() const;
-    /*!
+	int getnbCustomerNotAffected() const;
+
+	/*!
 	*	\brief Getter for the number of \c Facilities opened.
 	*	\return An int as the number of \c Facilities which are opened (set to 1).
 	*/
-    int getNbFacilityOpen() const;
-    /*!
+	int getNbFacilityOpen() const;
+
+	/*!
 	*	\brief Getter for the neighborhood.
 	*	\return A boolean which value is TRUE if this \c Box overlaps or is overlapped with an other \c Box.
 	*/
-    bool getHasNeighbor() const;
-    /*!
+	bool getHasNeighbor() const;
+
+	/*!
 	*	\brief Getter for the number of Weighted Sum.
 	*	\return A boolean if this \c Box gets a remaining iteration of weigthed sum method.
 	*/
-    bool getHasMoreStepWS() const;
-    /*!
+	bool getHasMoreStepWS() const;
+
+	/*!
 	*	\brief Getter for the data.
 	*	\return A reference \c Data of the \c Data of this \c Box.
 	*/
-    Data &getData() const;
-    
-    /*!
+	Data &getData() const;
+
+	/*!
 	*	\brief Setter for the id of this \c Box.
 	*	\param[in] s : A string which represents the id (combination of \c Facility) of this \c Box.
 	*/
-    void setId(const std::string & s);
-    /*!
-	*	\deprecated
-	*	\brief Setter for the minimum value w.r.t. objective 1.
-	*	\param[in] v : A double which represents the minimum value w.r.t. objective 1 of this \c Box.
-	*/
-    void setMinZ1(double v);
-     /*!
-	*	\deprecated
-	*	\brief Setter for the minimum value w.r.t. objective 2.
-	*	\param[in] v : A double which represents the minimum value w.r.t. objective 2 of this \c Box.
-	*/
-    void setMinZ2(double v);
-    /*!
-	*	\deprecated
-	*	\brief Setter for the maximum value w.r.t. objective 1.
-	*	\param[in] v : A double which represents the maximum value w.r.t. objective 1 of this \c Box.
-	*/
-    void setMaxZ1(double v);
-    /*!
-	*	\deprecated
-	*	\brief Setter for the maximum value w.r.t. objective 2.
-	*	\param[in] v : A double which represents the maximum value w.r.t. objective 2 of this \c Box.
-	*/
-    void setMaxZ2(double v);
+	void setId(const std::string & s);
 
-     /*!
+	/*!
 	*	\brief Setter for the neighborhood.
 	*	\param[in] b : A boolean which value is TRUE if this \c Box has at least one neighborhood (a \c Box which overlaps or is overlapped).
 	*/
-    void setHasNeighbor(bool b);
-    /*!
+	void setHasNeighbor(bool b);
+
+	/*!
 	*	\brief Setter for the remaining weighted sum method.
 	*	\param[in] b : A boolean which value is TRUE if this \c Box has a remaining iteration of weighted sum method.
 	*/
-    void setHasMoreStepWS(bool b);
-    
-    /*!
+	void setHasMoreStepWS(bool b);
+
+	/*!
 	*	\brief A method to expand a box, which means attempting to allocate all \c Customers to \c Facilities.
 	*/
-    void computeBox();
-    /*!
+	void computeBox();
+
+	/*!
 	*	\brief A method that opens a \c Facility in this \c Box, by adding all the location cost of the two objectives.
 	*	\param[in] fac : A \c Facility to open.
 	*/
-    void openFacility(int fac);
-    /*!
+	void openFacility(int fac);
+
+	/*!
 	*	\brief A method to print informations about this \c Box.
 	*/
-    void print();	
-    
+	void print();	
+
 private:
-    std::string id_;/*!< A string which represents the id of this \c Box */
-    
-    Data& data_;/*!< A reference to the \c Data of this \c Box */
-    
-    std::vector<bool> isAssigned_;/*!< A boolean which represents the vector of \c Customer assigned or not */
-    std::vector<bool> facility_;/*!< A boolean which represents the vector of \c Facility opened or not */
-    bool hasMoreStepWS_;/*!< A boolean which represents if this \c Box has a remaining iteration of weighted sum method*/
-    bool hasNeighbor_;/*!< A boolean which represents if this \c Box has a neighboor or not */
-    
-    int nbCustomerNotAffected_; /*!< An integer which represents the number of \c Customer not affected of this \c Box*/
-    
-    std::vector<double> minZ_;/*!< A double which represents the minimum value w.r.t. objective k*/
-    std::vector<double> maxZ_;/*!< A double which represents the maximum value w.r.t. objective k*/
-    std::vector<double> originZ_;/*!< A double which represents the value of the origin of this \c Box w.r.t. objective k */
-    
+	std::string id_;/*!< A string which represents the id of this \c Box */
+
+	Data& data_;/*!< A reference to the \c Data of this \c Box */
+
+	std::vector<bool> isAssigned_;/*!< A boolean which represents the vector of \c Customer assigned or not */
+	std::vector<bool> facility_;/*!< A boolean which represents the vector of \c Facility opened or not */
+	bool hasMoreStepWS_;/*!< A boolean which represents if this \c Box has a remaining iteration of weighted sum method*/
+	bool hasNeighbor_;/*!< A boolean which represents if this \c Box has a neighboor or not */
+
+	int nbCustomerNotAffected_; /*!< An integer which represents the number of \c Customer not affected of this \c Box*/
+
+	std::vector<double> minZ_;/*!< A double which represents the minimum value w.r.t. objective k*/
+	std::vector<double> maxZ_;/*!< A double which represents the maximum value w.r.t. objective k*/
+	std::vector<double> originZ_;/*!< A double which represents the value of the origin of this \c Box w.r.t. objective k */
 };
 
 /*!
@@ -346,6 +292,56 @@ inline void Box::setMinZ(int k, double v)
 inline void Box::setMaxZ(int k, double v)
 {
 	maxZ_[k] = v;
+}
+
+inline const std::string & Box::getId() const
+{
+	return id_;
+}
+
+inline bool Box::isAssigned(int cust) const
+{
+	return isAssigned_[cust];
+}
+
+inline bool Box::isOpened(int fac) const
+{
+	return facility_[fac];
+}
+
+inline int Box::getnbCustomerNotAffected() const
+{
+	return nbCustomerNotAffected_;
+}
+
+inline bool Box::getHasNeighbor() const
+{
+	return hasNeighbor_;
+}
+
+inline bool Box::getHasMoreStepWS() const
+{
+	return hasMoreStepWS_;
+}
+
+inline Data& Box::getData() const
+{
+	return data_;
+}
+
+inline void Box::setId(const std::string & s)
+{
+	id_ += s;
+}
+
+inline void Box::setHasNeighbor(bool b)
+{
+	hasNeighbor_ = b;
+}
+
+inline void Box::setHasMoreStepWS(bool b)
+{
+	hasMoreStepWS_ = b;
 }
 
 #endif

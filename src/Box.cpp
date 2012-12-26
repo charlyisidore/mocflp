@@ -87,60 +87,6 @@ data_(data)
 	isAssigned_.resize(data_.getnbCustomer(), false);
 }
 
-Box::~Box()
-{
-}
-
-double Box::getMinZ1() const
-{
-	return minZ_[0];
-}
-
-double Box::getMinZ2() const
-{
-	return minZ_[1];
-}
-
-double Box::getMaxZ1() const
-{
-	return maxZ_[0];
-}
-
-double Box::getMaxZ2() const
-{
-	return maxZ_[1];
-}
-
-double Box::getOriginZ1() const
-{
-	return originZ_[0];
-}
-
-double Box::getOriginZ2() const
-{
-	return originZ_[1];
-}
-
-const std::string & Box::getId() const
-{
-	return id_;
-}
-
-bool Box::isAssigned(int cust) const
-{
-	return isAssigned_[cust];
-}
-
-bool Box::isOpened(int fac) const
-{
-	return facility_[fac];
-}
-
-int Box::getnbCustomerNotAffected() const
-{
-	return nbCustomerNotAffected_;
-}
-
 int Box::getNbFacilityOpen() const
 {
 	int ret = 0;
@@ -152,53 +98,6 @@ int Box::getNbFacilityOpen() const
 		}
 	}
 	return ret;
-}
-
-bool Box::getHasNeighbor() const
-{
-	return hasNeighbor_;
-}
-
-bool Box::getHasMoreStepWS() const
-{
-	return hasMoreStepWS_;
-}
-
-Data& Box::getData() const
-{
-	return data_;
-}
-
-void Box::setId(const std::string & s)
-{
-	id_ += s;
-}
-
-void Box::setMinZ1(double v)
-{
-	minZ_[0] = v;
-}
-void Box::setMinZ2(double v)
-{
-	minZ_[1] = v;
-}
-void Box::setMaxZ1(double v)
-{
-	maxZ_[0] = v;
-}
-void Box::setMaxZ2(double v)
-{
-	maxZ_[1] = v;
-}
-
-void Box::setHasNeighbor(bool b)
-{
-	hasNeighbor_ = b;
-}
-
-void Box::setHasMoreStepWS(bool b)
-{
-	hasMoreStepWS_ = b;
 }
 
 void Box::computeBox()
