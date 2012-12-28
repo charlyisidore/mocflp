@@ -139,9 +139,19 @@ void filter(std::vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWit
 				{
 					if ( (vectorBox[it]->getHasNeighbor() == false) || (vectorBox[it2]->getHasNeighbor() == false) )
 					{
-						// TODO: extend to p-objective
-						if((vectorBox[it]->getMinZ(0) < vectorBox[it2]->getMaxZ(0) && vectorBox[it]->getMinZ(1) < vectorBox[it2]->getMaxZ(1)) ||
-                           (vectorBox[it2]->getMinZ(0) < vectorBox[it]->getMaxZ(0) && vectorBox[it2]->getMinZ(1) < vectorBox[it]->getMaxZ(1))  )
+						bool less1( true ), less2( true );
+						for ( int k = 0; k < vectorBox[it]->getNbObjective() && less1 && less2; ++k )
+						{
+							if ( !(vectorBox[it]->getMinZ(k) < vectorBox[it2]->getMaxZ(k)) )
+							{
+								less1 = false;
+							}
+							if ( !(vectorBox[it2]->getMinZ(k) < vectorBox[it]->getMaxZ(k)) )
+							{
+								less2 = false;
+							}
+						}
+						if ( less1 || less2 )
 						{
 							vectorBox[it]->setHasNeighbor(true);
 							vectorBox[it2]->setHasNeighbor(true);
@@ -346,38 +356,37 @@ long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
 
 void filterListSolution(std::list<Solution> &lsol)
 {
-    std::list<Solution>::iterator iterSuivant = lsol.begin();
-    ++iterSuivant;
-    std::list<Solution>::iterator iter        = lsol.begin();
-    while(iterSuivant != lsol.end())
-    {
-        if( (*iter).getObj(0) == (*iterSuivant).getObj(0) )
-        {
-            //We have to delete one of these two elements
-            if( (*iter).getObj(1) > (*iterSuivant).getObj(1) )
-            {
-                ++iterSuivant;
-                iter = lsol.erase(iter);
-            }
-            else
-            {
-                iterSuivant = lsol.erase(iterSuivant);
-            }
-            
-        }
-        else
-        {
-            if( (*iter).getObj(1) > (*iterSuivant).getObj(1) )
-            {
-                ++iter;
-                ++iterSuivant;
-            }
-            else
-            {
-                iterSuivant = lsol.erase(iterSuivant);
-            }
-        }
-    }
+	std::list<Solution>::iterator iterSuivant = lsol.begin();
+	++iterSuivant;
+	std::list<Solution>::iterator iter        = lsol.begin();
+	while (iterSuivant != lsol.end())
+	{
+		if ( (*iter).getObj(0) == (*iterSuivant).getObj(0) )
+		{
+			//We have to delete one of these two elements
+			if ( (*iter).getObj(1) > (*iterSuivant).getObj(1) )
+			{
+				++iterSuivant;
+				iter = lsol.erase(iter);
+			}
+			else
+			{
+				iterSuivant = lsol.erase(iterSuivant);
+			}
+		}
+		else
+		{
+			if ( (*iter).getObj(1) > (*iterSuivant).getObj(1) )
+			{
+				++iter;
+				++iterSuivant;
+			}
+			else
+			{
+				iterSuivant = lsol.erase(iterSuivant);
+			}
+		}
+	}
 }
 
 double computeCorrelation(Data &data)
