@@ -113,6 +113,13 @@ public:
 	Facility & getFacility(int fac);
 
 	/*!
+	*	\brief Getter for a \c Customer.
+	*	\param[in] cust : The index of the \c Customer to return.
+	*	\return A \c Customer.
+	*/
+	Customer & getCustomer(int cust);
+
+	/*!
 	*	\brief Getter for the name of the instance.
 	*	\return A string which represents the name of the instance.
 	*/
@@ -179,6 +186,11 @@ inline unsigned int Data::getnbCustomer() const
 inline Facility & Data::getFacility(int fac)
 {
 	return facilityList_[fac];
+}
+
+inline Customer & Data::getCustomer(int cust)
+{
+	return customerList_[cust];
 }
 
 inline const std::string & Data::getFileName() const

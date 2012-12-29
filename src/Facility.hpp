@@ -35,6 +35,7 @@
 
 #include <iostream>
 #include <vector>
+#include <limits>
 
 /*! \class Facility
 * \brief Class to represent a \c Facility.
@@ -46,11 +47,8 @@ class Facility
 public:
 	/*!
 	*	\brief Constructor of the class \c Facility.
-	*
-	*	\param[in] x : An unsigned integer which represents the x coordinate of the \c Facility.
-	*	\param[in] y : An unsigned integer which represents the y coordinate of the \c Facility.
 	*/
-	Facility(unsigned short x, unsigned short y);
+	Facility();
 
 	/*!
 	*	\brief Getter for the number of objectives.
@@ -71,21 +69,20 @@ public:
 	void setLocationObjCost(int k, double val);
 
 	/*!
-	*	\brief Getter for the x coordinate.
-	*	\return An unsigned short as the x coordinate of this \c Facility.
+	*	\brief Getter for the capacity.
+	*	\return A double as the capacity of this \c Facility.
 	*/
-	unsigned short getCoordX() const;
+	double getCapacity() const;
 
 	/*!
-	*	\brief Getter for the y coordinate.
-	*	\return An unsigned short as the y coordinate of this \c Facility.
+	*	\brief Setter for the capacity.
+	*	\param[in] val : A double which represents the capacity of this \c Facility.
 	*/
-	unsigned short getCoordY() const;
+	void setCapacity(double val);
     
 private:
-	unsigned short coordX_;/*!< Unsigned short which represents the value of the x coordinate of this \c Facility */
-	unsigned short coordY_;/*!< Unsigned short which represents the value of the y coordinate of this \c Facility */
 	std::vector<double> locationObjCost_;/*!< Double which represents the value of the location cost of this \c Facility w.r.t. objective k */
+	double capacity_; /*!< Double which represents the value of the capacity of this \c Facility */
 };
 
 /*!
@@ -102,6 +99,12 @@ std::ostream& operator<<(std::ostream &out, const Facility *fac);
 
 // Inline functions
 
+inline Facility::Facility() :
+	locationObjCost_(2, 0),
+	capacity_(std::numeric_limits<double>::infinity())
+{
+}
+
 inline int Facility::getNbObjective() const
 {
 	return locationObjCost_.size();
@@ -115,6 +118,16 @@ inline double Facility::getLocationObjCost(int k) const
 inline void Facility::setLocationObjCost(int k, double val)
 {
 	locationObjCost_[k] = val;
+}
+
+inline double Facility::getCapacity() const
+{
+	return capacity_;
+}
+
+inline void Facility::setCapacity(double val)
+{
+	capacity_ = val;
 }
 
 #endif

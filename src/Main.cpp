@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
 	//## END READING ARGUMENTS ##
 
-	data = Parser::Parsing(Argument::filename.c_str());
+	data = Parser::Parsing(Argument::filename);
 
 	if (Argument::mode_export)
 	{

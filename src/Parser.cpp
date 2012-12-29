@@ -19,83 +19,81 @@
  */
 
 #include "Parser.hpp"
+#include "Argument.hpp"
 
-Data *Parser::Parsing(const char *filename)
+Data *Parser::Parsing(const std::string & filename)
 {
 	// TODO: extend to p-objective
-	std::ifstream file(filename);
-    
-	if(file.is_open())
+	std::ifstream file(filename.c_str());
+	int num_objectives( 2 );
+
+	if (file.is_open())
 	{
-		unsigned int nbFacility;
-		unsigned int nbCustomer;
-		unsigned int i, j;
-		unsigned short x, y;
+		int nbFacility;
+		int nbCustomer;
 		double v;
-		
+
 		//Number of Facilities and Stores
 		file >> nbCustomer;
-		ignoreLine(file);
 		file >> nbFacility;
-		ignoreLine(file);
-		
+
 		Data *d = new Data(nbFacility, nbCustomer, filename);
-        
-		//Coordinates of Facility
-		for(i = 0; i < nbFacility; ++i)
+
+		// Coordinates of Facility
+		for (int i = 0; i < nbFacility; ++i)
 		{
-			x = 0, y = 0;
-			Facility facility(x,y);
+			Facility facility;
 			d->addFacility(facility);
 		}
-        
-		//Coordinates of Customer
-		for(i = 0; i < nbCustomer; ++i)
+
+		// Coordinates of Customer
+		for (int i = 0; i < nbCustomer; ++i)
 		{
-			x = 0, y = 0;
-			Customer customer(x,y);
+			Customer customer;
 			d->addCustomer(customer);
 		}
-        
-		//Allocation cost w.r.t. objective 1
-		for(i = 0; i < nbCustomer; ++i)
+
+		// Allocation cost w.r.t. objective k
+		for (int k = 0; k < num_objectives; ++k )
 		{
-			for(j = 0; j < nbFacility; ++j)
+			for (int i = 0; i < nbCustomer; ++i)
 			{
-				file >> v;
-				d->setAllocationObjCost(0, i, j, v);
+				for (int j = 0; j < nbFacility; ++j)
+				{
+					file >> v;
+					d->setAllocationObjCost(k, i, j, v);
+				}
 			}
-			ignoreLine(file);
 		}
-		ignoreLine(file);
-        
-		//Allocation cost w.r.t. objective 2
-		for(i = 0; i < nbCustomer; ++i)
+
+		// Location cost w.r.t. objective 1 for Facility
+		for (int k = 0; k < num_objectives; ++k )
 		{
-			for(j = 0; j < nbFacility; ++j)
-			{
+			for (int i = 0; i < nbFacility; ++i)
+			{			
 				file >> v;
-				d->setAllocationObjCost(1, i, j, v);
+				d->getFacility(i).setLocationObjCost(k, v);
 			}
-			ignoreLine(file);
 		}
-		ignoreLine(file);
-        
-		//Location cost w.r.t. objective 1 for Facility
-		for(i = 0; i < nbFacility; ++i)
-		{			
-			file >> v;
-			d->getFacility(i).setLocationObjCost(0, v);
-		}
-		ignoreLine(file);
-        
-		//Location cost w.r.t. objective 2 for Facility
-		for(i = 0; i < nbFacility; ++i)
+
+		// Capacitated instances
+		if (Argument::capacitated)
 		{
-			file >> v;
-			d->getFacility(i).setLocationObjCost(1, v);
+			// Demand for Customer
+			for (int i = 0; i < nbCustomer; ++i)
+			{			
+				file >> v;
+				d->getCustomer(i).setDemand(v);
+			}
+
+			// Capacity for Facility
+			for (int i = 0; i < nbFacility; ++i)
+			{			
+				file >> v;
+				d->getFacility(i).setCapacity(v);
+			}
 		}
-        
+
 		return d;
 	}
 	else
@@ -105,13 +103,3 @@ Data *Parser::Parsing(const char *filename)
 	}
 }
 
-void Parser::ignoreLine(std::ifstream &file)
-{
-	file.ignore(2000000000, '\n');
-}
-
-void Parser::ignoreChar(std::ifstream &file)
-{
-	char c;	
-	file >> c;
-}

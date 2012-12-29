@@ -45,27 +45,23 @@ class Customer
 public:
 	/*!
 	*	\brief Constructor of the class \c Customer.
-	*
-	*	\param[in] x : An unsigned short which represents the x coordinate of the \c Customer.
-	*	\param[in] y : An unsigned short which represents the y coordinate of the \c Customer.
 	*/
-    Customer(unsigned short x, unsigned short y);
-    
+	Customer();
+
 	/*!
-	*	\brief Getter for the x coordinate .
-	*	\return An unsigned short as the x coordinate of this \c Customer.
+	*	\brief Getter for the demand.
+	*	\return A double as the demand of this \c Customer.
 	*/
-    unsigned short getCoordX() const;
+	double getDemand() const;
+
 	/*!
-	*	\brief Getter for the y coordinate.
-	*	\return An unsigned short as the y coordinate of this \c Customer.
+	*	\brief Setter for the demand.
+	*	\param[in] val : A double which represents the demand of this \c Customer.
 	*/
-    unsigned short getCoordY() const;
-    
+	void setDemand(double val);
+
 private:
-    unsigned short coordX_;/*!< Unsigned short which represents the value of the x coordinate of this \c Customer */
-    unsigned short coordY_;/*!< Unsigned short which represents the value of the y coordinate of this \c Customer */
-    
+	double demand_;/*!< Double which represents the value of the demand of this \c Customer */
 };
 
 /*!
@@ -77,5 +73,24 @@ private:
 *	\param[in] cust : A \c Customer to print in the standard output stream.
 */
 std::ostream& operator<<(std::ostream &out, const Customer *cust);
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions
+
+inline Customer::Customer() :
+	demand_(0)
+{
+}
+
+inline double Customer::getDemand() const
+{
+	return demand_;
+}
+
+inline void Customer::setDemand(double val)
+{
+	demand_ = val;
+}
 
 #endif

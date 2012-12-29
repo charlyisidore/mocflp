@@ -20,26 +20,9 @@
 
 #include "Facility.hpp"
 
-Facility::Facility(unsigned short x, unsigned short y) :
-	coordX_(x),
-	coordY_(y),
-	locationObjCost_(2, 0)
-{
-}
-
-unsigned short Facility::getCoordX() const
-{
-	return coordX_;
-}
-
-unsigned short Facility::getCoordY() const
-{
-	return coordY_;
-}
-
 std::ostream &operator<<(std::ostream &out, const Facility *fac)
 {
-	out << "[" << fac->getCoordX() << "," << fac->getCoordY() << "]" << std::endl;
+	out << "[" << fac->getCapacity() << "]" << std::endl;
 
 	for (int k = 0; k < fac->getNbObjective(); ++k)
 	{

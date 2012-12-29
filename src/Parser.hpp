@@ -23,7 +23,8 @@
 
 #include <fstream>
 #include <iostream>
-#include <math.h>
+#include <string>
+#include <cmath>
 
 #include "Data.hpp"
 
@@ -50,24 +51,10 @@ public:
 	/*!
 	*	\brief \e Static method to parse the instance.
 	*
-	*	\param[in] filename : A const char which represents the instance file.
+	*	\param[in] filename : A string which represents the instance file.
 	*	\return A \c Data object which contains all the values of the instance file.
 	*/
-    static Data *Parsing(const char *filename);
-    
-private:
-	/*!
-	*	\brief \e Static method to skip a line from the instance.
-	*
-	*	\param[in] file : A ifstream (IOstream) which represents the file readed.
-	*/
-    static void ignoreLine(std::ifstream &file);
-    /*!
-	*	\brief \e Static method to skip a character from the instance.
-	*
-	*	\param[in] file : A ifstream (IOstream) which represents the file readed.
-	*/
-    static void ignoreChar(std::ifstream &file);
+	static Data *Parsing(const std::string & filename);
 };
 
 #endif
