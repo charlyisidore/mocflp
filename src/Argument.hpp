@@ -70,6 +70,10 @@ struct Argument
 	static int
 		filtering,
 		reconstruction,
+		capacitated,
+		num_individuals,
+		num_generations,
+		interactive,
 		mode_export,
 		verbose,
 		help;
@@ -78,10 +82,21 @@ struct Argument
 	static unsigned int
 		random_seed;
 
+	// Floating point parameters
+	static double
+		Pc,
+		Pm,
+		alpha;
+
 	// Identifiers
 	enum
 	{
-		id_random_seed = 0x100
+		id_random_seed = 0x100,
+		id_num_individuals,
+		id_num_generations,
+		id_Pc,
+		id_Pm,
+		id_alpha
 	};
 
 	// Instance file name

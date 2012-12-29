@@ -19,6 +19,7 @@
  */
  
 #include "Box.hpp"
+#include "Argument.hpp"
 #include <limits>
 
 Box::Box(Data &data):
@@ -133,7 +134,7 @@ void Box::computeBox()
 			}
 		}
 		//If they are equals, this allocation is optimal <=> "trivial"
-		if (iMinZ1 == iMinZ2)
+		if (iMinZ1 == iMinZ2 && !Argument::capacitated)
 		{
 			minZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);
 			maxZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);

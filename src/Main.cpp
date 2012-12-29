@@ -89,6 +89,11 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
+	if (Argument::verbose)
+	{
+		Argument::print();
+	}
+
 	//## END READING ARGUMENTS ##
 
 	data = Parser::Parsing(Argument::filename.c_str());
@@ -143,7 +148,7 @@ int main(int argc, char *argv[])
 				<< "+" << std::setfill(' ') << std::setw(10) << " "
 				<< " ! before filtering ! " << " " << std::setw(9) << "+" << std::endl
 			<< " " << std::setw(20) << std::left
-				<< "Box Total " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+				<< "Box Total " << "|" << std::setw(20) << std::right
 				<< boxTotal << " " << std::endl
 			<< " " << std::setw(20) << std::left
 				<< "Box Computed " << "|" << std::setw(20) << std::right
@@ -191,7 +196,7 @@ int main(int argc, char *argv[])
 				<< "+" << std::setfill(' ') << std::setw(10) << " "
 					<< " ! after filtering !  " << " " << std::setw(9) << "+" << std::endl
 				<< " " << std::setw(20) << std::left
-					<< "Box " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+					<< "Box " << "|" << std::setw(20) << std::right
 					<< boxAfterFiltering << " " << std::endl
 				<< " " << std::setw(20) << std::left
 					<< "Time (ms) " << "|" << std::setw(20) << std::right
@@ -201,7 +206,7 @@ int main(int argc, char *argv[])
 					std::cout << "+" << std::setfill(' ') << std::setw(8) << " "
 						<< " ! after reconstruction !  " << " " << std::setw(6) << "+" << std::endl
 					<< " " << std::setw(20) << std::left
-						<< "Box " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+						<< "Box " << "|" << std::setw(20) << std::right
 						<< boxAfterReconstruction << " " << std::endl
 					<< " " << std::setw(20) << std::left
 						<< "Time (ms) " << "|" << std::setw(20) << std::right
@@ -220,7 +225,8 @@ int main(int argc, char *argv[])
 	//## LABEL SETTING ##
 	
 		gettimeofday(&beginLS, 0);			
-		nbSolLS = runLabelSetting(vectorBoxFinal,*data);				
+		//nbSolLS = runLabelSetting(vectorBoxFinal,*data);
+		nbSolLS = runMOGA(vectorBoxFinal,*data);
 		gettimeofday(&endLS, 0);
 		
 		if (Argument::verbose)
@@ -228,7 +234,7 @@ int main(int argc, char *argv[])
 			std::cout << "+" << std::setfill('-') << std::setw(13) << "+"
 				<< " LABEL SETTING " << "+" << std::setw(13) << "+" << std::endl
 			<< std::setfill (' ') << " " << std::setw(20) << std::left
-				<< "Sol computed " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+				<< "Sol computed " << "|" << std::setw(20) << std::right
 				<< nbSolLS << " " << std::endl
 			<< " " << std::setw(20) << std::left
 				<< "Time (ms) " << "|" << std::setw(20) << std::right
@@ -247,7 +253,7 @@ int main(int argc, char *argv[])
 		<< "Instance " << "|" << std::setw(20) << std::right
 		<< data->getFileName() << " " << std::endl
 	<< " " << std::setw(20) << std::left
-		<< "Solutions " << "|" << std::setw(20) << std::right << std::setprecision(0) << std::fixed
+		<< "Solutions " << "|" << std::setw(20) << std::right
 		<< nbSolLS << " " << std::endl
 	<< " " << std::setw(20) << std::left
 		<< "Total Time (ms) " << "|" << std::setw(20) << std::right

@@ -139,6 +139,18 @@ void weightedSumOneStep(std::vector<Box*> &vectorBox, Data &data);
 long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data);
 
 /*!
+*	\fn runMOGA(vector<Box*> &vectorBox, Data &data)
+*	\ingroup generating
+*	\brief This method runs the multi-objective genetic algorithm.
+
+*	This method executes a multi-objective genetic algorithm in each \c Box of the input vector. 
+*	\param[in] vectorBox : A vector of \c Box which contains all the \c Boxes in which one ones runs the algorithm.
+*	\param[in] data : A \c Data object which contains all the values of the instance.
+*	\return A long int which value is the number of solutions of the algorithm proposed.
+*/
+long int runMOGA(std::vector<Box*> &vectorBox, Data &data);
+
+/*!
 *	\fn filterListSolution(list<Solution> &lsol)
 *	\ingroup generating
 *	\brief Delete the solutions dominated.

@@ -19,8 +19,10 @@
  */
 
 #include "Functions.hpp"
+#include "MOGA.hpp"
 #include "Argument.hpp"
 #include <limits>
+#include <cstdio>
 
 long int createBox(std::vector<Box*> &vectorBox, Data &data)
 {
@@ -335,13 +337,12 @@ long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
 	std::list<Solution> allSolution;
 	std::list<Solution>::iterator it;
 	std::vector<Box*>::iterator itVector;
-	for(itVector = vectorBox.begin(); itVector != vectorBox.end(); ++itVector)
+	for (itVector = vectorBox.begin(); itVector != vectorBox.end(); ++itVector)
 	{						
-		LabelSetting *m = new LabelSetting(*(*itVector));
-		m->compute();
-		
-		allSolution.merge(m->nodes_[m->getRank() - 1].labels_);
-		delete m;
+		LabelSetting m(*(*itVector));
+		m.compute();
+
+		allSolution.merge(m.nodes_[m.getRank() - 1].labels_);
 	}
 	
 	filterListSolution(allSolution);
@@ -351,6 +352,106 @@ long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
 		ToFile::saveYN(allSolution, data);
 	}
 	
+	return (long int) allSolution.size();
+}
+
+// Multi-objective genetic algorithm
+long int runMOGA(std::vector<Box*> &vectorBox, Data &data)
+{
+	std::list<Solution> allSolution;
+	std::list<Solution>::iterator it;
+	std::vector<Box*>::iterator itVector;
+	FILE * pipe_fp = 0; // Gnuplot pipe
+	int object_id = 0;
+
+	// OPEN GNUPLOT (interactive mode)
+	if (Argument::interactive)
+	{
+		if ( ( pipe_fp = popen("gnuplot -persistent", "w") ) != 0 )
+		{
+			int num_obj = (*vectorBox.begin())->getNbObjective();
+			std::vector<double> minZ( num_obj, std::numeric_limits<double>::infinity() ),
+			                    maxZ( num_obj, -std::numeric_limits<double>::infinity() );
+			
+			for (itVector = vectorBox.begin(); itVector != vectorBox.end(); ++itVector)
+			{
+				for ( int k = 0; k < (*(*itVector)).getNbObjective(); ++k )
+				{
+					minZ[k] = std::min( (*(*itVector)).getMinZ( k ), minZ[k] );
+					maxZ[k] = std::max( (*(*itVector)).getMaxZ( k ), maxZ[k] );
+				}
+			}
+
+			fputs( "set nokey\n", pipe_fp );
+			fputs( "set xlabel \"$z_1$\"\n", pipe_fp );
+			fputs( "set ylabel \"$z_2$\"\n", pipe_fp );
+			fprintf( pipe_fp, "set xrange [%f:%f]\n", minZ[0], maxZ[0] );
+			fprintf( pipe_fp, "set yrange [%f:%f]\n", minZ[1], maxZ[1] );
+		}
+		else
+		{
+			std::cerr << "Error: gnuplot pipe failed" << std::endl;
+		}
+	}
+
+	// Apply MOGA on each box
+	for (itVector = vectorBox.begin(); itVector != vectorBox.end(); ++itVector)
+	{
+		// Draw the box associated
+		if ( pipe_fp )
+		{
+			++object_id;
+			fprintf( pipe_fp, "set object %d rectangle from %f,%f to %f,%f fillstyle empty\n", object_id,
+				(*(*itVector)).getMinZ(0), (*(*itVector)).getMinZ(1),
+				(*(*itVector)).getMaxZ(0), (*(*itVector)).getMaxZ(1) );
+		}
+
+		MOGA m(*(*itVector), Argument::num_individuals, Argument::num_generations, Argument::Pc, Argument::Pm);
+		m.pipe_fp_ = pipe_fp;
+		m.compute();
+
+		allSolution.merge(m.solutions_);
+	}
+
+	// CLOSE GNUPLOT
+	if ( pipe_fp )
+	{
+		pclose(pipe_fp);
+	}
+
+	// FILTERING DOMINATED SOLUTIONS
+	for ( std::list<Solution>::iterator it1 = allSolution.begin(); it1 != allSolution.end(); ++it1 )
+	{
+		for ( std::list<Solution>::iterator it2 = it1; it2 != allSolution.end(); ++it2 )
+		{
+			bool dominates = true, dominated = true;
+			for (int k = 0; k < (*it1).getNbObjective() && (dominates || dominated); ++k)
+			{
+				if ( !( (*it1).getObj( k ) < (*it2).getObj( k ) ) )
+					dominates = false;
+
+				if ( !( (*it2).getObj( k ) < (*it1).getObj( k ) ) )
+					dominated = false;
+			}
+			if ( dominates )
+			{
+				it2 = allSolution.erase( it2 );
+				--it2;
+			}
+			if ( dominated )
+			{
+				it1 = allSolution.erase( it1 );
+				--it1;
+				break;
+			}
+		}
+	}
+
+	if (Argument::mode_export)
+	{
+		ToFile::saveYN(allSolution, data);
+	}
+
 	return (long int) allSolution.size();
 }
 

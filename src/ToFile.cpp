@@ -113,7 +113,6 @@ void ToFile::saveYN(std::list<Solution> &lsol, Data &data)
 		if (oFile)
 		{
 			// Display with decimal notation (instead of scientific notation)
-			oFile << std::fixed << std::setprecision(0);
 			for (iter = lsol.begin(); iter != lsol.end(); ++iter)
 			{
 				for (int k = 0; k < (*iter).getNbObjective(); ++k)
