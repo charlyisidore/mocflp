@@ -171,24 +171,31 @@ void MOGA::initialization()
 	population_.clear();
 	for ( int i = 0; i < num_individuals_; ++i )
 	{
-		individual ind( getNbObjective(), num_bits_ );
-		ind.obj = originZ_;
-
-		// Select one assignment per customer.
-		for ( unsigned int c = 0; c < cust_.size(); ++c )
-		{
-			int f = std::rand() % fac_.size();
-			int begin = c * fac_.size();
-
-			ind.chr[begin + f] = true;
-			add_cost( ind, c, f ); // Add costs
-		}
-
-		population_.push_back( ind );
+		population_.push_back( initialization_random() );
 	}
 
 	// Compute all rank and crowding.
 	compute_ranking();
+}
+
+individual MOGA::initialization_random() const
+{
+	individual ind( getNbObjective(), num_bits_ );
+	ind.obj = originZ_;
+
+	// Select one assignment per customer.
+	for ( unsigned int c = 0; c < cust_.size(); ++c )
+	{
+		int f = std::rand() % fac_.size();
+		assign( ind, c, f ); // Add costs
+	}
+	return ind;
+}
+
+individual MOGA::initialization_grasp( double alpha ) const
+{
+	// TODO: GRASP
+	return individual( getNbObjective(), num_bits_ );
 }
 
 std::pair<int, int> MOGA::selection()
@@ -232,10 +239,9 @@ void MOGA::mutation( individual & ind ) const
 	int p = std::rand() % num_bits_;
 	index_to_cust_fac( p, c, f ); // Retrieve corresponding customer and facility for index p.
 
-	ind.chr[p].flip();
-
-	if ( ind.chr[p] ) add_cost( ind, c, f ); // Add costs
-	else              subtract_cost( ind, c, f ); // Subtract costs
+	// Partial evaluation
+	if ( ind.chr[p] ) unassign( ind, c, f ); // Subtract costs
+	else              assign( ind, c, f );   // Add costs
 }
 
 void MOGA::repair( individual & ind ) const
@@ -243,38 +249,35 @@ void MOGA::repair( individual & ind ) const
 	// For each customer, test if there is one assignement alone or not.
 	for ( unsigned int c = 0; c < cust_.size(); ++c )
 	{
-		int begin = c * fac_.size();
-		std::vector<int> assigned;
+		std::vector<int> list_assigned;
 
 		// Retrieve assignments for customer c
 		for ( unsigned int f = 0; f < fac_.size(); ++f )
 		{
-			if ( ind.chr[begin + f] )
+			if ( ind.chr[ index_of(c, f) ] )
 			{
-				assigned.push_back(f);
+				list_assigned.push_back(f);
 			}
 		}
 
 		// If there are more assignments, select one
-		if ( assigned.size() > 1 )
+		if ( list_assigned.size() > 1 )
 		{
-			unsigned int r = std::rand() % assigned.size();
-			for ( unsigned int i = 0; i < assigned.size(); ++i )
+			unsigned int r = std::rand() % list_assigned.size();
+			for ( unsigned int i = 0; i < list_assigned.size(); ++i )
 			{
 				if ( i != r )
 				{
-					int f = assigned[i];
-					ind.chr[begin + f] = false;
-					subtract_cost( ind, c, f ); // Subtract costs
+					int f = list_assigned[i];
+					unassign( ind, c, f ); // Subtract costs
 				}
 			}
 		}
 		// If no assignment, select one
-		else if ( assigned.size() < 1 )
+		else if ( list_assigned.size() < 1 )
 		{
 			int f = std::rand() % fac_.size();
-			ind.chr[begin + f] = true;
-			add_cost( ind, c, f ); // Add costs
+			assign( ind, c, f ); // Add costs
 		}
 	}
 }
@@ -300,16 +303,18 @@ int MOGA::battle( int i1, int i2 ) const
 	else return ( std::rand() % 2 ) ? i1 : i2;
 }
 
-void MOGA::add_cost( individual & ind, int c, int f ) const
+void MOGA::assign( individual & ind, int c, int f ) const
 {
+	ind.chr[ c * fac_.size() + f ] = true;
 	for ( int k = 0; k < getNbObjective(); ++k )
 	{
 		ind.obj[k] += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
 	}
 }
 
-void MOGA::subtract_cost( individual & ind, int c, int f ) const
+void MOGA::unassign( individual & ind, int c, int f ) const
 {
+	ind.chr[ c * fac_.size() + f ] = false;
 	for ( int k = 0; k < getNbObjective(); ++k )
 	{
 		ind.obj[k] -= data_.getAllocationObjCost(k, cust_[c], fac_[f]);
@@ -419,6 +424,11 @@ void MOGA::index_to_cust_fac( int p, int & c, int & f ) const
 	f = d.rem;
 }
 
+int MOGA::index_of( int c, int f ) const
+{
+	return c * fac_.size() + f;
+}
+
 void MOGA::recompute_obj( individual & ind ) const
 {
 	ind.obj = originZ_;
@@ -428,7 +438,11 @@ void MOGA::recompute_obj( individual & ind ) const
 		{
 			int c, f;
 			index_to_cust_fac( p, c, f );
-			add_cost( ind, c, f );
+
+			for ( int k = 0; k < getNbObjective(); ++k )
+			{
+				ind.obj[k] += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
+			}
 		}
 	}
 }

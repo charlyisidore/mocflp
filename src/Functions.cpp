@@ -367,7 +367,7 @@ long int runMOGA(std::vector<Box*> &vectorBox, Data &data)
 	// OPEN GNUPLOT (interactive mode)
 	if (Argument::interactive)
 	{
-		if ( ( pipe_fp = popen("gnuplot -persistent", "w") ) != 0 )
+		if ( ( pipe_fp = popen("gnuplot", "w") ) != 0 )
 		{
 			int num_obj = (*vectorBox.begin())->getNbObjective();
 			std::vector<double> minZ( num_obj, std::numeric_limits<double>::infinity() ),
