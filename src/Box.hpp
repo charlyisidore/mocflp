@@ -186,6 +186,12 @@ public:
 	void computeBox();
 
 	/*!
+	*	\brief A method to know if a \c Box can be feasible or not (check constraints).
+	*	\return A boolean which value is TRUE if the \c Box can be feasible.
+	*/
+	bool isFeasible() const;
+
+	/*!
 	*	\brief A method that opens a \c Facility in this \c Box, by adding all the location cost of the two objectives.
 	*	\param[in] fac : A \c Facility to open.
 	*/
@@ -194,7 +200,7 @@ public:
 	/*!
 	*	\brief A method to print informations about this \c Box.
 	*/
-	void print();	
+	void print();
 
 private:
 	std::string id_;/*!< A string which represents the id of this \c Box */

@@ -161,6 +161,29 @@ void Box::computeBox()
 	}
 }
 
+bool Box::isFeasible() const
+{
+	// If problem is uncapacitated, it is always feasible
+	if ( !Argument::capacitated ) return true;
+
+	// Check if sum of demands is less or equal than sum of capacities
+	double Qtotal( 0 ), dtotal( 0 );
+
+	for ( unsigned int i = 0; i < data_.getnbCustomer(); ++i )
+	{
+		dtotal += data_.getCustomer(i).getDemand();
+	}
+
+	for ( unsigned int j = 0; j < data_.getnbFacility(); ++j )
+	{
+		if ( facility_[j] )
+		{
+			Qtotal += data_.getFacility(j).getCapacity();
+		}
+	}
+	return dtotal <= Qtotal;
+}
+
 void Box::openFacility(int fac)
 {
 	facility_[fac] = true;

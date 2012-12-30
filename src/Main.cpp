@@ -96,6 +96,8 @@ int main(int argc, char *argv[])
 
 	//## END READING ARGUMENTS ##
 
+	std::srand( Argument::random_seed );
+
 	data = Parser::Parsing(Argument::filename);
 
 	if (Argument::mode_export)
