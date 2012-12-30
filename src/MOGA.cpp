@@ -22,7 +22,6 @@
 #include "Argument.hpp"
 #include <algorithm>
 #include <limits>
-#include <cstdlib>
 #include <cstdio>
 
 // To sort individuals by rank and crowding.
@@ -150,9 +149,9 @@ void MOGA::compute()
 	solutions_.clear();
 	for ( unsigned int i = 0; i < population_.size(); ++i )
 	{
-		if ( population_[i].rank == 1 )
+		if ( population_[i].rank == 1 && is_feasible( population_[i] ) )
 		{
-			// Check objective and constraints
+			// Check objective
 			is_valid( population_[i] );
 
 			Solution sol( getNbObjective() );
@@ -171,7 +170,8 @@ void MOGA::initialization()
 	population_.clear();
 	for ( int i = 0; i < num_individuals_; ++i )
 	{
-		population_.push_back( initialization_random() );
+		//population_.push_back( initialization_random() );
+		population_.push_back( initialization_grasp( Argument::alpha ) );
 	}
 
 	// Compute all rank and crowding.
@@ -180,8 +180,7 @@ void MOGA::initialization()
 
 individual MOGA::initialization_random() const
 {
-	individual ind( getNbObjective(), num_bits_ );
-	ind.obj = originZ_;
+	individual ind( this );
 
 	// Select one assignment per customer.
 	for ( unsigned int c = 0; c < cust_.size(); ++c )
@@ -194,8 +193,92 @@ individual MOGA::initialization_random() const
 
 individual MOGA::initialization_grasp( double alpha ) const
 {
-	// TODO: GRASP
-	return individual( getNbObjective(), num_bits_ );
+	individual ind( this );
+	std::vector<int> p( cust_.size(), 0 );
+	std::vector<double> u( fac_.size(), 0 );
+	double umin, umax, ulimit;
+
+	// Choose a direction (bi-objective)
+	int num_directions = 5;
+	int d = std::rand() % num_directions;
+	double dir = (double)d / (num_directions - 1.);
+
+	// Initialize a random permutation to select customers in a random order (inside-out Fisher-Yates shuffle)
+	for ( unsigned int i = 0; i < p.size(); ++i )
+	{
+		int j = std::rand() % (i+1);
+		p[i] = p[j];
+		p[j] = i;
+	}
+
+	for ( unsigned int i = 0; i < p.size(); ++i )
+	{
+		std::vector<int> RCL;
+		int c( p[i] ), r;
+
+		// Compute utility
+		grasp_compute_utility( c, ind, u, umin, umax, dir );
+		ulimit = umin + alpha * ( umax - umin );
+
+		// Build RCL
+		for ( unsigned int f = 0; f < fac_.size(); ++f )
+		{
+			if ( u[f] >= ulimit )
+			{
+				RCL.push_back( f );
+			}
+		}
+
+		// Select an assignment
+		r = std::rand() % RCL.size();
+		assign( ind, c, RCL[r] ); // Add costs
+	}
+	return ind;
+}
+
+void MOGA::grasp_compute_utility( int c, const individual & ind, std::vector<double> & u, double & umin, double & umax, double dir ) const
+{
+	double demand_c( data_.getCustomer(cust_[c]).getDemand() );
+
+	umin = std::numeric_limits<double>::infinity();
+	umax = -std::numeric_limits<double>::infinity();
+
+	for ( unsigned int f = 0; f < fac_.size(); ++f )
+	{
+		double cost_f     = 0,
+		       capacity_f = ind.q[f];
+
+		if ( getNbObjective() == 2 )
+		{
+			// Assume we have two objectives
+			cost_f =    dir     * data_.getAllocationObjCost(0, cust_[c], fac_[f])
+			       + (1. - dir) * data_.getAllocationObjCost(1, cust_[c], fac_[f]);
+		}
+		else
+		{
+			// For more objectives, sum of costs
+			for ( int k = 0; k < getNbObjective(); ++k )
+			{
+				cost_f += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
+			}
+		}
+
+		// Add a tiny value to prevent division by zero
+		cost_f += std::numeric_limits<double>::epsilon();
+
+		if ( Argument::capacitated )
+		{
+			u[f] = ( capacity_f - demand_c ) / cost_f;
+		}
+		else
+		{
+			u[f] = 1. / cost_f;
+		}
+
+		// Warning: Negative utilities will give unfeasible solutions
+		umin = std::min( u[f], umin );
+		umax = std::max( u[f], umax );
+	}
 }
 
 std::pair<int, int> MOGA::selection()
@@ -215,8 +298,8 @@ std::pair<int, int> MOGA::selection()
 
 std::pair<individual, individual> MOGA::crossover( const individual & i1, const individual & i2 ) const
 {
-	individual c1( getNbObjective(), num_bits_ ),
-	           c2( getNbObjective(), num_bits_ );
+	individual c1( this ),
+	           c2( this );
 
 	int p = std::rand() % num_bits_;
 
@@ -288,7 +371,7 @@ void MOGA::elitism()
 	compute_ranking();
 
 	// Erase all individuals that are in the bottom.
-	population_.resize( num_individuals_, individual( getNbObjective(), num_bits_ ) );
+	population_.resize( num_individuals_, individual( this ) );
 
 	// Re-Compute all rank and crowding.
 	compute_ranking();
@@ -310,6 +393,7 @@ void MOGA::assign( individual & ind, int c, int f ) const
 	{
 		ind.obj[k] += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
 	}
+	ind.q[f] -= data_.getCustomer(cust_[c]).getDemand();
 }
 
 void MOGA::unassign( individual & ind, int c, int f ) const
@@ -319,6 +403,7 @@ void MOGA::unassign( individual & ind, int c, int f ) const
 	{
 		ind.obj[k] -= data_.getAllocationObjCost(k, cust_[c], fac_[f]);
 	}
+	ind.q[f] += data_.getCustomer(cust_[c]).getDemand();
 }
 
 void MOGA::compute_ranking()
@@ -417,18 +502,6 @@ bool MOGA::dominates( const individual & i1, const individual & i2 ) const
 	return result;
 }
 
-void MOGA::index_to_cust_fac( int p, int & c, int & f ) const
-{
-	std::div_t d = std::div( p, fac_.size() );
-	c = d.quot;
-	f = d.rem;
-}
-
-int MOGA::index_of( int c, int f ) const
-{
-	return c * fac_.size() + f;
-}
-
 void MOGA::recompute_obj( individual & ind ) const
 {
 	ind.obj = originZ_;
@@ -447,6 +520,52 @@ void MOGA::recompute_obj( individual & ind ) const
 	}
 }
 
+bool MOGA::is_feasible( const individual & ind ) const
+{
+	// For each customer, test if there is one assignement alone or not.
+	for ( unsigned int c = 0; c < cust_.size(); ++c )
+	{
+		// Count assignments for customer c
+		int num_assigned = std::count(
+			ind.chr.begin() + index_of( c, 0 ),
+			ind.chr.begin() + index_of( c+1, 0 ),
+			true );
+
+		if ( num_assigned > 1 )
+		{
+			std::cerr << "Error: too many assignments for a customer, " << num_assigned << " counted" << std::endl;
+			return false;
+		}
+		else if ( num_assigned < 1 )
+		{
+			std::cerr << "Error: no assignment for a customer, " << num_assigned << " counted" << std::endl;
+			return false;
+		}
+	}
+
+	// Test if demands fit to capacities
+	if ( Argument::capacitated )
+	{
+		for ( unsigned int f = 0; f < fac_.size(); ++f )
+		{
+			double capacity( data_.getFacility(fac_[f]).getCapacity() ),
+			       demand( 0 );
+
+			for ( unsigned int c = 0; c < cust_.size(); ++c )
+			{
+				if ( ind.chr[ index_of(c, f) ] )
+				{
+					demand += data_.getCustomer(cust_[c]).getDemand();
+				}
+			}
+
+			if ( demand > capacity )
+				return false;
+		}
+	}
+	return true;
+}
+
 bool MOGA::is_valid( individual & ind ) const
 {
 	bool valid( true );
@@ -463,26 +582,6 @@ bool MOGA::is_valid( individual & ind ) const
 		}
 	}
 
-	// For each customer, test if there is one assignement alone or not.
-	for ( unsigned int c = 0; c < cust_.size(); ++c )
-	{
-		// Count assignments for customer c
-		int num_assigned = std::count(
-			ind.chr.begin() + c * fac_.size(),
-			ind.chr.begin() + (c+1) * fac_.size(),
-			true );
-
-		if ( num_assigned > 1 )
-		{
-			std::cerr << "Error: too many assignments for a customer, " << num_assigned << " counted" << std::endl;
-			valid = false;
-		}
-		else if ( num_assigned < 1 )
-		{
-			std::cerr << "Error: no assignment for a customer, " << num_assigned << " counted" << std::endl;
-			valid = false;
-		}
-	}
 	return valid;
 }
 
@@ -491,12 +590,12 @@ void MOGA::print() const
 #if 0
 	if (Argument::verbose)
 	{
-		std::cout << "#### Population ####" << std::endl;
+		std::clog << "#### Population ####" << std::endl;
 		for ( unsigned int i = 0; i < population_.size(); ++i )
 		{
-			std::cout << population_[i] << std::endl;
+			std::clog << population_[i] << std::endl;
 		}
-		std::cout << "# cust: " << cust_.size() << ", fac: " << fac_.size() << std::endl;
+		std::clog << "# cust: " << cust_.size() << ", fac: " << fac_.size() << std::endl;
 	}
 #endif
 

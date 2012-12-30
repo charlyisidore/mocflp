@@ -37,7 +37,7 @@
 #include <list>
 #include <vector>
 #include <utility>
-#include <cstdio>
+#include <cstdlib>
 
 #include "Data.hpp"
 #include "Box.hpp"
@@ -51,7 +51,6 @@ struct individual;
 *
 *  This class represents a \c multi-objective genetic algorithm.
 */
-// TODO: with capacities
 class MOGA
 {
 public:
@@ -113,6 +112,17 @@ private:
 	*	\return An individual built using GRASP.
 	*/
 	individual initialization_grasp( double alpha ) const;
+
+	/*!
+	*	\brief Compute the utilities of the GRASP.
+	*	\param[in] c : Index of the customer.
+	*	\param[in] ind : The current individual.
+	*	\param[out] u : Array of utilities.
+	*	\param[out] umin : Minimum of the array.
+	*	\param[out] umax : Maximum of the array.
+	*	\param[in] dir : A direction in [0,1] (for bi-objective).
+	*/
+	void grasp_compute_utility( int c, const individual & ind, std::vector<double> & u, double & umin, double & umax, double dir ) const;
 
 	/*!
 	*	\brief Make a selection of two individuals with battles.
@@ -203,18 +213,36 @@ private:
 	void recompute_obj( individual & ind ) const;
 
 	/*!
-	*	\brief Check if individual is valid (constraints and objective).
+	*	\brief Check if individual is feasible (constraints).
+	*	\param[out] ind : The individual to check.
+	*/
+	bool is_feasible( const individual & ind ) const;
+
+	/*!
+	*	\brief Check if individual is valid (objective).
 	*	\param[out] ind : The individual to check.
 	*/
 	bool is_valid( individual & ind ) const;
+
+	// Access to private members.
+	friend class individual;
 };
 
 // Representation of an individual.
 struct individual
 {
-	individual( int num_objectives, int num_bits ) :
-		obj( num_objectives, 0 ), chr( num_bits, false ),
-		rank( 0 ), crowding( 0 ) {}
+	individual( const MOGA * m ) :
+		obj( m->originZ_ ),
+		chr( m->num_bits_, false ),
+		rank( 0 ),
+		crowding( 0 ),
+		q( m->fac_.size() )
+	{
+		for ( unsigned int i = 0; i < q.size(); ++i )
+		{
+			q[i] = m->data_.getFacility(m->fac_[i]).getCapacity();
+		}
+	}
 
 	// Main information
 	std::vector<double> obj; // Objective
@@ -223,6 +251,7 @@ struct individual
 	// Additional information
 	int rank;        // Rank
 	double crowding; // Crowding
+	std::vector<double> q; // Remaining capacity of facility j
 };
 
 std::ostream & operator << ( std::ostream & os, const individual & ind );
@@ -234,6 +263,18 @@ std::ostream & operator << ( std::ostream & os, const individual & ind );
 inline int MOGA::getNbObjective() const
 {
 	return data_.getNbObjective();
+}
+
+inline void MOGA::index_to_cust_fac( int p, int & c, int & f ) const
+{
+	std::div_t d = std::div( p, fac_.size() );
+	c = d.quot;
+	f = d.rem;
+}
+
+inline int MOGA::index_of( int c, int f ) const
+{
+	return c * fac_.size() + f;
 }
 
 #endif

@@ -21,23 +21,101 @@
 #include "Functions.hpp"
 #include "MOGA.hpp"
 #include "Argument.hpp"
+#include <algorithm>
 #include <limits>
 #include <cstdio>
+
+// Functor to sort an index array (of facilities) by decreasing capacity
+struct compare_capacity
+{
+	compare_capacity(Data &data) : data_(data) {}
+	bool operator() ( int i, int j ) const
+	{
+		return data_.getFacility(i).getCapacity() > data_.getFacility(j).getCapacity();
+	}
+	Data &data_;
+};
+
+// Functor to generate the identity permutation in a vector
+struct generate_identity
+{
+	generate_identity() : i_(0) {}
+	int operator() () { return i_++; }
+	int i_;
+};
 
 long int createBox(std::vector<Box*> &vectorBox, Data &data)
 {
 	long int nbBoxComputed = 0;
-		
-	//Add the first boxes with only one facility opened
-	Box *box0 = new Box(data);
-	addChildren(box0, vectorBox);
-	delete box0;
+
+	// Compute the minimum number of facilities needed (for capacitated)
+	if ( Argument::capacitated )
+	{
+		// Make a list of indices of facilities and sort them
+
+		// sorted_fac = 0...0
+		std::vector<int> sorted_fac( data.getnbFacility() );
+
+		// sorted_fac = 0...n-1
+		std::generate( sorted_fac.begin(), sorted_fac.end(), generate_identity() );
+
+		// sorted_fac is sorted by decreasing capacities
+		std::sort( sorted_fac.begin(), sorted_fac.end(), compare_capacity(data) );
+
+		// Compute the total demand
+		double dtotal( 0 );
+		for ( unsigned int i = 0; i < data.getnbCustomer(); ++i )
+		{
+			dtotal += data.getCustomer(i).getDemand();
+		}
+
+		// Compute the minimum number of facilities to open.
+		double qsum( 0 );
+		unsigned int minfac( 0 );
+		while ( minfac < sorted_fac.size() && qsum < dtotal )
+		{
+			qsum += data.getFacility(sorted_fac[minfac]).getCapacity();
+			++minfac;
+		}
+
+		if ( Argument::verbose )
+		{
+			std::clog << "Total demand: " << dtotal << std::endl
+			          << "Need to open a minimum of " << minfac << " facilities" << std::endl;
+		}
+
+		// Open facilities with the minimum cost
+		std::vector<bool> facilityOpen(data.getnbFacility(), false);
+		for ( unsigned int i = 0; i < minfac; ++i )
+		{
+			facilityOpen[sorted_fac[i]] = true;
+		}
+
+		Box *box0 = new Box(data, facilityOpen);
+		vectorBox.push_back(box0);
+		addChildren(box0, vectorBox);
+	}
+	// Add the first boxes with only one facility opened (for uncapacitated)
+	else
+	{
+		Box *box0 = new Box(data);
+		addChildren(box0, vectorBox);
+		delete box0;
+	}
 	
 	for (unsigned int it = 0; it < vectorBox.size();)
 	{
 		++nbBoxComputed;
+
+		// If the box gives an unfeasible subproblem
+		if ( !vectorBox[it]->isFeasible() )
+		{
+			addChildren(vectorBox[it], vectorBox);
+			delete vectorBox[it];
+			vectorBox.erase(vectorBox.begin() + it);
+		}
 		//If the box is dominated by its origin by all the existing boxes
-		if ( isDominatedByItsOrigin(vectorBox, vectorBox[it]) )
+		else if ( isDominatedByItsOrigin(vectorBox, vectorBox[it]) )
 		{
 			delete vectorBox[it];
 			vectorBox.erase(vectorBox.begin() + it);
@@ -87,29 +165,29 @@ long int createBox(std::vector<Box*> &vectorBox, Data &data)
 
 void addChildren(Box *boxMother, std::vector<Box*> &vBox)
 {
-    Data& data = boxMother->getData();
-    
-    //To find the last digit at 1 in the open facility
-    std::vector<bool> facilityOpen(data.getnbFacility());
-    int indexLastOpened = -1;
-    
-    for (unsigned int i = 0 ; i < data.getnbFacility() ; ++i)
-    {
-        if (boxMother->isOpened(i))
-        {
-            indexLastOpened = i;
-        }
-        facilityOpen[i] = boxMother->isOpened(i);
-    }
-    
-    //For each digit 0 of facilities not yet affected, we change it in 1 to create the corresponding a new combination
-    for (unsigned int i = indexLastOpened + 1 ; i < data.getnbFacility() ; ++i)
-    {
-        facilityOpen[i] = true;
-        Box *tmp = new Box(data, facilityOpen);
-        vBox.push_back(tmp);		
-        facilityOpen[i] = false;
-    }
+	Data& data = boxMother->getData();
+
+	//To find the last digit at 1 in the open facility
+	std::vector<bool> facilityOpen(data.getnbFacility());
+	int indexLastOpened = -1;
+
+	for (unsigned int i = 0 ; i < data.getnbFacility() ; ++i)
+	{
+		if (boxMother->isOpened(i))
+		{
+			indexLastOpened = i;
+		}
+		facilityOpen[i] = boxMother->isOpened(i);
+	}
+
+	//For each digit 0 of facilities not yet affected, we change it in 1 to create the corresponding a new combination
+	for (unsigned int i = indexLastOpened + 1 ; i < data.getnbFacility() ; ++i)
+	{
+		facilityOpen[i] = true;
+		Box *tmp = new Box(data, facilityOpen);
+		vBox.push_back(tmp);
+		facilityOpen[i] = false;
+	}
 }
 
 void filter(std::vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor)
