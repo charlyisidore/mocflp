@@ -363,6 +363,28 @@ void MOGA::repair( individual & ind ) const
 			assign( ind, c, f ); // Add costs
 		}
 	}
+
+	// Search for violated capacities
+	if ( Argument::capacitated )
+	{
+		// Find assignments that cause capacity to be violated
+		for ( unsigned int f = 0; f < fac_.size(); ++f )
+		{
+			for ( unsigned int c = 0; ind.q[f] < 0 && c < cust_.size(); ++c )
+			{
+				// Try to assign the customer to an other facility
+				for ( unsigned int g = 0; ind.q[f] < 0 && g < fac_.size(); ++g )
+				{
+					if ( ind.q[g] >= data_.getCustomer(cust_[c]).getDemand() )
+					{
+						unassign(ind, c, f);
+						assign(ind, c, g);
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 void MOGA::elitism()
@@ -388,7 +410,7 @@ int MOGA::battle( int i1, int i2 ) const
 
 void MOGA::assign( individual & ind, int c, int f ) const
 {
-	ind.chr[ c * fac_.size() + f ] = true;
+	ind.chr[ index_of(c, f) ] = true;
 	for ( int k = 0; k < getNbObjective(); ++k )
 	{
 		ind.obj[k] += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
@@ -398,7 +420,7 @@ void MOGA::assign( individual & ind, int c, int f ) const
 
 void MOGA::unassign( individual & ind, int c, int f ) const
 {
-	ind.chr[ c * fac_.size() + f ] = false;
+	ind.chr[ index_of(c, f) ] = false;
 	for ( int k = 0; k < getNbObjective(); ++k )
 	{
 		ind.obj[k] -= data_.getAllocationObjCost(k, cust_[c], fac_[f]);
