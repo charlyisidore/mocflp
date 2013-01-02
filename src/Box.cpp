@@ -21,6 +21,12 @@
 #include "Box.hpp"
 #include "Argument.hpp"
 #include <limits>
+#include <algorithm>
+
+// Macro constant which specializes the class Box for the bi-objective problem.
+// Instead of using a dynamic std::vector to store values, it uses a static double C-style array.
+// It speeds up the algorithm up to two times faster.
+#define SPEEDUP_FOR_BI_OBJECTIVE 1
 
 Box::Box(Data &data):
 data_(data)
@@ -103,60 +109,128 @@ int Box::getNbFacilityOpen() const
 
 void Box::computeBox()
 {
-	// TODO: p-objective
-	//Calcul of the box
+	// Computation of the box
 	for (unsigned int i = 0; i < data_.getnbCustomer(); ++i)
 	{
-		double vMinZ1 = DBL_MAX;
-		double vMaxZ1 = -1;
-		double vMinZ2 = DBL_MAX;
-		double vMaxZ2 = -1;
-		int iMinZ1 = -1, iMinZ2 = -1;
+		// vLexOptZ[k][l] is an upper bound for the objective l among lexicographically optimal solutions w.r.t objective k.
+		// vLexOptZ[k][k] is a lower bound for the objective k.
+
+#if SPEEDUP_FOR_BI_OBJECTIVE
+		// 2-objective
+		double vLexOptZ[2][2] = {
+			{ std::numeric_limits<double>::infinity(),
+			  std::numeric_limits<double>::infinity() },
+			{ std::numeric_limits<double>::infinity(),
+			  std::numeric_limits<double>::infinity() }
+		};
+		int iMinZ[2] = { -1, -1 };
+#else
+		// p-objective
+		std::vector< std::vector<double> > vLexOptZ( getNbObjective(),
+			std::vector<double>( getNbObjective(), std::numeric_limits<double>::infinity() )
+		);
+		std::vector<int> iMinZ( getNbObjective(), -1 );
+#endif
+
+		// Enumerate open facilities
 		for (unsigned int j = 0; j < data_.getnbFacility(); ++j)
 		{
-			//Search for local min and max
+			// Search for local min and max
 			if (facility_[j])
 			{
-				if ( data_.getAllocationObjCost(0, i, j) < vMinZ1 || (data_.getAllocationObjCost(0, i, j) == vMinZ1 && data_.getAllocationObjCost(1, i, j) < vMaxZ2) )
+				for ( int k = 0; k < getNbObjective(); ++k )
 				{
-					// <Z1 || =Z1 et <Z2
-					vMinZ1 = data_.getAllocationObjCost(0, i, j);
-					vMaxZ2 = data_.getAllocationObjCost(1, i, j);
-					iMinZ1 = j;
-				}
-				if (data_.getAllocationObjCost(1, i, j) < vMinZ2 || (data_.getAllocationObjCost(1, i, j) == vMinZ2 && data_.getAllocationObjCost(0, i, j) < vMaxZ1) )
-				{
-					// <Z2 || =Z2 et <Z1
-					vMinZ2 = data_.getAllocationObjCost(1, i, j);
-					vMaxZ1 = data_.getAllocationObjCost(0, i, j);
-					iMinZ2 = j;
+					// If the point is a possible lexicographically optimal solution
+					if ( data_.getAllocationObjCost(k, i, j) <= vLexOptZ[k][k] )
+					{
+						bool dominates( true );
+						bool dominated( true );
+						if ( data_.getAllocationObjCost(k, i, j) == vLexOptZ[k][k] )
+						{
+							for ( int l = 0; l < getNbObjective() && (dominates || dominated); ++l )
+							{
+								if ( vLexOptZ[k][l] < data_.getAllocationObjCost(l, i, j) )
+								{
+									dominates = false;
+								}
+								if ( data_.getAllocationObjCost(l, i, j) < vLexOptZ[k][l] )
+								{
+									dominated = false;
+								}
+							}
+						}
+
+						// If all objectives are better, replace all bounds
+						// If at least one objective is better, update upper bounds
+						if ( dominates || !dominated )
+						{
+							for ( int l = 0; l < getNbObjective(); ++l )
+							{
+								if ( dominates || data_.getAllocationObjCost(l, i, j) > vLexOptZ[k][l] )
+								{
+									vLexOptZ[k][l] = data_.getAllocationObjCost(l, i, j);
+								}
+							}
+							iMinZ[k] = j;
+						}
+					}
 				}
 			}
 		}
-		//If they are equals, this allocation is optimal <=> "trivial"
-		if (iMinZ1 == iMinZ2 && !Argument::capacitated)
+
+#if SPEEDUP_FOR_BI_OBJECTIVE
+		if ( iMinZ[0] == iMinZ[1] )
+#else
+		if ( std::count( iMinZ.begin(), iMinZ.end(), iMinZ[0] ) == (int)iMinZ.size() )
+#endif
 		{
-			minZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);
-			maxZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);
-			originZ_[0] += data_.getAllocationObjCost(0, i, iMinZ1);
-			minZ_[1] += data_.getAllocationObjCost(1, i, iMinZ1);
-			maxZ_[1] += data_.getAllocationObjCost(1, i, iMinZ1);
-			originZ_[1] += data_.getAllocationObjCost(1, i, iMinZ1);
-			nbCustomerNotAffected_--;
+			// If they are equals, this allocation is optimal <=> "trivial"
+			for ( int k = 0; k < getNbObjective(); ++k )
+			{
+				double c( data_.getAllocationObjCost(k, i, iMinZ[0]) );
+				minZ_[k]    += c;
+				maxZ_[k]    += c;
+				originZ_[k] += c;
+			}
+			--nbCustomerNotAffected_;
 			isAssigned_[i] = true;
 		}
 		else
-		//We add the lexicographically optimal cost
 		{
-			minZ_[0] += vMinZ1;
-			minZ_[1] += vMinZ2;
-			maxZ_[0] += vMaxZ1;
-			maxZ_[1] += vMaxZ2;	
+			// We add the lexicographically optimal cost
+			for ( int k = 0; k < getNbObjective(); ++k )
+			{
+				//      z2
+				//	^
+				//	|
+				//	|---[y1]----x           <-- vMax(z2)
+				//	|           |
+				//	|          [y3]
+				//	|     [y2]  |
+				//	|           |
+				//	o---------------> z1
+				//    z3
+				//                  ^
+				//                  |
+				//                vMax(z1)
+				//
+				// The box must cover all lexicographically optimal points,
+				// vMax is an upper bound w.r.t. objective k
+				double vMaxZ( vLexOptZ[0][k] );
+				for ( int l = 1; l < getNbObjective(); ++l )
+				{
+					if ( vMaxZ < vLexOptZ[l][k] )
+						vMaxZ = vLexOptZ[l][k];
+				}
+				minZ_[k] += vLexOptZ[k][k];
+				maxZ_[k] += vMaxZ;
+			}
 		}
 	}
+
 	if (nbCustomerNotAffected_ == 0)
 	{
-		//If all customers are affected, the box is a point, so there is no more WS step possible
+		// If all customers are affected, the box is a point, so there is no more WS step possible
 		hasMoreStepWS_= false;
 	}
 }
