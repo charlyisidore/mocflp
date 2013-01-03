@@ -27,8 +27,11 @@
 int Argument::filtering( 0 );
 int Argument::reconstruction( 0 );
 int Argument::capacitated( 0 );
+int Argument::mip( 0 );
+int Argument::moga( 0 );
 int Argument::num_individuals( 100 );
-int Argument::num_generations( 100 );
+int Argument::num_generations( 20 );
+int Argument::num_directions( 5 );
 int Argument::interactive( 0 );
 int Argument::mode_export( 0 );
 int Argument::verbose( 0 );
@@ -44,10 +47,13 @@ static const struct option long_options[] = {
 	{ "filtering",       no_argument,       &Argument::filtering,      1                            },
 	{ "reconstruction",  no_argument,       &Argument::reconstruction, 1                            },
 	{ "capacitated",     no_argument,       &Argument::capacitated,    1                            },
+	{ "mip",             no_argument,       &Argument::mip,            1                            },
+	{ "moga",            no_argument,       &Argument::moga,           1                            },
 	{ "individuals",     required_argument, 0,                         Argument::id_num_individuals },
 	{ "generations",     required_argument, 0,                         Argument::id_num_generations },
 	{ "Pc",              required_argument, 0,                         Argument::id_Pc              },
 	{ "Pm",              required_argument, 0,                         Argument::id_Pm              },
+	{ "directions",      required_argument, 0,                         Argument::id_num_directions  },
 	{ "alpha",           required_argument, 0,                         Argument::id_alpha           },
 	{ "random-seed",     required_argument, 0,                         Argument::id_random_seed     },
 	{ "interactive",     no_argument,       &Argument::interactive,    1                            },
@@ -106,6 +112,10 @@ void Argument::parse( int argc, char *argv[] )
 				std::istringstream( optarg ) >> Pm;
 				break;
 
+			case id_num_directions:
+				std::istringstream( optarg ) >> num_directions;
+				break;
+
 			case id_alpha:
 				std::istringstream( optarg ) >> alpha;
 				break;
@@ -133,6 +143,12 @@ void Argument::parse( int argc, char *argv[] )
 	{
 		Argument::random_seed = std::time( 0 );
 	}
+
+	if ( Argument::capacitated )
+	{
+		Argument::mip  = 1;
+		Argument::moga = 1;
+	}
 }
 
 void Argument::print( std::ostream & os )
@@ -143,12 +159,22 @@ void Argument::print( std::ostream & os )
 		<< "\tfiltering      = " << filtering       << std::endl
 		<< "\treconstruction = " << reconstruction  << std::endl
 		<< "\tcapacitated    = " << capacitated     << std::endl
-		<< "\tindividuals    = " << num_individuals << std::endl
-		<< "\tgenerations    = " << num_generations << std::endl
-		<< "\tPc             = " << Pc              << std::endl
-		<< "\tPm             = " << Pm              << std::endl
-		<< "\talpha          = " << alpha           << std::endl
-		<< "\trandom-seed    = " << random_seed     << std::endl
+		<< "\tmip            = " << mip             << std::endl
+		<< "\tmoga           = " << moga            << std::endl;
+
+	if ( moga )
+	{
+		os
+			<< "\tindividuals    = " << num_individuals << std::endl
+			<< "\tgenerations    = " << num_generations << std::endl
+			<< "\tPc             = " << Pc              << std::endl
+			<< "\tPm             = " << Pm              << std::endl
+			<< "\tdirections     = " << num_directions  << std::endl
+			<< "\talpha          = " << alpha           << std::endl
+			<< "\trandom-seed    = " << random_seed     << std::endl;
+	}
+
+	os
 		<< "\tinteractive    = " << interactive     << std::endl
 		<< "\texport         = " << mode_export     << std::endl
 		<< "\tverbose        = " << verbose         << std::endl
@@ -163,10 +189,13 @@ void Argument::usage( const char * program_name, std::ostream & os )
 		<< "-f   for filtering method"        << std::endl
 		<< "-r   for reconstruction method"   << std::endl
 		<< "-c   for capacitated problem"     << std::endl
+		<< "--mip         to use MIP solver"  << std::endl
+		<< "--moga        to use MOGA"        << std::endl
 		<< "--individuals <num_individuals>"  << std::endl
 		<< "--generations <num_generations>"  << std::endl
 		<< "--Pc          <proba_crossover>"  << std::endl
 		<< "--Pm          <proba_mutation>"   << std::endl
+		<< "--directions  <num_directions>"   << std::endl
 		<< "--alpha       <GRASP_greediness>" << std::endl
 		<< "--random-seed <random_seed>"      << std::endl
 		<< "--interactive for interactive mode" << std::endl

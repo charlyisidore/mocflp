@@ -71,8 +71,11 @@ struct Argument
 		filtering,
 		reconstruction,
 		capacitated,
+		mip,
+		moga,
 		num_individuals,
 		num_generations,
+		num_directions,
 		interactive,
 		mode_export,
 		verbose,
@@ -96,6 +99,7 @@ struct Argument
 		id_num_generations,
 		id_Pc,
 		id_Pm,
+		id_num_directions,
 		id_alpha
 	};
 
