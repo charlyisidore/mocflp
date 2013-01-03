@@ -15,6 +15,7 @@ CPP = g++
 # ---------------------------------------------------------------------
 
 CPPOPT = -O2 -fPIC -fexceptions -DNDEBUG -DIL_STD -pthread
+LDOPT = -lglpk
 
 #------------------------------------------------------------
 #
@@ -54,7 +55,7 @@ ${BIN_PATH}:
 
 $(CPP_EX): ${OBJECTS}
 	@ echo ">> Creating executable"
-	@ $(CPP) -Wall $(CPPOPT) $^ -o $(BIN_PATH)/$(CPP_EX)
+	@ $(CPP) -Wall $(CPPOPT) $^ $(LDOPT) -o $(BIN_PATH)/$(CPP_EX)
 
 ${OBJ_PATH}/%.o : ${SRC_PATH}/%.cpp
 	@ $(CPP) $(CPPOPT) -Wall -c $< -o $@

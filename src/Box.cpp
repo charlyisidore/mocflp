@@ -17,16 +17,24 @@
  
  #Non-free versions of BiUFLv2012 are available under terms different from those of the General Public License. (e.g. they do not require you to accompany any object code using BiUFLv2012 with the corresponding source code.) For these alternative terms you must purchase a license from Technology Transfer Office of the University of Nantes. Users interested in such a license should contact us (valorisation@univ-nantes.fr) for more information.
  */
- 
-#include "Box.hpp"
-#include "Argument.hpp"
-#include <limits>
-#include <algorithm>
 
 // Macro constant which specializes the class Box for the bi-objective problem.
 // Instead of using a dynamic std::vector to store values, it uses a static double C-style array.
 // It speeds up the algorithm up to two times faster.
 #define SPEEDUP_FOR_BI_OBJECTIVE 1
+
+// Macro constant which specify if the class Box can use GLPK to compute the bounds.
+// Useful if GLPK is not installed, else use of GLPK can be specified dynamically using option --mip.
+#define CAN_USE_GLPK 1
+
+#include "Box.hpp"
+#include "Argument.hpp"
+#include <limits>
+#include <algorithm>
+
+#if CAN_USE_GLPK
+#include <glpk.h>
+#endif
 
 Box::Box(Data &data):
 data_(data)
@@ -109,6 +117,28 @@ int Box::getNbFacilityOpen() const
 
 void Box::computeBox()
 {
+#if CAN_USE_GLPK
+	if ( Argument::mip )
+	{
+		computeBoxMIP();
+	}
+	else
+#endif
+	{
+		computeBoxUFLP();
+	}
+
+	if (nbCustomerNotAffected_ == 0)
+	{
+		// If all customers are affected, the box is a point, so there is no more WS step possible
+		hasMoreStepWS_= false;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void Box::computeBoxUFLP()
+{
 	// Computation of the box
 	for (unsigned int i = 0; i < data_.getnbCustomer(); ++i)
 	{
@@ -181,7 +211,7 @@ void Box::computeBox()
 #if SPEEDUP_FOR_BI_OBJECTIVE
 		if ( iMinZ[0] == iMinZ[1] )
 #else
-		if ( std::count( iMinZ.begin(), iMinZ.end(), iMinZ[0] ) == (int)iMinZ.size() )
+		if ( std::equal( iMinZ.begin(), iMinZ.end()-1, iMinZ.begin()+1 ) )
 #endif
 		{
 			// If they are equals, this allocation is optimal <=> "trivial"
@@ -201,14 +231,14 @@ void Box::computeBox()
 			for ( int k = 0; k < getNbObjective(); ++k )
 			{
 				//      z2
-				//	^
-				//	|
-				//	|---[y1]----x           <-- vMax(z2)
-				//	|           |
-				//	|          [y3]
-				//	|     [y2]  |
-				//	|           |
-				//	o---------------> z1
+				//      ^
+				//      |
+				//      |---[y1]----x           <-- vMax(z2)
+				//      |           |
+				//      |          [y3]
+				//      |     [y2]  |
+				//      |           |
+				//      o---------------> z1
 				//    z3
 				//                  ^
 				//                  |
@@ -227,13 +257,199 @@ void Box::computeBox()
 			}
 		}
 	}
-
-	if (nbCustomerNotAffected_ == 0)
-	{
-		// If all customers are affected, the box is a point, so there is no more WS step possible
-		hasMoreStepWS_= false;
-	}
 }
+
+// -----------------------------------------------------------------------------
+
+void Box::computeBoxMIP()
+{
+#if CAN_USE_GLPK
+#if SPEEDUP_FOR_BI_OBJECTIVE
+	// 2-objective
+	double vLexOptZ[2][2] = { { 0, 0 }, { 0, 0 } };
+#else
+	// p-objective
+	std::vector< std::vector<double> > vLexOptZ( getNbObjective(), std::vector<double>( getNbObjective(), 0. ) );
+#endif
+
+	// Indices of open facilities
+	std::vector<int> fac;
+
+	for ( unsigned int j = 0; j < data_.getnbFacility(); ++j )
+	{
+		if ( facility_[j] )
+		{
+			fac.push_back( j );
+		}
+	}
+
+	int m( data_.getnbCustomer() );
+	int n( fac.size() );
+
+	int n_cols( m*n );
+	int n_rows( Argument::capacitated ? m+n : m );
+
+	// CREATE GLPK PROBLEM
+
+	int ne = Argument::capacitated ? 2*m*n : m*n;
+	int ia[ne];
+	int ja[ne];
+	double ar[ne];
+
+	glp_prob * lp = glp_create_prob();
+
+	glp_set_obj_dir( lp, GLP_MIN );
+	glp_add_rows( lp, n_rows );
+	glp_add_cols( lp, n_cols );
+
+	// SET FIXED COEFFICIENTS AND BOUNDS
+
+	// Set variables
+	for ( int i = 0; i < n_cols; ++i )
+	{
+		glp_set_col_kind( lp, 1 + i, GLP_BV );
+	}
+
+	// Set assignment constraints
+	for ( int i = 0; i < m; ++i )
+	{
+		glp_set_row_bnds( lp, 1 + i, GLP_FX, 1, 1 );
+
+		for ( int j = 0; j < n; ++j )
+		{
+			int index = 1 + i*n + j;
+
+			ia[index] = 1 + i;       // Row in [1,m]
+			ja[index] = 1 + i*n + j; // Col in [i,i+n]
+			ar[index] = 1;
+		}
+	}
+
+	// Set capacity constraints
+	if ( Argument::capacitated )
+	{
+		for ( int j = 0; j < n; ++j )
+		{
+			glp_set_row_bnds( lp, 1 + m+j, GLP_UP, 0, data_.getFacility( fac[j] ).getCapacity() );
+
+			for ( int i = 0; i < m; ++i )
+			{
+				int index = m*n + (1 + i*n + j);
+
+				ia[index] = 1 + m+j;     // Row in [m+1,m+1+n]
+				ja[index] = 1 + i*n + j; // Col in [i,i+n]
+				ar[index] = data_.getCustomer(i).getDemand();
+			}
+		}
+	}
+
+	// Load all constraints and variables
+	glp_load_matrix( lp, ne, ia, ja, ar );
+
+	// PARAMETERS
+
+	glp_smcp scmp_parm;
+	glp_iocp iocp_parm;
+
+	glp_init_smcp( &scmp_parm );
+	glp_init_iocp( &iocp_parm );
+
+	scmp_parm.msg_lev  = GLP_MSG_ERR;
+	scmp_parm.presolve = GLP_ON;
+
+	iocp_parm.msg_lev  = GLP_MSG_ERR;
+	iocp_parm.presolve = GLP_ON;
+
+	// SOLVE
+
+	for ( int k = 0; k < getNbObjective(); ++k )
+	{
+		// Set objective function k
+		for ( int i = 0; i < m; ++i )
+		{
+			for ( int j = 0; j < n; ++j )
+			{
+				int index = 1 + i*n + j;
+				glp_set_obj_coef( lp, index, data_.getAllocationObjCost( k, i, fac[j] ) + 0.01 * data_.getAllocationObjCost( k == 0 ? 1 : 0, i, fac[j] ) );
+			}
+		}
+
+		// Solve using simplex and branch & bound
+		int res = glp_simplex( lp, &scmp_parm );
+		res = glp_intopt( lp, &iocp_parm );
+
+		if ( res == 0 )
+		{
+			int status = glp_mip_status( lp );
+			if ( status == GLP_OPT )
+			{
+				// Compute objective values of objectives != k
+				for ( int l = 0; l < getNbObjective(); ++l )
+				{
+					for ( int i = 0; i < m; ++i )
+					{
+						for ( int j = 0; j < n; ++j )
+						{
+							int index = 1 + i*n + j;
+							vLexOptZ[k][l] +=
+								  glp_mip_col_val( lp, index )
+								* data_.getAllocationObjCost( l, i, fac[j] );
+						}
+					}
+				}
+			}
+			else
+			{
+				std::cerr << "[GLPK Error] Resolution is not optimal. Code: ";
+				switch ( status )
+				{
+					case GLP_UNDEF:  std::cerr << "GLP_UNDEF" << std::endl; break;
+					case GLP_FEAS:   std::cerr << "GLP_FEAS" << std::endl; break;
+					case GLP_NOFEAS:  std::cerr << "GLP_NOFEAS" << std::endl; break;
+					default: std::cerr << "unknown (" << status << ")" << std::endl; break;
+				}
+			}
+		}
+		else
+		{
+			std::cerr << "[GLPK Error] Resolution has failed. Code: ";
+			switch ( res )
+			{
+				case GLP_EBOUND:  std::cerr << "GLP_EBOUND" << std::endl; break;
+				case GLP_EROOT:   std::cerr << "GLP_EROOT" << std::endl; break;
+				case GLP_ENOPFS:  std::cerr << "GLP_ENOPFS" << std::endl; break;
+				case GLP_ENODFS:  std::cerr << "GLP_ENODFS" << std::endl; break;
+				case GLP_EFAIL:   std::cerr << "GLP_EFAIL" << std::endl; break;
+				case GLP_EMIPGAP: std::cerr << "GLP_EMIPGAP" << std::endl; break;
+				case GLP_ETMLIM:  std::cerr << "GLP_ETMLIM" << std::endl; break;
+				case GLP_ESTOP:   std::cerr << "GLP_ESTOP" << std::endl; break;
+				default: std::cerr << "unknown (" << res << ")" << std::endl; break;
+			}
+		}
+	}
+
+	// FREE MEMORY
+	glp_delete_prob( lp );
+
+	// COMPUTE BOX BOUNDS
+
+	for ( int k = 0; k < getNbObjective(); ++k )
+	{
+		double vMaxZ( vLexOptZ[0][k] );
+		for ( int l = 1; l < getNbObjective(); ++l )
+		{
+			if ( vMaxZ < vLexOptZ[l][k] )
+				vMaxZ = vLexOptZ[l][k];
+		}
+
+		minZ_[k] = originZ_[k] + vLexOptZ[k][k];
+		maxZ_[k] = originZ_[k] + vMaxZ;
+	}
+#endif
+// CAN_USE_GLPK
+}
+
+// -----------------------------------------------------------------------------
 
 bool Box::isFeasible() const
 {

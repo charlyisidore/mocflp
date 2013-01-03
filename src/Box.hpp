@@ -203,6 +203,16 @@ public:
 	void print();
 
 private:
+	/*!
+	*	\brief Compute the box efficiently for UFLP.
+	*/
+	void computeBoxUFLP();
+
+	/*!
+	*	\brief Compute the box using a mono-objective MIP solver.
+	*/
+	void computeBoxMIP();
+
 	std::string id_;/*!< A string which represents the id of this \c Box */
 
 	Data& data_;/*!< A reference to the \c Data of this \c Box */
