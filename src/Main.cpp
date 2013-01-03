@@ -223,18 +223,27 @@ int main(int argc, char *argv[])
 			vectorBoxFinal = vectorBox;
 		}
 	
-	//###################
-	//## LABEL SETTING ##
-	
-		gettimeofday(&beginLS, 0);			
-		//nbSolLS = runLabelSetting(vectorBoxFinal,*data);
-		nbSolLS = runMOGA(vectorBoxFinal,*data);
-		gettimeofday(&endLS, 0);
-		
+	//###########################
+	//## LABEL SETTING or MOGA ##
+
+		if ( Argument::moga )
+		{
+			gettimeofday(&beginLS, 0);
+			nbSolLS = runMOGA(vectorBoxFinal, *data);
+			gettimeofday(&endLS, 0);
+		}
+		else // use Label Setting
+		{
+			gettimeofday(&beginLS, 0);
+			nbSolLS = runLabelSetting(vectorBoxFinal, *data);
+			gettimeofday(&endLS, 0);
+		}
+
 		if (Argument::verbose)
 		{
-			std::cout << "+" << std::setfill('-') << std::setw(13) << "+"
-				<< " LABEL SETTING " << "+" << std::setw(13) << "+" << std::endl
+			std::cout << "+" << std::setfill('-') << std::setw(Argument::moga?17:13) << "+"
+				<< (Argument::moga ? " MOGA " : " LABEL SETTING ")
+				<< "+" << std::setw(Argument::moga?18:13) << "+" << std::endl
 			<< std::setfill (' ') << " " << std::setw(20) << std::left
 				<< "Sol computed " << "|" << std::setw(20) << std::right
 				<< nbSolLS << " " << std::endl
@@ -269,8 +278,7 @@ int main(int argc, char *argv[])
 			std::cout << " Failure in the execution of the script " << std::endl;
 		}
 	}
-	
-	
+
 	vectorBox.clear();
 	vectorBoxFinal.clear();		
 	delete data;
