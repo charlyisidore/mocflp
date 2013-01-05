@@ -19,7 +19,6 @@
  */
 
 #include "MOGA.hpp"
-#include "Argument.hpp"
 #include <algorithm>
 #include <limits>
 #include <cstdio>
@@ -29,7 +28,12 @@ struct compare_ranking
 {
 	bool operator () ( const individual & i1, const individual & i2 ) const
 	{
-		if ( i1.rank < i2.rank ) return true;
+		bool feas1 = i1.is_feasible(),
+		     feas2 = i2.is_feasible();
+
+		if ( feas1 && !feas2 ) return true;
+		else if ( feas2 && !feas1 ) return false;
+		else if ( i1.rank < i2.rank ) return true;
 		else if ( i2.rank < i1.rank ) return false;
 		else if ( i2.crowding < i1.crowding ) return true;
 		else if ( i1.crowding < i2.crowding ) return false;
@@ -149,10 +153,10 @@ void MOGA::compute()
 	solutions_.clear();
 	for ( unsigned int i = 0; i < population_.size(); ++i )
 	{
-		if ( population_[i].rank == 1 && is_feasible( population_[i] ) )
+		if ( population_[i].rank == 1 && population_[i].is_feasible() /*&& is_feasible( population_[i] )*/ )
 		{
 			// Check objective
-			is_valid( population_[i] );
+			//is_valid( population_[i] );
 
 			Solution sol( getNbObjective() );
 			for ( int k = 0; k < getNbObjective(); ++k )
@@ -170,8 +174,14 @@ void MOGA::initialization()
 	population_.clear();
 	for ( int i = 0; i < num_individuals_; ++i )
 	{
-		//population_.push_back( initialization_random() );
-		population_.push_back( initialization_grasp( Argument::alpha ) );
+		if ( Argument::grasp )
+		{
+			population_.push_back( initialization_grasp( Argument::alpha ) );
+		}
+		else
+		{
+			population_.push_back( initialization_random() );
+		}
 	}
 
 	// Compute all rank and crowding.
@@ -199,9 +209,8 @@ individual MOGA::initialization_grasp( double alpha ) const
 	double umin, umax, ulimit;
 
 	// Choose a direction (bi-objective)
-	int num_directions = 5;
-	int d = std::rand() % num_directions;
-	double dir = (double)d / (num_directions - 1.);
+	int d = std::rand() % Argument::num_directions;
+	double dir = (double)d / (Argument::num_directions - 1.);
 
 	// Initialize a random permutation to select customers in a random order (inside-out Fisher-Yates shuffle)
 	for ( unsigned int i = 0; i < p.size(); ++i )
@@ -379,7 +388,6 @@ void MOGA::repair( individual & ind ) const
 					{
 						unassign(ind, c, f);
 						assign(ind, c, g);
-						break;
 					}
 				}
 			}
@@ -401,7 +409,12 @@ void MOGA::elitism()
 
 int MOGA::battle( int i1, int i2 ) const
 {
-	if ( population_[i1].rank < population_[i2].rank ) return i1;
+	bool feas1 = population_[i1].is_feasible(),
+	     feas2 = population_[i2].is_feasible();
+
+	if ( feas1 && !feas2 ) return i1;
+	else if ( feas2 && !feas1 ) return i2;
+	else if ( population_[i1].rank < population_[i2].rank ) return i1;
 	else if ( population_[i2].rank < population_[i1].rank ) return i2;
 	else if ( population_[i2].crowding < population_[i1].crowding ) return i1;
 	else if ( population_[i1].crowding < population_[i2].crowding ) return i2;
@@ -630,13 +643,13 @@ void MOGA::print() const
 			rank_max = std::max( population_[i].rank, rank_max );
 		}
 
-		fputs( "plot ", pipe_fp_ );
+		std::fputs( "plot ", pipe_fp_ );
 
 		for ( int r = rank_max; r > 1; --r )
 		{
-			fprintf( pipe_fp_, "'-' title '%d', ", r );
+			std::fprintf( pipe_fp_, "'-' title '%d', ", r );
 		}
-		fputs( "'-' title '1' linecolor rgb 'blue' pt 9\n", pipe_fp_ );
+		std::fputs( "'-' title '1' linecolor rgb 'blue' pt 9\n", pipe_fp_ );
 
 		for ( int r = rank_max; r >= 1; --r )
 		{
@@ -646,14 +659,14 @@ void MOGA::print() const
 				{
 					for ( int k = 0; k < getNbObjective(); ++k )
 					{
-						fprintf( pipe_fp_, "%f ", population_[i].obj[k] );
+						std::fprintf( pipe_fp_, "%f ", population_[i].obj[k] );
 					}
-					fputs( "\n", pipe_fp_ );
+					std::fputs( "\n", pipe_fp_ );
 				}
 			}
-			fputs( "e\n", pipe_fp_ );
+			std::fputs( "e\n", pipe_fp_ );
 		}
-		fputs( "\n", pipe_fp_ );
+		std::fputs( "\n", pipe_fp_ );
 	}
 }
 

@@ -62,15 +62,23 @@
 long int createBox(std::vector<Box*> &vectorBox, Data &data);
 
 /*!
-*	\fn addChildren(Box *boxMother, vector<Box*> &vBox)
+*	\fn void initBoxCapacitated(vector<Box*> &vectorBox, Data &data, vector<int> & sorted_fac)
+*	\ingroup paving
+*	\brief This method computes all the initial \c Boxes for the capacitated problem.
+*/
+void initBoxCapacitated(std::vector<Box*> &vectorBox, Data &data, std::vector<int> & sorted_fac);
+
+/*!
+*	\fn addChildren(Box *boxMother, vector<Box*> &vBox, vector<int> & sorted_fac)
 *	\ingroup paving
 *	\brief This method adds children of a \c Box into a vector of \c Boxes.
 
 *	This method computes all the children \c Boxes of a \c Box into a vector of \c Boxes. A children is defined by a combination of \c Facility in which indices have not yet been opened.
 *	\param[in] boxMother : A \c Box for which ones wants to add children \c Boxes.
 *	\param[in,out] vBox : A vector of \c Box in whichone ones add all the children \c Boxes at the end (enqueue at the end of the vector).
+*	\param[in] sorted_fac : A vector of indices of facilities (permutation, can be identity).
 */
-void addChildren(Box *boxMother, std::vector<Box*> &vBox);
+void addChildren(Box *boxMother, std::vector<Box*> &vBox, const std::vector<int> & sorted_fac);
 
 /*!
 *	\fn filter(vector<Box*> &vectorBox, long int &nbToCompute, long int &nbWithNeighbor)
@@ -136,7 +144,7 @@ void weightedSumOneStep(std::vector<Box*> &vectorBox, Data &data);
 *	\param[in] data : A \c Data object which contains all the values of the instance.
 *	\return A long int which value is the number of solutions of the algorithm proposed.
 */
-long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data);
+long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data, std::list<Solution> & allSolution);
 
 /*!
 *	\fn runMOGA(vector<Box*> &vectorBox, Data &data)
@@ -148,7 +156,7 @@ long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data);
 *	\param[in] data : A \c Data object which contains all the values of the instance.
 *	\return A long int which value is the number of solutions of the algorithm proposed.
 */
-long int runMOGA(std::vector<Box*> &vectorBox, Data &data);
+long int runMOGA(std::vector<Box*> &vectorBox, Data &data, std::list<Solution> & allSolution);
 
 /*!
 *	\fn filterListSolution(list<Solution> &lsol)

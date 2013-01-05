@@ -48,58 +48,22 @@ long int createBox(std::vector<Box*> &vectorBox, Data &data)
 {
 	long int nbBoxComputed = 0;
 
+	// Make a list of indices of facilities and sort them
+	std::vector<int> sorted_fac( data.getnbFacility() );
+
+	// sorted_fac = 0...n-1
+	std::generate( sorted_fac.begin(), sorted_fac.end(), generate_identity() );
+
 	// Compute the minimum number of facilities needed (for capacitated)
 	if ( Argument::capacitated )
 	{
-		// Make a list of indices of facilities and sort them
-
-		// sorted_fac = 0...0
-		std::vector<int> sorted_fac( data.getnbFacility() );
-
-		// sorted_fac = 0...n-1
-		std::generate( sorted_fac.begin(), sorted_fac.end(), generate_identity() );
-
-		// sorted_fac is sorted by decreasing capacities
-		std::sort( sorted_fac.begin(), sorted_fac.end(), compare_capacity(data) );
-
-		// Compute the total demand
-		double dtotal( 0 );
-		for ( unsigned int i = 0; i < data.getnbCustomer(); ++i )
-		{
-			dtotal += data.getCustomer(i).getDemand();
-		}
-
-		// Compute the minimum number of facilities to open.
-		double qsum( 0 );
-		unsigned int minfac( 0 );
-		while ( minfac < sorted_fac.size() && qsum < dtotal )
-		{
-			qsum += data.getFacility(sorted_fac[minfac]).getCapacity();
-			++minfac;
-		}
-
-		if ( Argument::verbose )
-		{
-			std::clog << "Total demand: " << dtotal << std::endl
-			          << "Need to open a minimum of " << minfac << " facilities" << std::endl;
-		}
-
-		// Open facilities with the minimum cost
-		std::vector<bool> facilityOpen(data.getnbFacility(), false);
-		for ( unsigned int i = 0; i < minfac; ++i )
-		{
-			facilityOpen[sorted_fac[i]] = true;
-		}
-
-		Box *box0 = new Box(data, facilityOpen);
-		vectorBox.push_back(box0);
-		addChildren(box0, vectorBox);
+		initBoxCapacitated(vectorBox, data, sorted_fac);
 	}
 	// Add the first boxes with only one facility opened (for uncapacitated)
 	else
 	{
 		Box *box0 = new Box(data);
-		addChildren(box0, vectorBox);
+		addChildren(box0, vectorBox, sorted_fac);
 		delete box0;
 	}
 	
@@ -110,7 +74,7 @@ long int createBox(std::vector<Box*> &vectorBox, Data &data)
 		// If the box gives an unfeasible subproblem
 		if ( !vectorBox[it]->isFeasible() )
 		{
-			addChildren(vectorBox[it], vectorBox);
+			addChildren(vectorBox[it], vectorBox, sorted_fac);
 			delete vectorBox[it];
 			vectorBox.erase(vectorBox.begin() + it);
 		}
@@ -123,7 +87,7 @@ long int createBox(std::vector<Box*> &vectorBox, Data &data)
 		else
 		{
 			//Compute all potential children of this box as candidates boxes
-			addChildren(vectorBox[it], vectorBox);
+			addChildren(vectorBox[it], vectorBox, sorted_fac);
 			//Compute bounds of this box
 			vectorBox[it]->computeBox();
 			//If this box is dominated by all the boxes (existing + its children) regarding to its bounds
@@ -162,31 +126,118 @@ long int createBox(std::vector<Box*> &vectorBox, Data &data)
 	return nbBoxComputed;
 }
 
+void initBoxCapacitated(std::vector<Box*> &vectorBox, Data &data, std::vector<int> & sorted_fac)
+{
+	// sorted_fac is sorted by decreasing capacities
+	std::sort( sorted_fac.begin(), sorted_fac.end(), compare_capacity(data) );
 
-void addChildren(Box *boxMother, std::vector<Box*> &vBox)
+	// Compute the total demand
+	double dtotal( 0 );
+	for ( unsigned int i = 0; i < data.getnbCustomer(); ++i )
+	{
+		dtotal += data.getCustomer(i).getDemand();
+	}
+
+	// Compute the minimum number of facilities to open (left).
+	double qminsum( 0 );
+	unsigned int minfac( 0 );
+	while ( minfac < sorted_fac.size() && qminsum < dtotal )
+	{
+		qminsum += data.getFacility(sorted_fac[minfac]).getCapacity();
+		++minfac;
+	}
+
+	// Check if the problem can be feasible
+	if ( qminsum < dtotal )
+	{
+		std::cerr << "The problem is infeasible !" << std::endl;
+		return;
+	}
+
+	// Compute the minimum number of facilities to open (right).
+	double qmaxsum( 0 );
+	unsigned int maxfac( sorted_fac.size() );
+	while ( maxfac >= 0 && qmaxsum < dtotal )
+	{
+		--maxfac;
+		qmaxsum += data.getFacility(sorted_fac[maxfac]).getCapacity();
+	}
+
+	// Open facilities
+	std::vector<bool> facilityOpen(data.getnbFacility(), false);
+	for ( unsigned int i = 0; i < maxfac; ++i )
+	{
+		facilityOpen[sorted_fac[i]] = true;
+		vectorBox.push_back( new Box(data, facilityOpen) );
+		facilityOpen[sorted_fac[i]] = false;
+	}
+
+	for ( unsigned int i = maxfac; i < facilityOpen.size(); ++i )
+	{
+		facilityOpen[sorted_fac[i]] = true;
+	}
+	vectorBox.push_back( new Box(data, facilityOpen) );
+}
+
+void addChildren(Box *boxMother, std::vector<Box*> &vBox, const std::vector<int> & sorted_fac)
 {
 	Data& data = boxMother->getData();
 
-	//To find the last digit at 1 in the open facility
+	// To find the last digit at 1 in the open facility
 	std::vector<bool> facilityOpen(data.getnbFacility());
 	int indexLastOpened = -1;
+	double qsum( 0 );
+
+	static std::vector<double> qremaining( data.getnbFacility(), 0 );
+	static double dtotal( -1 );
+
+	// Compute some data (once)
+	if ( Argument::capacitated && dtotal < 0 )
+	{
+		// Compute the total demand (once)
+		dtotal = 0;
+		for ( unsigned int i = 0; i < data.getnbCustomer(); ++i )
+		{
+			dtotal += data.getCustomer(i).getDemand();
+		}
+
+		// Compute the remaining capacities (once)
+		for ( unsigned int i = data.getnbFacility()-1; i > 0; --i )
+		{
+			qremaining[i-1] = qremaining[i] + data.getFacility(sorted_fac[i]).getCapacity();
+		}
+	}
 
 	for (unsigned int i = 0 ; i < data.getnbFacility() ; ++i)
 	{
-		if (boxMother->isOpened(i))
+		if (boxMother->isOpened(sorted_fac[i]))
 		{
 			indexLastOpened = i;
+			qsum += data.getFacility(sorted_fac[i]).getCapacity();
 		}
-		facilityOpen[i] = boxMother->isOpened(i);
+		facilityOpen[sorted_fac[i]] = boxMother->isOpened(sorted_fac[i]);
 	}
 
-	//For each digit 0 of facilities not yet affected, we change it in 1 to create the corresponding a new combination
-	for (unsigned int i = indexLastOpened + 1 ; i < data.getnbFacility() ; ++i)
+	// For each digit 0 of facilities not yet affected, we change it in 1 to create the corresponding a new combination
+	for (unsigned int i = indexLastOpened + 1; i < data.getnbFacility(); ++i)
 	{
-		facilityOpen[i] = true;
-		Box *tmp = new Box(data, facilityOpen);
-		vBox.push_back(tmp);
-		facilityOpen[i] = false;
+		// If the remaining facilites exactly cover the rest of the demand,
+		// Skip infeasible boxes
+		if ( Argument::capacitated && qsum + qremaining[i] < dtotal )
+		{
+			while ( i < data.getnbFacility() )
+			{
+				facilityOpen[sorted_fac[i]] = true;
+				++i;
+			}
+			vBox.push_back( new Box(data, facilityOpen) );
+		}
+		else
+		{
+			facilityOpen[sorted_fac[i]] = true;
+			vBox.push_back( new Box(data, facilityOpen) );
+			facilityOpen[sorted_fac[i]] = false;
+		}
 	}
 }
 
@@ -410,10 +461,8 @@ void weightedSumOneStep(std::vector<Box*> &vectorBox, Data &data)
 }
 
 //LABELSETTING
-long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
+long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data, std::list<Solution> & allSolution)
 {
-	std::list<Solution> allSolution;
-	std::list<Solution>::iterator it;
 	std::vector<Box*>::iterator itVector;
 	for (itVector = vectorBox.begin(); itVector != vectorBox.end(); ++itVector)
 	{						
@@ -434,10 +483,8 @@ long int runLabelSetting(std::vector<Box*> &vectorBox, Data &data)
 }
 
 // Multi-objective genetic algorithm
-long int runMOGA(std::vector<Box*> &vectorBox, Data &data)
+long int runMOGA(std::vector<Box*> &vectorBox, Data &data, std::list<Solution> & allSolution)
 {
-	std::list<Solution> allSolution;
-	std::list<Solution>::iterator it;
 	std::vector<Box*>::iterator itVector;
 	FILE * pipe_fp = 0; // Gnuplot pipe
 	int object_id = 0;

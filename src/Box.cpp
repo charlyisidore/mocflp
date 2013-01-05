@@ -52,6 +52,7 @@ data_(data)
 	maxZ_.resize(getNbObjective(), 0.);
 	originZ_.resize(getNbObjective(), 0.);
 	id_ = "";
+	totalCapacity_ = 0.;
 }
 
 Box::Box(Box* copy):
@@ -70,6 +71,7 @@ data_(copy->data_)
 	id_ = copy->id_;
 	hasMoreStepWS_ = copy->hasMoreStepWS_;
 	hasNeighbor_ = copy->hasNeighbor_;
+	totalCapacity_ = 0.;
 }
 
 Box::Box(Data& data, const std::vector<bool> & toOpen):
@@ -83,6 +85,7 @@ data_(data)
 	id_ = "";
 	hasMoreStepWS_ = true; // A priori, some supported points exist
 	hasNeighbor_ = false;
+	totalCapacity_ = 0.;
 	
 	//Set opening of depots to FALSE
 	facility_.resize(data_.getnbFacility(), false);
@@ -117,13 +120,23 @@ int Box::getNbFacilityOpen() const
 
 void Box::computeBox()
 {
+	if ( Argument::lagrangian )
+	{
+		computeBoxLagrangian();
+	}
+	else
 #if CAN_USE_GLPK
-	if ( Argument::mip )
+	if ( Argument::mip_solver )
 	{
 		computeBoxMIP();
 	}
 	else
 #endif
+	if ( Argument::capacitated )
+	{
+		computeBoxHeuristic();
+	}
+	else
 	{
 		computeBoxUFLP();
 	}
@@ -261,6 +274,89 @@ void Box::computeBoxUFLP()
 
 // -----------------------------------------------------------------------------
 
+void Box::computeBoxHeuristic()
+{
+#if SPEEDUP_FOR_BI_OBJECTIVE
+	// 2-objective
+	double vLexOptZ[2][2] = { { 0, 0 }, { 0, 0 } };
+#else
+	// p-objective
+	std::vector< std::vector<double> > vLexOptZ( getNbObjective(), std::vector<double>( getNbObjective(), 0. ) );
+#endif
+
+	for ( int k = 0; k < getNbObjective(); ++k )
+	{
+		// Remaining capacities
+		std::vector<int> q( data_.getnbFacility() );
+		for ( unsigned int j = 0; j < data_.getnbFacility(); ++j )
+		{
+			q[j] = data_.getFacility(j).getCapacity();
+		}
+
+		// To each customer we assign a facility
+		for ( unsigned int i = 0; i < data_.getnbCustomer(); ++i )
+		{
+			double u, umax( -std::numeric_limits<double>::infinity() ),
+			       vmin( std::numeric_limits<double>::infinity() );
+			int jmin( -1 ), jmax( -1 );
+
+			for ( unsigned int j = 0; j < data_.getnbFacility(); ++j )
+			{
+				if ( facility_[j] )
+				{
+					// Upper bound : find one solution (feasible if possible)
+					u = ( q[j] - data_.getCustomer(i).getDemand() ) / data_.getAllocationObjCost(k, i, j);
+					if ( u > umax )
+					{
+						jmax = j;
+						umax = u;
+					}
+
+					// Lower bound : don't take capacities into account
+					if ( data_.getAllocationObjCost(k, i, j) < vmin )
+					{
+						jmin = j;
+						vmin = data_.getAllocationObjCost(k, i, j);
+					}
+				}
+			}
+
+			minZ_[k] += data_.getAllocationObjCost(k, i, jmin);
+
+			// Add a penalty if solution is infeasible
+			double penatly( ( q[jmax] < 0 ) ? 1.5 : 1. );
+
+			for ( int l = 0; l < getNbObjective(); ++l )
+			{
+				vLexOptZ[k][l] += penatly * data_.getAllocationObjCost(l, i, jmax);
+			}
+			q[jmax] -= data_.getCustomer(i).getDemand();
+		}
+	}
+
+	// We add the lexicographically optimal cost
+	for ( int k = 0; k < getNbObjective(); ++k )
+	{
+		// The box must cover all lexicographically optimal points,
+		// vMax is an upper bound w.r.t. objective k
+		double vMaxZ( vLexOptZ[0][k] );
+		for ( int l = 1; l < getNbObjective(); ++l )
+		{
+			if ( vMaxZ < vLexOptZ[l][k] )
+				vMaxZ = vLexOptZ[l][k];
+		}
+		maxZ_[k] += vMaxZ;
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+void Box::computeBoxLagrangian()
+{
+}
+
+// -----------------------------------------------------------------------------
+
 void Box::computeBoxMIP()
 {
 #if CAN_USE_GLPK
@@ -271,6 +367,11 @@ void Box::computeBoxMIP()
 	// p-objective
 	std::vector< std::vector<double> > vLexOptZ( getNbObjective(), std::vector<double>( getNbObjective(), 0. ) );
 #endif
+
+	if ( Argument::verbose )
+	{
+		std::clog << "MIP solving..." << std::endl;
+	}
 
 	// Indices of open facilities
 	std::vector<int> fac;
@@ -314,6 +415,7 @@ void Box::computeBoxMIP()
 	for ( int i = 0; i < m; ++i )
 	{
 		glp_set_row_bnds( lp, 1 + i, GLP_FX, 1, 1 );
+		//glp_set_row_bnds( lp, 1 + i, GLP_LO, 1, 1 );
 
 		for ( int j = 0; j < n; ++j )
 		{
@@ -370,7 +472,17 @@ void Box::computeBoxMIP()
 			for ( int j = 0; j < n; ++j )
 			{
 				int index = 1 + i*n + j;
-				glp_set_obj_coef( lp, index, data_.getAllocationObjCost( k, i, fac[j] ) + 0.01 * data_.getAllocationObjCost( k == 0 ? 1 : 0, i, fac[j] ) );
+
+				// Additional cost to try to avoid weakly efficient solutions
+				double c( 0 );
+				for ( int l = 0; l < getNbObjective(); ++l )
+				{
+					if ( k != l )
+						c += data_.getAllocationObjCost( l, i, fac[j] );
+				}
+				c = data_.getAllocationObjCost( k, i, fac[j] ) + c * std::numeric_limits<double>::epsilon();
+
+				glp_set_obj_coef( lp, index, c );
 			}
 		}
 
@@ -442,8 +554,8 @@ void Box::computeBoxMIP()
 				vMaxZ = vLexOptZ[l][k];
 		}
 
-		minZ_[k] = originZ_[k] + vLexOptZ[k][k];
-		maxZ_[k] = originZ_[k] + vMaxZ;
+		minZ_[k] += vLexOptZ[k][k];
+		maxZ_[k] += vMaxZ;
 	}
 #endif
 // CAN_USE_GLPK
@@ -457,26 +569,20 @@ bool Box::isFeasible() const
 	if ( !Argument::capacitated ) return true;
 
 	// Check if sum of demands is less or equal than sum of capacities
-	double Qtotal( 0 ), dtotal( 0 );
+	double dtotal( 0 );
 
 	for ( unsigned int i = 0; i < data_.getnbCustomer(); ++i )
 	{
 		dtotal += data_.getCustomer(i).getDemand();
 	}
 
-	for ( unsigned int j = 0; j < data_.getnbFacility(); ++j )
-	{
-		if ( facility_[j] )
-		{
-			Qtotal += data_.getFacility(j).getCapacity();
-		}
-	}
-	return dtotal <= Qtotal;
+	return totalCapacity_ >= dtotal;
 }
 
 void Box::openFacility(int fac)
 {
 	facility_[fac] = true;
+
 	// We add costs to the box
 	for ( int k = 0; k < getNbObjective(); ++k )
 	{
@@ -485,6 +591,9 @@ void Box::openFacility(int fac)
 		maxZ_[k] += c;
 		originZ_[k] += c;
 	}
+
+	// Add capacity
+	totalCapacity_ += data_.getFacility(fac).getCapacity();
 }
 
 void Box::print()

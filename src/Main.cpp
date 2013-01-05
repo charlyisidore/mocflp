@@ -61,6 +61,7 @@
 int main(int argc, char *argv[])
 {
 	Data* data;
+	std::list<Solution> allSolution;
 
 	long int nbToCompute;
 	long int nbWithNeighbor;
@@ -91,7 +92,7 @@ int main(int argc, char *argv[])
 
 	if (Argument::verbose)
 	{
-		Argument::print();
+		Argument::print( std::clog );
 	}
 
 	//## END READING ARGUMENTS ##
@@ -108,7 +109,7 @@ int main(int argc, char *argv[])
 
 	if (Argument::verbose)
 	{
-		std::cout << std::endl
+		std::clog << std::endl
 		<< "+" << std::setfill('-') << std::setw(15) << "+"
 			<< " INSTANCE " << "+" << std::setw(16) << "+" << std::endl
 			<< std::setfill(' ')
@@ -144,7 +145,7 @@ int main(int argc, char *argv[])
        
 		if (Argument::verbose)
 		{
-			std::cout << "+" << std::setfill('-') << std::setw(18) << "+"
+			std::clog << "+" << std::setfill('-') << std::setw(18) << "+"
 				<< " BOX " << "+" << std::setw(18) << "+" << std::endl
 			<< std::setfill (' ')
 				<< "+" << std::setfill(' ') << std::setw(10) << " "
@@ -192,7 +193,7 @@ int main(int argc, char *argv[])
 		
 			if (Argument::verbose)
 			{
-				std::cout << "+" << std::setfill('-') << std::setw(13)
+				std::clog << "+" << std::setfill('-') << std::setw(13)
 					<< "+" << " BOX FILTERING " << "+" << std::setw(13) << "+" << std::endl
 				<< std::setfill(' ')
 				<< "+" << std::setfill(' ') << std::setw(10) << " "
@@ -205,7 +206,7 @@ int main(int argc, char *argv[])
 					<< (1000*time_s_Diff(beginBF,endBF) + time_ms_Diff(beginBF,endBF)) << " " << std::endl;
 				if (Argument::reconstruction)
 				{
-					std::cout << "+" << std::setfill(' ') << std::setw(8) << " "
+					std::clog << "+" << std::setfill(' ') << std::setw(8) << " "
 						<< " ! after reconstruction !  " << " " << std::setw(6) << "+" << std::endl
 					<< " " << std::setw(20) << std::left
 						<< "Box " << "|" << std::setw(20) << std::right
@@ -214,7 +215,7 @@ int main(int argc, char *argv[])
 						<< "Time (ms) " << "|" << std::setw(20) << std::right
 						<< (1000*time_s_Diff(beginRC,endRC) + time_ms_Diff(beginRC,endRC)) << " " << std::endl;
 				}
-				std::cout << "+" << std::setfill('-') << std::setw(42) << "+" << std::endl << std::endl;
+				std::clog << "+" << std::setfill('-') << std::setw(42) << "+" << std::endl << std::endl;
 			}
 	        
 		}
@@ -229,19 +230,19 @@ int main(int argc, char *argv[])
 		if ( Argument::moga )
 		{
 			gettimeofday(&beginLS, 0);
-			nbSolLS = runMOGA(vectorBoxFinal, *data);
+			nbSolLS = runMOGA(vectorBoxFinal, *data, allSolution);
 			gettimeofday(&endLS, 0);
 		}
 		else // use Label Setting
 		{
 			gettimeofday(&beginLS, 0);
-			nbSolLS = runLabelSetting(vectorBoxFinal, *data);
+			nbSolLS = runLabelSetting(vectorBoxFinal, *data, allSolution);
 			gettimeofday(&endLS, 0);
 		}
 
 		if (Argument::verbose)
 		{
-			std::cout << "+" << std::setfill('-') << std::setw(Argument::moga?17:13) << "+"
+			std::clog << "+" << std::setfill('-') << std::setw(Argument::moga?17:13) << "+"
 				<< (Argument::moga ? " MOGA " : " LABEL SETTING ")
 				<< "+" << std::setw(Argument::moga?18:13) << "+" << std::endl
 			<< std::setfill (' ') << " " << std::setw(20) << std::left
@@ -257,7 +258,7 @@ int main(int argc, char *argv[])
 	//## END ##		
        
 	gettimeofday(&end, 0);
-	std::cout << std::endl
+	std::clog << std::endl
 	<< "+" << std::setfill('-') << std::setw(15) << "+"
 		<< " SYNTHESIS " << "+" << std::setw(15) << "+" << std::endl
 	<< std::setfill(' ') << " " << std::setw(20) << std::left
@@ -275,7 +276,20 @@ int main(int argc, char *argv[])
 	{
 		if( system("./plot/plot.sh") != 0 )
 		{
-			std::cout << " Failure in the execution of the script " << std::endl;
+			std::cerr << " Failure in the execution of the script " << std::endl;
+		}
+	}
+	else
+	{
+		std::list<Solution>::iterator iter;
+		for ( iter = allSolution.begin(); iter != allSolution.end(); ++iter )
+		{
+			for (int k = 0; k < (*iter).getNbObjective(); ++k)
+			{
+				if (k > 0) std::cout << ' ';
+				std::cout << (*iter).getObj(k);
+			}
+			std::cout << std::endl;
 		}
 	}
 

@@ -27,10 +27,12 @@
 int Argument::filtering( 0 );
 int Argument::reconstruction( 0 );
 int Argument::capacitated( 0 );
-int Argument::mip( 0 );
+int Argument::lagrangian( 0 );
+int Argument::mip_solver( 0 );
 int Argument::moga( 0 );
 int Argument::num_individuals( 100 );
 int Argument::num_generations( 20 );
+int Argument::grasp( 0 );
 int Argument::num_directions( 5 );
 int Argument::interactive( 0 );
 int Argument::mode_export( 0 );
@@ -47,12 +49,14 @@ static const struct option long_options[] = {
 	{ "filtering",       no_argument,       &Argument::filtering,      1                            },
 	{ "reconstruction",  no_argument,       &Argument::reconstruction, 1                            },
 	{ "capacitated",     no_argument,       &Argument::capacitated,    1                            },
-	{ "mip",             no_argument,       &Argument::mip,            1                            },
+	{ "lagrangian",      no_argument,       &Argument::lagrangian,     1                            },
+	{ "mip-solver",      no_argument,       &Argument::mip_solver,     1                            },
 	{ "moga",            no_argument,       &Argument::moga,           1                            },
 	{ "individuals",     required_argument, 0,                         Argument::id_num_individuals },
 	{ "generations",     required_argument, 0,                         Argument::id_num_generations },
 	{ "Pc",              required_argument, 0,                         Argument::id_Pc              },
 	{ "Pm",              required_argument, 0,                         Argument::id_Pm              },
+	{ "grasp",           no_argument,       &Argument::grasp,          1                            },
 	{ "directions",      required_argument, 0,                         Argument::id_num_directions  },
 	{ "alpha",           required_argument, 0,                         Argument::id_alpha           },
 	{ "random-seed",     required_argument, 0,                         Argument::id_random_seed     },
@@ -146,7 +150,6 @@ void Argument::parse( int argc, char *argv[] )
 
 	if ( Argument::capacitated )
 	{
-		Argument::mip  = 1;
 		Argument::moga = 1;
 	}
 }
@@ -159,7 +162,7 @@ void Argument::print( std::ostream & os )
 		<< "\tfiltering      = " << filtering       << std::endl
 		<< "\treconstruction = " << reconstruction  << std::endl
 		<< "\tcapacitated    = " << capacitated     << std::endl
-		<< "\tmip            = " << mip             << std::endl
+		<< "\tmip-solver     = " << mip_solver      << std::endl
 		<< "\tmoga           = " << moga            << std::endl;
 
 	if ( moga )
@@ -169,8 +172,16 @@ void Argument::print( std::ostream & os )
 			<< "\tgenerations    = " << num_generations << std::endl
 			<< "\tPc             = " << Pc              << std::endl
 			<< "\tPm             = " << Pm              << std::endl
-			<< "\tdirections     = " << num_directions  << std::endl
-			<< "\talpha          = " << alpha           << std::endl
+			<< "\tgrasp          = " << grasp           << std::endl;
+
+		if ( grasp )
+		{
+			os
+				<< "\tdirections     = " << num_directions  << std::endl
+				<< "\talpha          = " << alpha           << std::endl;
+		}
+
+		os
 			<< "\trandom-seed    = " << random_seed     << std::endl;
 	}
 
@@ -189,12 +200,13 @@ void Argument::usage( const char * program_name, std::ostream & os )
 		<< "-f   for filtering method"        << std::endl
 		<< "-r   for reconstruction method"   << std::endl
 		<< "-c   for capacitated problem"     << std::endl
-		<< "--mip         to use MIP solver"  << std::endl
+		<< "--mip-solver  to use MIP solver"  << std::endl
 		<< "--moga        to use MOGA"        << std::endl
 		<< "--individuals <num_individuals>"  << std::endl
 		<< "--generations <num_generations>"  << std::endl
 		<< "--Pc          <proba_crossover>"  << std::endl
 		<< "--Pm          <proba_mutation>"   << std::endl
+		<< "--grasp       to use GRASP"       << std::endl
 		<< "--directions  <num_directions>"   << std::endl
 		<< "--alpha       <GRASP_greediness>" << std::endl
 		<< "--random-seed <random_seed>"      << std::endl

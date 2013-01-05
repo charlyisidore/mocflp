@@ -43,6 +43,7 @@
 #include "Box.hpp"
 #include "Solution.hpp"
 #include "Functions.hpp"
+#include "Argument.hpp"
 
 struct individual;
 
@@ -76,23 +77,6 @@ public:
 	*	\return A int as the number of objectives.
 	*/
 	int getNbObjective() const;
-
-	std::list<Solution> solutions_; /*!< A list of \c Solution */
-
-	FILE * pipe_fp_; /*!< A pointer to a gnuplot pipe */
-
-private:
-	Data &data_;          /*!< A reference to the \c Data of this \c Box */
-	int num_individuals_; /*!< Number of individuals */
-	int num_generations_; /*!< Number of generations */
-	double Pc_;           /*!< Probability of crossover */
-	double Pm_;           /*!< Probability of mutation */
-
-	int num_bits_;           /*!< Size of a chromosome */
-	std::vector<int> fac_;   /*!< A vector of indices of open facilities */
-	std::vector<int> cust_;  /*!< A vector of indices of which customers are to be assigned */
-	std::vector<double> originZ_; /*!< Origin coordinates of the box */
-	std::vector<individual> population_; /*!< A vector of \c individuals which represents the population */
 
 	/*!
 	*	\brief Build an initial population.
@@ -224,6 +208,23 @@ private:
 	*/
 	bool is_valid( individual & ind ) const;
 
+	std::list<Solution> solutions_; /*!< A list of \c Solution */
+
+	FILE * pipe_fp_; /*!< A pointer to a gnuplot pipe */
+
+private:
+	Data &data_;          /*!< A reference to the \c Data of this \c Box */
+	int num_individuals_; /*!< Number of individuals */
+	int num_generations_; /*!< Number of generations */
+	double Pc_;           /*!< Probability of crossover */
+	double Pm_;           /*!< Probability of mutation */
+
+	int num_bits_;           /*!< Size of a chromosome */
+	std::vector<int> fac_;   /*!< A vector of indices of open facilities */
+	std::vector<int> cust_;  /*!< A vector of indices of which customers are to be assigned */
+	std::vector<double> originZ_; /*!< Origin coordinates of the box */
+	std::vector<individual> population_; /*!< A vector of \c individuals which represents the population */
+
 	// Access to private members.
 	friend class individual;
 };
@@ -252,6 +253,18 @@ struct individual
 	int rank;        // Rank
 	double crowding; // Crowding
 	std::vector<double> q; // Remaining capacity of facility j
+
+	// Check for capacity constraints
+	bool is_feasible() const
+	{
+		if ( Argument::capacitated ) return true;
+		for ( unsigned int i = 0; i < q.size(); ++i )
+		{
+			if ( q[i] < 0 )
+				return false;
+		}
+		return true;
+	}
 };
 
 std::ostream & operator << ( std::ostream & os, const individual & ind );
