@@ -206,11 +206,15 @@ individual MOGA::initialization_grasp( double alpha ) const
 	individual ind( this );
 	std::vector<int> p( cust_.size(), 0 );
 	std::vector<double> u( fac_.size(), 0 );
-	double umin, umax, ulimit;
+	double umin, umax, ulimit, dir( 0.5 );
+	int d( 0 );
 
 	// Choose a direction (bi-objective)
-	int d = std::rand() % Argument::num_directions;
-	double dir = (double)d / (Argument::num_directions - 1.);
+	if ( Argument::num_directions > 1 )
+	{
+		d = std::rand() % Argument::num_directions;
+		dir = (double)d / (Argument::num_directions - 1.);
+	}
 
 	// Initialize a random permutation to select customers in a random order (inside-out Fisher-Yates shuffle)
 	for ( unsigned int i = 0; i < p.size(); ++i )
@@ -257,7 +261,7 @@ void MOGA::grasp_compute_utility( int c, const individual & ind, std::vector<dou
 		double cost_f     = 0,
 		       capacity_f = ind.q[f];
 
-		if ( getNbObjective() == 2 )
+		if ( Argument::num_directions > 0 && getNbObjective() == 2 )
 		{
 			// Assume we have two objectives
 			cost_f =    dir     * data_.getAllocationObjCost(0, cust_[c], fac_[f])
