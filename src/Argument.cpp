@@ -34,6 +34,10 @@ int Argument::num_individuals( 100 );
 int Argument::num_generations( 20 );
 int Argument::grasp( 0 );
 int Argument::num_directions( 5 );
+int Argument::local_search( 0 );
+int Argument::search_depth( 8 );
+int Argument::paving_grasp( 1 );
+int Argument::paving_directions( 50 );
 int Argument::interactive( 0 );
 int Argument::mode_export( 0 );
 int Argument::verbose( 0 );
@@ -41,30 +45,37 @@ int Argument::help( 0 );
 unsigned int Argument::random_seed( 0 );
 double Argument::Pc( 0.9 );
 double Argument::Pm( 0.5 );
-double Argument::alpha( 0.7 );
+double Argument::alpha( 0.8 );
+double Argument::paving_alpha( 0.5 );
 std::string Argument::filename;
 
 // getopt long options array
 static const struct option long_options[] = {
-	{ "filtering",       no_argument,       &Argument::filtering,      1                            },
-	{ "reconstruction",  no_argument,       &Argument::reconstruction, 1                            },
-	{ "capacitated",     no_argument,       &Argument::capacitated,    1                            },
-	{ "lagrangian",      no_argument,       &Argument::lagrangian,     1                            },
-	{ "mip-solver",      no_argument,       &Argument::mip_solver,     1                            },
-	{ "moga",            no_argument,       &Argument::moga,           1                            },
-	{ "individuals",     required_argument, 0,                         Argument::id_num_individuals },
-	{ "generations",     required_argument, 0,                         Argument::id_num_generations },
-	{ "Pc",              required_argument, 0,                         Argument::id_Pc              },
-	{ "Pm",              required_argument, 0,                         Argument::id_Pm              },
-	{ "grasp",           no_argument,       &Argument::grasp,          1                            },
-	{ "directions",      required_argument, 0,                         Argument::id_num_directions  },
-	{ "alpha",           required_argument, 0,                         Argument::id_alpha           },
-	{ "random-seed",     required_argument, 0,                         Argument::id_random_seed     },
-	{ "interactive",     no_argument,       &Argument::interactive,    1                            },
-	{ "export",          no_argument,       &Argument::mode_export,    1                            },
-	{ "verbose",         no_argument,       &Argument::verbose,        1                            },
-	{ "quiet",           no_argument,       &Argument::verbose,        0                            },
-	{ "help",            no_argument,       &Argument::help,           1                            },
+	{ "filtering",         no_argument,       &Argument::filtering,         1                               },
+	{ "reconstruction",    no_argument,       &Argument::reconstruction,    1                               },
+	{ "capacitated",       no_argument,       &Argument::capacitated,       1                               },
+	{ "lagrangian",        no_argument,       &Argument::lagrangian,        1                               },
+	{ "mip-solver",        no_argument,       &Argument::mip_solver,        1                               },
+	{ "moga",              no_argument,       &Argument::moga,              1                               },
+	{ "individuals",       required_argument, 0,                            Argument::id_num_individuals    },
+	{ "generations",       required_argument, 0,                            Argument::id_num_generations    },
+	{ "Pc",                required_argument, 0,                            Argument::id_Pc                 },
+	{ "Pm",                required_argument, 0,                            Argument::id_Pm                 },
+	{ "grasp",             no_argument,       &Argument::grasp,             1                               },
+	{ "directions",        required_argument, 0,                            Argument::id_num_directions     },
+	{ "alpha",             required_argument, 0,                            Argument::id_alpha              },
+	{ "local-search",      no_argument,       &Argument::local_search,      1                               },
+	{ "search-depth",      required_argument, 0,                            Argument::id_search_depth       },
+	{ "paving-grasp",      no_argument,       &Argument::paving_grasp,      1                               },
+	{ "no-paving-grasp",   no_argument,       &Argument::paving_grasp,      0                               },
+	{ "paving-alpha",      required_argument, 0,                            Argument::id_paving_alpha       },
+	{ "paving-directions", required_argument, 0,                            Argument::id_paving_directions  },
+	{ "random-seed",       required_argument, 0,                            Argument::id_random_seed        },
+	{ "interactive",       no_argument,       &Argument::interactive,       1                               },
+	{ "export",            no_argument,       &Argument::mode_export,       1                               },
+	{ "verbose",           no_argument,       &Argument::verbose,           1                               },
+	{ "quiet",             no_argument,       &Argument::verbose,           0                               },
+	{ "help",              no_argument,       &Argument::help,              1                               },
 	{ 0, 0, 0, 0 }
 };
 
@@ -124,6 +135,18 @@ void Argument::parse( int argc, char *argv[] )
 				std::istringstream( optarg ) >> alpha;
 				break;
 
+			case id_search_depth:
+				std::istringstream( optarg ) >> search_depth;
+				break;
+
+			case id_paving_alpha:
+				std::istringstream( optarg ) >> paving_alpha;
+				break;
+
+			case id_paving_directions:
+				std::istringstream( optarg ) >> paving_directions;
+				break;
+
 			case id_random_seed:
 				std::istringstream( optarg ) >> random_seed;
 				break;
@@ -143,14 +166,27 @@ void Argument::parse( int argc, char *argv[] )
 		filename = argv[optind];
 	}
 
-	if ( Argument::random_seed == 0 )
+	if ( random_seed == 0 )
 	{
-		Argument::random_seed = std::time( 0 );
+		random_seed = std::time( 0 );
 	}
 
-	if ( Argument::capacitated )
+	if ( capacitated )
 	{
-		Argument::moga = 1;
+		moga = 1;
+	}
+	else
+	{
+		if ( local_search )
+		{
+			std::cerr << "UFLP : Local search disabled." << std::endl;
+			local_search = 0;
+		}
+
+		if ( paving_grasp )
+		{
+			paving_grasp = 0;
+		}
 	}
 }
 
@@ -181,6 +217,28 @@ void Argument::print( std::ostream & os )
 				<< "\talpha          = " << alpha           << std::endl;
 		}
 
+		if ( capacitated )
+		{
+			os
+				<< "\tlocal-search      = " << local_search      << std::endl;
+
+			if ( local_search )
+			{
+				os
+					<< "\tsearch-depth      = " << search_depth      << std::endl;
+			}
+
+			os
+				<< "\tpaving-grasp      = " << paving_grasp  << std::endl;
+		}
+
+		if ( paving_grasp )
+		{
+			os
+				<< "\tpaving-alpha      = " << paving_alpha      << std::endl
+				<< "\tpaving-directions = " << paving_directions << std::endl;
+		}
+
 		os
 			<< "\trandom-seed    = " << random_seed     << std::endl;
 	}
@@ -209,6 +267,11 @@ void Argument::usage( const char * program_name, std::ostream & os )
 		<< "--grasp       to use GRASP"       << std::endl
 		<< "--directions  <num_directions>"   << std::endl
 		<< "--alpha       <GRASP_greediness>" << std::endl
+		<< "--local-search    to use local search" << std::endl
+		<< "--search-depth    <depth>"             << std::endl
+		<< "--no-paving-grasp    to not use GRASP for paving" << std::endl
+		<< "--paving-directions  <num_directions>"     << std::endl
+		<< "--paving-alpha       <GRASP_greediness>"   << std::endl
 		<< "--random-seed <random_seed>"      << std::endl
 		<< "--interactive for interactive mode" << std::endl
 		<< "--verbose     for verbose mode"   << std::endl

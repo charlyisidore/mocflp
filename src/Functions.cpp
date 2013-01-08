@@ -54,8 +54,8 @@ long int createBox(std::vector<Box*> &vectorBox, Data &data)
 	// sorted_fac = 0...n-1
 	std::generate( sorted_fac.begin(), sorted_fac.end(), generate_identity() );
 
-	// Compute the minimum number of facilities needed (for capacitated)
-	if ( Argument::capacitated )
+	// Compute Box list using a GRASP (for capacitated)
+	if ( Argument::capacitated && Argument::paving_grasp )
 	{
 		initBoxCapacitated(vectorBox, data, sorted_fac);
 	}
@@ -163,20 +163,64 @@ void initBoxCapacitated(std::vector<Box*> &vectorBox, Data &data, std::vector<in
 		qmaxsum += data.getFacility(sorted_fac[maxfac]).getCapacity();
 	}
 
-	// Open facilities
-	std::vector<bool> facilityOpen(data.getnbFacility(), false);
-	for ( unsigned int i = 0; i < maxfac; ++i )
+	for ( int it = 0; it < Argument::paving_directions; ++it )
 	{
-		facilityOpen[sorted_fac[i]] = true;
-		vectorBox.push_back( new Box(data, facilityOpen) );
-		facilityOpen[sorted_fac[i]] = false;
-	}
+		// GRASP
+		std::vector<bool> facilityOpen(data.getnbFacility(), false);
+		std::vector<int> not_open( sorted_fac );
+		double qsum( 0 ), alpha( 0.5 ),
+		       dir( (double)it / (double)(Argument::paving_directions - 1.) );
 
-	for ( unsigned int i = maxfac; i < facilityOpen.size(); ++i )
-	{
-		facilityOpen[sorted_fac[i]] = true;
+		while ( qsum < dtotal )
+		{
+			std::vector<double> u( not_open.size() );
+			std::vector<int> RCL;
+			double umin( std::numeric_limits<double>::infinity() ),
+			       umax( -std::numeric_limits<double>::infinity() ),
+			       ulimit;
+
+			// Build utility function
+			for ( unsigned int j = 0; j < not_open.size(); ++j )
+			{
+				double cost( 0 );
+				if ( data.getNbObjective() > 2 )
+				{
+					for ( int k = 0; k < data.getNbObjective(); ++k )
+					{
+						cost += data.getFacility( not_open[j] ).getLocationObjCost( k );
+					}
+				}
+				else
+				{
+					cost = dir * data.getFacility( not_open[j] ).getLocationObjCost( 0 )
+					 + ( 1. - dir ) * data.getFacility( not_open[j] ).getLocationObjCost( 1 );
+				}
+
+				u[j] = data.getFacility( not_open[j] ).getCapacity() / cost;
+				if ( u[j] < umin ) umin = u[j];
+				if ( u[j] > umax ) umax = u[j];
+			}
+			ulimit = umin + alpha * ( umax - umin );
+
+			// Build RCL
+			for ( unsigned int j = 0; j < u.size(); ++j )
+			{
+				if ( u[j] >= ulimit )
+				{
+					RCL.push_back( j );
+				}
+			}
+
+			// Select a random facility
+			int r = std::rand() % RCL.size();
+
+			// Open it
+			facilityOpen[not_open[RCL[r]]] = true;
+			qsum += data.getFacility( not_open[RCL[r]] ).getCapacity();
+			not_open.erase( not_open.begin() + RCL[r] );
+		}
+		vectorBox.push_back( new Box(data, facilityOpen) );
 	}
-	vectorBox.push_back( new Box(data, facilityOpen) );
 }
 
 void addChildren(Box *boxMother, std::vector<Box*> &vBox, const std::vector<int> & sorted_fac)
@@ -186,13 +230,13 @@ void addChildren(Box *boxMother, std::vector<Box*> &vBox, const std::vector<int>
 	// To find the last digit at 1 in the open facility
 	std::vector<bool> facilityOpen(data.getnbFacility());
 	int indexLastOpened = -1;
-	double qsum( 0 );
 
+	double qsum( 0 );
 	static std::vector<double> qremaining( data.getnbFacility(), 0 );
 	static double dtotal( -1 );
 
 	// Compute some data (once)
-	if ( Argument::capacitated && dtotal < 0 )
+	if ( Argument::capacitated && !Argument::paving_grasp && dtotal < 0 )
 	{
 		// Compute the total demand (once)
 		dtotal = 0;
@@ -208,6 +252,7 @@ void addChildren(Box *boxMother, std::vector<Box*> &vBox, const std::vector<int>
 		}
 	}
 
+	// Compute the facilityOpen vector of the current Box
 	for (unsigned int i = 0 ; i < data.getnbFacility() ; ++i)
 	{
 		if (boxMother->isOpened(sorted_fac[i]))
@@ -218,25 +263,41 @@ void addChildren(Box *boxMother, std::vector<Box*> &vBox, const std::vector<int>
 		facilityOpen[sorted_fac[i]] = boxMother->isOpened(sorted_fac[i]);
 	}
 
-	// For each digit 0 of facilities not yet affected, we change it in 1 to create the corresponding a new combination
-	for (unsigned int i = indexLastOpened + 1; i < data.getnbFacility(); ++i)
+	// If Box was constructed using GRASP heuristic
+	if ( Argument::capacitated && Argument::paving_grasp )
 	{
-		// If the remaining facilites exactly cover the rest of the demand,
-		// Skip infeasible boxes
-		if ( Argument::capacitated && qsum + qremaining[i] < dtotal )
+		for (unsigned int i = 0 ; i < data.getnbFacility() ; ++i)
 		{
-			while ( i < data.getnbFacility() )
+			if (!facilityOpen[sorted_fac[i]])
 			{
 				facilityOpen[sorted_fac[i]] = true;
-				++i;
+				vBox.push_back( new Box(data, facilityOpen) );
+				facilityOpen[sorted_fac[i]] = false;
 			}
-			vBox.push_back( new Box(data, facilityOpen) );
 		}
-		else
+	}
+	else // Enumerate all (extremely slow if capacitated)
+	{
+		// For each digit 0 of facilities not yet affected, we change it in 1 to create the corresponding a new combination
+		for (unsigned int i = indexLastOpened + 1; i < data.getnbFacility(); ++i)
 		{
-			facilityOpen[sorted_fac[i]] = true;
-			vBox.push_back( new Box(data, facilityOpen) );
-			facilityOpen[sorted_fac[i]] = false;
+			// If the remaining facilites exactly cover the rest of the demand,
+			// Skip infeasible boxes
+			if ( Argument::capacitated && qsum + qremaining[i] < dtotal )
+			{
+				while ( i < data.getnbFacility() )
+				{
+					facilityOpen[sorted_fac[i]] = true;
+					++i;
+				}
+				vBox.push_back( new Box(data, facilityOpen) );
+			}
+			else
+			{
+				facilityOpen[sorted_fac[i]] = true;
+				vBox.push_back( new Box(data, facilityOpen) );
+				facilityOpen[sorted_fac[i]] = false;
+			}
 		}
 	}
 }

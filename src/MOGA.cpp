@@ -18,7 +18,11 @@
  #Non-free versions of BiUFLv2012 are available under terms different from those of the General Public License. (e.g. they do not require you to accompany any object code using BiUFLv2012 with the corresponding source code.) For these alternative terms you must purchase a license from Technology Transfer Office of the University of Nantes. Users interested in such a license should contact us (valorisation@univ-nantes.fr) for more information.
  */
 
+// Macro constant which checks solutions from zero (slower)
+#define STRICT_CHECK 0
+
 #include "MOGA.hpp"
+#include "LocalSearch.hpp"
 #include <algorithm>
 #include <limits>
 #include <cstdio>
@@ -147,16 +151,35 @@ void MOGA::compute()
 		print();
 	}
 
+	// LOCAL SEARCH
+	solutions_.clear();
+	if ( Argument::local_search )
+	{
+		LocalSearch local( data_, cust_, fac_ );
+		local.pipe_fp_ = pipe_fp_;
+
+		for ( unsigned int i = 0; i < population_.size(); ++i )
+		{
+			local.search( population_[i] );
+			solutions_.merge( local.solutions_ );
+		}
+	}
+
 	// FINISHED - KEEP BEST VALUES
 
 	// Keep only "first rank" solutions.
-	solutions_.clear();
 	for ( unsigned int i = 0; i < population_.size(); ++i )
 	{
-		if ( population_[i].rank == 1 && population_[i].is_feasible() /*&& is_feasible( population_[i] )*/ )
+#if STRICT_CHECK
+		if ( population_[i].rank == 1 && is_feasible( population_[i] ) && population_[i].is_feasible() )
+#else
+		if ( population_[i].rank == 1 && population_[i].is_feasible() )
+#endif
 		{
+#if STRICT_CHECK
 			// Check objective
-			//is_valid( population_[i] );
+			is_valid( population_[i] );
+#endif
 
 			Solution sol( getNbObjective() );
 			for ( int k = 0; k < getNbObjective(); ++k )

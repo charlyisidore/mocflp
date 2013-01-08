@@ -257,7 +257,7 @@ struct individual
 	// Check for capacity constraints
 	bool is_feasible() const
 	{
-		if ( Argument::capacitated ) return true;
+		if ( !Argument::capacitated ) return true;
 		for ( unsigned int i = 0; i < q.size(); ++i )
 		{
 			if ( q[i] < 0 )
