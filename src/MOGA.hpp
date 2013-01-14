@@ -37,6 +37,7 @@
 #include <list>
 #include <vector>
 #include <utility>
+#include <algorithm>
 #include <cstdlib>
 
 #include "Data.hpp"
@@ -257,11 +258,23 @@ struct individual
 	// Check for capacity constraints
 	bool is_feasible() const
 	{
-		if ( !Argument::capacitated ) return true;
-		for ( unsigned int i = 0; i < q.size(); ++i )
+		// Repair procedure must return exactly one assignment per customer
+#if 0
+		unsigned int ncust = chr.size() / q.size();
+		for ( unsigned int i = 0; i < ncust; ++i )
 		{
-			if ( q[i] < 0 )
+			if ( std::count( chr.begin() + (i * q.size()), chr.begin() + ((i+1) * q.size()), true ) != 1 )
 				return false;
+		}
+#endif
+		// Check for capacities
+		if ( Argument::capacitated )
+		{
+			for ( unsigned int i = 0; i < q.size(); ++i )
+			{
+				if ( q[i] < 0 )
+					return false;
+			}
 		}
 		return true;
 	}

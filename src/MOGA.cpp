@@ -23,7 +23,6 @@
 
 #include "MOGA.hpp"
 #include "LocalSearch.hpp"
-#include <algorithm>
 #include <limits>
 #include <cstdio>
 
@@ -365,6 +364,9 @@ void MOGA::mutation( individual & ind ) const
 
 void MOGA::repair( individual & ind ) const
 {
+	// Save assignments into an integer (indices) vector
+	std::vector<unsigned int> assignment( cust_.size() );
+
 	// For each customer, test if there is one assignement alone or not.
 	for ( unsigned int c = 0; c < cust_.size(); ++c )
 	{
@@ -391,30 +393,39 @@ void MOGA::repair( individual & ind ) const
 					unassign( ind, c, f ); // Subtract costs
 				}
 			}
+			assignment[c] = list_assigned[r];
 		}
 		// If no assignment, select one
 		else if ( list_assigned.size() < 1 )
 		{
 			int f = std::rand() % fac_.size();
 			assign( ind, c, f ); // Add costs
+			assignment[c] = f;
+		}
+		// One assignment: OK but save it
+		else
+		{
+			assignment[c] = list_assigned[0];
 		}
 	}
 
 	// Search for violated capacities
 	if ( Argument::capacitated )
 	{
-		// Find assignments that cause capacity to be violated
+		// Find facilities for which capacity is violated
 		for ( unsigned int f = 0; f < fac_.size(); ++f )
 		{
-			for ( unsigned int c = 0; ind.q[f] < 0 && c < cust_.size(); ++c )
+			for ( unsigned int c = 0; ind.q[f] < 0 && c < assignment.size(); ++c )
 			{
-				// Try to assign the customer to an other facility
-				for ( unsigned int g = 0; ind.q[f] < 0 && g < fac_.size(); ++g )
+				// Find customers that cause capacity to be violated
+				for ( unsigned int g = 0; assignment[c] == f && ind.q[f] < 0 && g < fac_.size(); ++g )
 				{
+					// Try to assign the customer to an other facility
 					if ( ind.q[g] >= data_.getCustomer(cust_[c]).getDemand() )
 					{
 						unassign(ind, c, f);
 						assign(ind, c, g);
+						assignment[c] = g;
 					}
 				}
 			}
@@ -450,22 +461,28 @@ int MOGA::battle( int i1, int i2 ) const
 
 void MOGA::assign( individual & ind, int c, int f ) const
 {
-	ind.chr[ index_of(c, f) ] = true;
-	for ( int k = 0; k < getNbObjective(); ++k )
+	if ( !ind.chr[ index_of(c, f) ] )
 	{
-		ind.obj[k] += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
+		ind.chr[ index_of(c, f) ] = true;
+		for ( int k = 0; k < getNbObjective(); ++k )
+		{
+			ind.obj[k] += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
+		}
+		ind.q[f] -= data_.getCustomer(cust_[c]).getDemand();
 	}
-	ind.q[f] -= data_.getCustomer(cust_[c]).getDemand();
 }
 
 void MOGA::unassign( individual & ind, int c, int f ) const
 {
-	ind.chr[ index_of(c, f) ] = false;
-	for ( int k = 0; k < getNbObjective(); ++k )
+	if ( ind.chr[ index_of(c, f) ] )
 	{
-		ind.obj[k] -= data_.getAllocationObjCost(k, cust_[c], fac_[f]);
+		ind.chr[ index_of(c, f) ] = false;
+		for ( int k = 0; k < getNbObjective(); ++k )
+		{
+			ind.obj[k] -= data_.getAllocationObjCost(k, cust_[c], fac_[f]);
+		}
+		ind.q[f] += data_.getCustomer(cust_[c]).getDemand();
 	}
-	ind.q[f] += data_.getCustomer(cust_[c]).getDemand();
 }
 
 void MOGA::compute_ranking()
@@ -566,6 +583,13 @@ bool MOGA::dominates( const individual & i1, const individual & i2 ) const
 
 void MOGA::recompute_obj( individual & ind ) const
 {
+	// Reset residual capacities
+	for ( unsigned int f = 0; f < fac_.size(); ++f )
+	{
+		ind.q[f] = data_.getFacility(fac_[f]).getCapacity();
+	}
+
+	// Reset objectives
 	ind.obj = originZ_;
 	for ( unsigned int p = 0; p < ind.chr.size(); ++p )
 	{
@@ -578,6 +602,8 @@ void MOGA::recompute_obj( individual & ind ) const
 			{
 				ind.obj[k] += data_.getAllocationObjCost(k, cust_[c], fac_[f]);
 			}
+
+			ind.q[f] -= data_.getCustomer(cust_[c]).getDemand();
 		}
 	}
 }
@@ -621,6 +647,9 @@ bool MOGA::is_feasible( const individual & ind ) const
 				}
 			}
 
+			if ( ind.q[f] != ( capacity - demand ) )
+				std::cerr << "Error: expected residual capacity: " << (capacity - demand) << ", computed: " << ind.q[f] << std::endl;
+
 			if ( demand > capacity )
 				return false;
 		}
@@ -649,50 +678,84 @@ bool MOGA::is_valid( individual & ind ) const
 
 void MOGA::print() const
 {
-#if 0
-	if (Argument::verbose)
-	{
-		std::clog << "#### Population ####" << std::endl;
-		for ( unsigned int i = 0; i < population_.size(); ++i )
-		{
-			std::clog << population_[i] << std::endl;
-		}
-		std::clog << "# cust: " << cust_.size() << ", fac: " << fac_.size() << std::endl;
-	}
-#endif
-
 	if (pipe_fp_)
 	{
+		std::vector< std::vector<int> > sol_of_rank;
+		std::vector<bool> feasible( population_.size() );
 		int rank_max( 0 );
+		bool plotted_before( false );
 
+		// Compute feasibility and rank max
 		for ( unsigned int i = 0; i < population_.size(); ++i )
 		{
+			feasible[i] = population_[i].is_feasible();
 			rank_max = std::max( population_[i].rank, rank_max );
 		}
 
+		// Sort population into subpopulations of same rank
+		sol_of_rank.resize( rank_max+1 );
+		for ( unsigned int i = 0; i < population_.size(); ++i )
+		{
+			if ( feasible[i] && population_[i].rank > 0 )
+			{
+				sol_of_rank[population_[i].rank-1].push_back( i );
+			}
+			else
+			{
+				sol_of_rank[rank_max].push_back( i );
+			}
+		}
+
+		// Begin plot
 		std::fputs( "plot ", pipe_fp_ );
 
-		for ( int r = rank_max; r > 1; --r )
+		// Show the infeasible solutions in background
+		if ( sol_of_rank[rank_max].size() > 0 )
 		{
-			std::fprintf( pipe_fp_, "'-' title '%d', ", r );
+			std::fputs( "'-' title 'infeasible' linecolor rgb 'turquoise' pt 9", pipe_fp_ );
+			plotted_before = true;
 		}
-		std::fputs( "'-' title '1' linecolor rgb 'blue' pt 9\n", pipe_fp_ );
 
-		for ( int r = rank_max; r >= 1; --r )
+		// Show the feasible solutions of rank > 1
+		for ( unsigned int r = rank_max-1; r > 0; --r )
 		{
-			for ( unsigned int i = 0; i < population_.size(); ++i )
+			if ( sol_of_rank[r].size() > 0 )
 			{
-				if ( population_[i].rank == r )
+				if ( plotted_before == true )
+					std::fputs( ", ", pipe_fp_ );
+
+				std::fprintf( pipe_fp_, "'-' title '%d'", r );
+				plotted_before = true;
+			}
+		}
+
+		// Show the feasible solutions of rank 1 in foreground
+		if ( sol_of_rank[0].size() > 0 )
+		{
+			if ( plotted_before == true )
+				std::fputs( ", ", pipe_fp_ );
+
+			std::fputs( "'-' title '1' linecolor rgb 'blue' pt 9", pipe_fp_ );
+		}
+		std::fputs( "\n", pipe_fp_ );
+
+		// Transfer points
+		for ( int r = rank_max; r >= 0; --r )
+		{
+			if ( sol_of_rank[r].size() > 0 )
+			{
+				for ( unsigned int i = 0; i < sol_of_rank[r].size(); ++i )
 				{
 					for ( int k = 0; k < getNbObjective(); ++k )
 					{
-						std::fprintf( pipe_fp_, "%f ", population_[i].obj[k] );
+						std::fprintf( pipe_fp_, "%f ", population_[sol_of_rank[r][i]].obj[k] );
 					}
 					std::fputs( "\n", pipe_fp_ );
 				}
+				std::fputs( "e\n", pipe_fp_ );
 			}
-			std::fputs( "e\n", pipe_fp_ );
 		}
+
 		std::fputs( "\n", pipe_fp_ );
 	}
 }
@@ -704,9 +767,17 @@ std::ostream & operator << ( std::ostream & os, const individual & ind )
 	{
 		os << ind.obj[k] << ' ';
 	}
-	for ( unsigned int i = 0; i < ind.chr.size(); ++i )
+
+	unsigned int ncust = ind.chr.size() / ind.q.size();
+	for ( unsigned int i = 0; i < ncust; ++i )
 	{
-		os << ind.chr[i];
+		if ( i > 0 )
+			os << '|';
+
+		for ( unsigned int j = 0; j < ind.q.size(); ++j )
+		{
+			os << ind.chr[i * ind.q.size() + j];
+		}
 	}
 	return os;
 }
